@@ -1,0 +1,26 @@
+{
+  "name": "discussionbridge-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync-content": "node scripts/sync-docs-site-content.mjs",
+    "refresh-metadata": "node scripts/sync-docs-site-content.mjs --refresh-metadata",
+    "check:attribution": "node scripts/check-docs-boundary.mjs",
+    "check:metadata": "node --test test/docs-page-metadata.test.mjs",
+    "predev": "npm run sync-content",
+    "dev": "astro dev",
+    "prebuild": "npm run check:metadata && npm run sync-content && npm run check:attribution",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy:dry-run": "wrangler deploy --dry-run --config wrangler.jsonc",
+    "deploy": "wrangler deploy --config wrangler.jsonc --strict"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.41.2",
+    "astro": "^7.0.4"
+  },
+  "devDependencies": {
+    "wrangler": "^4.105.0"
+  }
+}

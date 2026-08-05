@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "appliesTo": "DiscussionBridge Alpha",
+  "pages": {
+    "README.md": {
+      "lastUpdated": "2026-08-05",
+      "sourceSha256": "737c883957a3e38706ff5cdb288b9b08220c5eaf8e4c73f17e6bc861c0886320"
+    },
+    "HUMAN_MANUAL.md": {
+      "lastUpdated": "2026-08-03",
+      "sourceSha256": "a4a7107824b79dfa5c2ea52c0b130c29a1fa009f489b012437fc07d2ba016ec9"
+    },
+    "MACHINE_MANUAL.md": {
+      "lastUpdated": "2026-08-03",
+      "sourceSha256": "5cb664c6a3bf22178f7bca65522dc5720191baf35dcd27e406bc8f5f1fd4de4c"
+    },
+    "SITE_RUNBOOK_HUMAN_TEMPLATE.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "fab7bbb843636a65f7d202b5e964cc7758f9988ec63bd377e335d27c76f6b058"
+    },
+    "SITE_RUNBOOK_MACHINE_TEMPLATE.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "fece5d183429a652d84dabdc7bec5e9d66a948e5c8b1aa7dc8e80c6df6fb786b"
+    },
+    "ALPHA_SETUP.md": {
+      "lastUpdated": "2026-08-02",
+      "sourceSha256": "61ed6f5ee69ffce834bb33b6e5ff2db95f6cc91340c7cce6c6ff2b6b4106eb9c"
+    },
+    "KEY_MANAGEMENT.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "55d7991aa9f7427eb54f6f376e7fb23ec57da226e781f0cab47998a03fa13791"
+    },
+    "COMMENTS_DISPLAY.md": {
+      "lastUpdated": "2026-08-02",
+      "sourceSha256": "92cf8cb4c1b6489f399a0df9e6eefda1929387afa0d8009b3fe346ac5b15f36b"
+    },
+    "CONTENT_LANES.md": {
+      "lastUpdated": "2026-08-01",
+      "sourceSha256": "3b7f944276719202347c5198e6516d5431e64bd45a2803e3b0c47eee03d3b3b5"
+    },
+    "PRESETS_AND_PLACEMENT.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "b083bf58d1ecc5087c858d0d4300b19acc292b83a2b7eccf7857b11632a500be"
+    },
+    "DISCUSSION_SAFE_MARKDOWN.md": {
+      "lastUpdated": "2026-07-19",
+      "sourceSha256": "51ca04a54712c1ecd6bca6d3424ea11e83f8373898e86948e1c8bfdbc276b56d"
+    },
+    "TROUBLESHOOTING.md": {
+      "lastUpdated": "2026-07-26",
+      "sourceSha256": "90c099d029f415a709675499d91ffad9be218a1c4765130d132d328684face41"
+    },
+    "SUPPORT_AND_FEEDBACK.md": {
+      "lastUpdated": "2026-07-21",
+      "sourceSha256": "cd57bfc7ba86349ac4b14cce097d29abbb9c1362d5407b0fb95b22ebabfd51ce"
+    },
+    "KNOWN_ISSUES.md": {
+      "lastUpdated": "2026-08-05",
+      "sourceSha256": "08220b115c71debfa924330c474d74bc931a0a838e061ce0b52b3fd685ff7c68"
+    },
+    "ATTRIBUTION_OWNERSHIP_LICENSE.md": {
+      "lastUpdated": "2026-08-05",
+      "sourceSha256": "d5f4c001671381073aabd3174d0175381a5330dec43a8b16abb97ec945316f64"
+    },
+    "BUILD_LAUNCH_CHECKLISTS.md": {
+      "lastUpdated": "2026-08-05",
+      "sourceSha256": "7fac9f602bf62550de755bf48237df4a787757389a35e6ee8e65eecc4d2f23f1"
+    },
+    "CORE_ADAPTER_ARCHITECTURE.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "72f50c82416847adbe9dc32d942349fa31bfade32f863dc083e3009c89f2d722"
+    },
+    "CORE_ADAPTER_IMPLEMENTATION_ROADMAP.md": {
+      "lastUpdated": "2026-07-31",
+      "sourceSha256": "c80061f77753748916df12081259312694bfe3bcbb7b06dcd6eaff49a2c0ca78"
+    },
+    "DEMO_PLAN.md": {
+      "lastUpdated": "2026-08-05",
+      "sourceSha256": "ffb2da98f603c3f7854c3bfa4f613889e58a7ba583da2961b48ac06a2d9ad063"
+    },
+    "DISCOURSE_FIELD_NOTES.md": {
+      "lastUpdated": "2026-07-31",
+      "sourceSha256": "3d68b0223d0f15c753b6735f5b92f481894ea0908aeb0707174ff0d1dbe19a6c"
+    },
+    "PRODUCT_NOTES.md": {
+      "lastUpdated": "2026-08-03",
+      "sourceSha256": "a338d1f80a43aa443b47a9bef0a74212fcebc85667c1355ab965f4e93287cb22"
+    },
+    "evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "3e6a0eceb72c4005c5c4786285260108b68a04e426ed9cd88de2dd7266e3eec6"
+    },
+    "evidence/DISCUSSION_BRIDGE_PRODUCT_FAMILY_DOCTRINE_2026-07-25.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "540a7ad8acf36c42e416e56ec768caa2c096482a8a4b78fc7cf2a02d9cfb50a8"
+    },
+    "evidence/DISCUSSION_BRIDGE_MISSION_2026-07-25.md": {
+      "lastUpdated": "2026-07-27",
+      "sourceSha256": "5d2e4e894d2886b2ab956d1c0616ac6a52553cf370a6d6ae03319427cbc028cb"
+    }
+  }
+}
