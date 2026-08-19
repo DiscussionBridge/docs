@@ -219,7 +219,7 @@ After browser-heavy inspection, local Astro builds can hit Node out-of-memory fa
 Reusable pattern:
 
 ```text
-C:\CodeProjects\Planning\Procedure Docs\standards\product-demo-domain-pattern.md
+C:\CodeProjects\Procedures\standards\product-demo-domain-pattern.md
 ```
 
 - `discussionbridge.dev` is the primary product/docs domain.
