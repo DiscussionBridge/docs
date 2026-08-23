@@ -788,13 +788,15 @@ rollback to the qualified SHA passed on 2026-08-22. The endpoint is disabled at
 rest. Local/sandbox results remain dated qualification evidence; they are not
 the current installation state and are not a public release.
 
-The remaining plugin release gate is one human Discourse administrator
-installing the exact publicly published Alpha tag/SHA from the public
-instructions, then proving backup identity, installed SHA, migrations,
-safe-default startup, ordinary forum health, approved enable/configure behavior,
-and topology-matched rollback/removal. Another generic nonproduction install is
-not the gate. Post-as-user, PM automation, existing-topic migration, and broad
-unattended forum-to-forum administration remain outside this boundary.
+The remaining plugin release gate is a human Discourse administrator installing
+the exact publicly published Alpha tag/SHA from the public instructions in both
+supported topologies: standard single-container `app` and official split
+`data` + `web_only`. Each install must prove its own rollback identity,
+installed SHA, migrations, safe-default startup, ordinary forum health,
+approved enable/configure behavior, and topology-matched rollback/removal.
+Another generic nonproduction install is not the gate. Post-as-user, PM
+automation, existing-topic migration, and broad unattended forum-to-forum
+administration remain outside this boundary.
 
 The CAN normal-topic baseline may continue to use the Discourse Mermaid theme
 component. The next plugin boundary is the published-candidate human

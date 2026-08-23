@@ -1291,7 +1291,12 @@ tiers:
       - controlled_unlisted_topic_creation
       - durable_audit
       - full_plugin_RSpec_contracts
-    next_boundary: human_admin_install_of_exact_publicly_published_Alpha_tag_and_SHA_from_public_instructions
+    next_boundary:
+      kind: human_admin_installs_of_exact_publicly_published_Alpha_tag_and_SHA_from_public_instructions
+      required_topologies:
+        - standard_single_container_app
+        - official_split_data_plus_web_only
+      separate_acceptance_record_per_topology: true
     fullInteractive_contract:
       accepted_preproduction_state: PASS_installed_migrated_configured_comments_only_ordinary_topic_isolation_admin_operations_and_rollback
       early_local_evidence_2026_08_02:

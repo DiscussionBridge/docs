@@ -390,10 +390,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] Publish the immutable DiscussionBridge for Discourse plugin candidate with
       exact tag/SHA and public single-container plus two-container installation
       instructions.
-- [ ] Receive and disposition one human Discourse administrator installation of
-      that exact published plugin candidate using only the public instructions.
-      Require backup identity, installed SHA, migrations, safe-default startup,
-      ordinary forum health, enable/configure, and disable/rollback/removal.
+- [ ] Receive and disposition human Discourse administrator installations of
+      that exact published plugin candidate using only the public instructions:
+      one standard single-container `app` install and one official split
+      `data` + `web_only` install. Require separate rollback identity, installed
+      SHA, migrations, safe-default startup, ordinary forum health,
+      enable/configure, and disable/rollback/removal evidence for each.
       Plugin-backed `fullInteractive` release acceptance cannot close without
       PASS; a failure gets a new prerelease identity.
 
@@ -560,9 +562,10 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       Discourse, has no ordinary-topic regression, and passes live CAN full-app
       embed verification. Astro-package release-channel decisions do not apply
       to Discourse plugin installation.
-- [ ] Complete one human-admin install of the exact published plugin candidate
-      as a product release gate. Automated/local/dev-forum installation is
-      qualification evidence, not a substitute for human installation proof.
+- [ ] Complete human-admin installs of the exact published plugin candidate in
+      both supported topologies as a product release gate: single-container
+      `app` and split `data` + `web_only`. Automated/local installations are
+      qualification evidence, not a substitute for those human install proofs.
 - [ ] Keep arbitrary post-as-user, PM automation, existing-topic migration,
       and broad many-to-many administration out of the first v0.1 boundary.
       Forum-policy, mapping, audit, and fail-closed creation interfaces are in.
