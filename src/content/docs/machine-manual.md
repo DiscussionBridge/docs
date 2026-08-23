@@ -1254,16 +1254,27 @@ tiers:
     plugin_required: false
     role: free_self_serve_floor
   optional_discourse_plugin:
-    alpha_vertical_slice_status: controlled_creation_and_comments_only_request_contract_implemented_locally_not_installed
+    alpha_vertical_slice_status: installed_and_accepted_on_stable_preproduction_public_release_pending
     product_repo: separate_from_Astro_package_per_Boss_routing
     license: GPL_2_0_or_later
     installability: supported_stock_current_Discourse
-    exact_locally_verified_Discourse_commit: 6b2f4579ba6802a7c556459e596c3150b67403aa
+    accepted_preproduction_Discourse_commit: 36698aae084678151dffa875d49c8d59216d2733
+    accepted_preproduction_plugin_commit: 50c4a92359f672a00b2242e99819a70813ebea19
     removal_and_rollback_docs: required
     CAN_normal_topic_baseline: official_Discourse_Mermaid_theme_component
     logical_workspace_path: DiscussionBridge/plugins/discourse-discussion-bridge
     local_development_root: C:\CodeProjects\Products\DiscussionBridge\plugins\discourse-discussion-bridge
-    current_installation_state: not_installed_not_enabled_not_deployed
+    current_installation_state:
+      host: dev-forum.discussionbridge.dev
+      role: stable_preproduction
+      topology: official_split_data_plus_web_only
+      installed: true
+      enabled: true
+      endpoint_at_rest: disabled
+      core_zero_touch: disabled
+      comments_only_fullInteractive: enabled
+      accepted_on: 2026-08-22
+      production_released: false
     core_authority: [authentication, users, topics, posts, permissions, categories, tags, moderation, composer, replies, likes, quotes, edits, notifications, normal_topic_presentation]
     first_boundary:
       - durable_contract
@@ -1280,13 +1291,16 @@ tiers:
       - controlled_unlisted_topic_creation
       - durable_audit
       - full_plugin_RSpec_contracts
-    next_boundary: reviewed_nonproduction_forum_installation_and_runtime_acceptance
+    next_boundary: human_admin_install_of_exact_publicly_published_Alpha_tag_and_SHA_from_public_instructions
     fullInteractive_contract:
-      local_implementation: default_disabled_completed_mapping_scoped_Core_redirect_class
-      non_browser_verification: { rspec: 38_of_38, rubocop: 25_of_25 }
-      focused_authorization_verification: 7_of_7
-      browser_verification: 4_of_4_empty_replied_actions_ordinary_long_topic_and_reserved_marker_rejection_PASS
-      local_development_runtime: PASS_empty_replied_actions_ordinary_topic_option_rollback_and_reserved_marker_rejection
+      accepted_preproduction_state: PASS_installed_migrated_configured_comments_only_ordinary_topic_isolation_admin_operations_and_rollback
+      early_local_evidence_2026_08_02:
+        Discourse_commit: 6b2f4579ba6802a7c556459e596c3150b67403aa
+        non_browser_verification: { rspec: 38_of_38, rubocop: 25_of_25 }
+        focused_authorization_verification: 7_of_7
+        browser_verification: 4_of_4_empty_replied_actions_ordinary_long_topic_and_reserved_marker_rejection_PASS
+        local_development_runtime: PASS_empty_replied_actions_ordinary_topic_option_rollback_and_reserved_marker_rejection
+        status: historical_qualification_not_current_installation_identity
       normal_topic_post_1: unchanged
       embedded_post_1_layout_height: zero
       preserve: [zero_reply_native_state, replies, login, composer, reply, like, quote, edit, moderation, notifications]

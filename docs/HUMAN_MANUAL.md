@@ -769,24 +769,31 @@ This does not move every future or Layer 3 idea into Alpha.
 Tier 1 operation remains API-only, free/self-serve, and independent of a
 Discourse plugin as a compatibility capability. The settled architecture makes
 DiscussionBridge for Discourse the natural forum-governed home for policy and
-orchestration. The current local Alpha implementation provides authenticated
+orchestration. The current Alpha implementation provides authenticated
 create-or-resolve, a configured non-`system` operating identity, forum-owned
 category/tag authority, durable reservation and source mapping, forced-unlisted
 controlled topic creation, requested-versus-effective policy, and audit. It is
-verified locally but is not installed or deployed. The default-disabled
-comments-only `fullInteractive` layout is implemented locally for completed
-mappings: Discourse Core's full-app redirect receives a scoped class, companion
-post 1 contributes no embed layout height, and the normal topic remains
-unchanged. Local browser acceptance passes for empty, replied/actions, and
-ordinary long-topic presentation. Local development-server runtime acceptance
-also passes startup and option rollback; a reviewed non-production forum install
-remains open. Post-as-user, PM automation, existing-topic
-migration, and broad unattended forum-to-forum administration remain outside
-this boundary.
+installed and accepted on stable preproduction
+`dev-forum.discussionbridge.dev` at plugin SHA
+`50c4a92359f672a00b2242e99819a70813ebea19` in the official split `data` +
+`web_only` topology. Installation, migrations, safe-default startup, reviewed
+settings, create-then-resolve, comments-only presentation, ordinary-topic
+isolation, admin operations, disable/re-enable, record-only upgrade, and
+rollback to the qualified SHA passed on 2026-08-22. The endpoint is disabled at
+rest. Local/sandbox results remain dated qualification evidence; they are not
+the current installation state and are not a public release.
+
+The remaining plugin release gate is one human Discourse administrator
+installing the exact publicly published Alpha tag/SHA from the public
+instructions, then proving backup identity, installed SHA, migrations,
+safe-default startup, ordinary forum health, approved enable/configure behavior,
+and topology-matched rollback/removal. Another generic nonproduction install is
+not the gate. Post-as-user, PM automation, existing-topic migration, and broad
+unattended forum-to-forum administration remain outside this boundary.
 
 The CAN normal-topic baseline may continue to use the Discourse Mermaid theme
-component. The next plugin boundary is reviewed non-production forum
-installation and runtime acceptance, plus any
+component. The next plugin boundary is the published-candidate human
+installation release gate, plus any
 separately designed Mermaid/table parity still needed inside the full-app
 embed. This does not change Tier 1 installation.
 
