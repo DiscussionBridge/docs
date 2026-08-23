@@ -1,6 +1,6 @@
 ---
 title: "Product Build/Launch Checklists"
-lastUpdated: 2026-08-05
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/BUILD_LAUNCH_CHECKLISTS.md"
 ---
@@ -162,15 +162,18 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [x] Tighten CLI/help text and friendly validation messages.
 - [x] Build and publish the paired Human Manual and Machine Manual in the repository and generated Starlight docs site.
 - [ ] Route the paired manuals through Manual Boss review for consistency, presentation, secrets, usability, accessibility, screenshot/video placeholders, and public/private boundaries; resolve Alpha-blocking findings before public release.
-- [ ] Add or confirm `check-discourse` examples for global diagnostics key, granular publishing key, and explicit configured limits.
+- [x] Add and live-confirm `check-discourse` examples for global diagnostics
+      key, granular publishing key, and explicit configured limits.
 - [ ] Finish docs link wiring once Phil/Ops prerequisites produce final URLs.
 - [ ] Prepare the repeatable live smoke-pass script/checklist so it is ready when Cloudflare/support wiring is done.
-- [ ] Keep polishing sync/recovery documentation without adding major feature scope.
+- [x] Document the operator-controlled Alpha recovery path without adding an
+      ownership-guessing repair command.
 
 ### Publish
 
 - [x] Confirm CLI names/help are clear: `publish-new`, `sync-existing`, `publish-and-sync`, `import-existing`, and `check-discourse`.
-- [ ] Decide whether to add a configurable topic title template or prefix, such as `Discussion: {title}`, for sites with short Astro titles.
+- [x] Keep explicit page titles and preflight for Alpha; move configurable title
+      templates/prefixes to Beta.
 - [ ] Keep local preflight validation working for dry runs and restricted keys.
 - [x] Confirm title/body/tag preflight messages are friendly enough for non-package authors.
 - [ ] Confirm generated first-post body is reader-facing and does not expose implementation labels.
@@ -188,7 +191,8 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 
 ### Sync
 
-- [ ] Keep expanding `sync-existing` and `publish-and-sync` edge-case tests before widening usage beyond the demo.
+- [x] Close the Alpha `sync-existing` and `publish-and-sync` edge-case matrix at
+      119/119 package tests.
 - [x] Cover Astro title drift.
 - [x] Cover Discourse topic title drift.
 - [x] Cover active discussion target mismatch handling.
@@ -197,8 +201,9 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [x] Cover Discourse client network failures.
 - [x] Cover publish-new offline failures.
 - [x] Block duplicate managed topic IDs or duplicate page URLs before Discourse writes.
-- [ ] Add stronger MDX summary extraction for component-heavy pages.
-- [ ] Document when to use `discussionSummary`.
+- [x] Use curated `discussionSummary` for component-heavy MDX in Alpha; move
+      automatic JSX/component summarization to Beta.
+- [x] Document when to use `discussionSummary`.
 - [ ] Document and test the distinction between Astro/template content tags and Discourse `discussionTags`.
 - [ ] Run the repeatable live smoke pass before Alpha and before each release candidate. It covers publish/sync; docs, releases, blog, news, and comments demo routes; `simple`, `full`, and `fullInteractive` comments modes; full-app embed Discourse settings; and `forum.discussionbridge.dev` category, tags, and permissions.
 - [ ] Re-review every forum using `SiteSetting.same_site_cookies = "None"`
@@ -249,7 +254,8 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] Confirm minimal Discourse granular scopes needed for existing-topic collision reconciliation.
 - [ ] Use the two-key model when granular diagnostics/read scopes are available or confirmed.
 - [x] Document current fallback: global/admin-capable diagnostics key for setup checks; granular publishing key where it can perform create/update/tag/read actions.
-- [ ] Add `check-discourse` examples for global diagnostics key, granular publishing key, and explicit configured limits.
+- [x] Add and live-confirm `check-discourse` examples for global diagnostics
+      key, granular publishing key, and explicit configured limits.
 - [ ] Consider reading Discourse title/body/tag constraints from the target instance in `check-discourse`.
 
 ### Maintain
@@ -264,9 +270,9 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 
 ### Recover
 
-- [ ] Define the explicit repair path for a deleted Discourse topic linked from Astro.
-- [ ] Define the explicit repair path for a deleted first post.
-- [ ] Decide whether recovery belongs in a command such as `repair-link`, `relink-topic`, or an `import-existing --overwrite` workflow.
+- [x] Define explicit recovery for a deleted topic and deleted first post.
+- [x] Keep Alpha recovery as Discourse restore or reviewed relink/recreate;
+      defer a dedicated repair command rather than guessing ownership.
 - [x] Keep automatic recreate disabled unless the user explicitly chooses it.
 - [ ] Document when to clear Cloudflare cache versus when to treat a sync/deploy as failed.
 
@@ -335,7 +341,8 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] For every Alpha, Beta, release candidate, patch, and Current release, confirm the Human and Machine Manuals are ready for the exact release; treat this as a release blocker.
 - [ ] Record Product Boss documentation sign-off for every release before publishing; code completion alone is not release readiness.
 - [ ] Record separate Product Boss release approval for every release, covering intended scope, operator readiness, known limitations, and the coherent release package; this does not replace Bridge Boss technical verification or Manual Boss quality review.
-- [ ] Maintain an Astro compatibility matrix for Astro 6 and 7.
+- [x] Verify exact package installs/builds on Astro 6.4.8 + Starlight 0.40.0 and
+      Astro 7.2.4 + Starlight 0.41.7.
 - [ ] Test demo installs after Astro core and official integration releases, especially `@astrojs/cloudflare`.
 - [ ] Add a `doctor` or `check-upgrade` command.
 - [ ] Document the recommended upgrade order.

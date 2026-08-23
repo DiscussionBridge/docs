@@ -1,6 +1,6 @@
 ---
 title: "Alpha Setup Guide"
-lastUpdated: 2026-08-02
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_SETUP.md"
 ---
@@ -181,33 +181,31 @@ export DISCOURSE_DIAGNOSTICS_API_KEY="paste-diagnostics-key-here"
 Before publishing:
 
 ```sh
+DISCOURSE_DIAGNOSTICS_API_KEY=diagnostics-key \
 npx astro-discussion-bridge check-discourse \
   --discourse-url https://forum.example.com \
-  --category-id 5 \
-  --tags discussionbridge,docs \
-  --site-url https://docs.example.com
-```
-
-Add `--page-url` when testing whether the key can resolve an existing embedded topic:
-
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url https://forum.example.com \
+  --api-username discussbridge-bot \
   --category-id 5 \
   --tags discussionbridge,docs \
   --page-url https://docs.example.com/example-page/
 ```
 
-If diagnostics cannot read site settings with a granular key, use explicit local limits:
+To test the normal granular publishing key, omit the diagnostics key. If that
+key cannot read site-wide settings or capabilities, pass the forum's reviewed
+limits explicitly; warnings remain evidence of what the key could not prove.
 
 ```sh
-npx astro-discussion-bridge publish-new src/content/docs \
-  --dry-run \
-  --title-min-length 15 \
+DISCOURSE_API_KEY=granular-publishing-key \
+npx astro-discussion-bridge check-discourse \
+  --discourse-url https://forum.example.com \
+  --api-username discussbridge-bot \
+  --category-id 5 \
+  --tags discussionbridge,docs \
+  --min-topic-title-length 15 \
   --max-topic-title-length 255 \
   --max-post-length 32000 \
-  --max-tags-per-topic 5 \
-  --max-tag-length 20
+  --max-tags-per-topic 6 \
+  --max-tag-length 30
 ```
 
 ## 8. Publish Missing Topics

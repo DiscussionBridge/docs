@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge for Astro Machine Manual"
-lastUpdated: 2026-08-03
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/MACHINE_MANUAL.md"
 ---
@@ -325,7 +325,11 @@ Therefore, the required Alpha import procedure is:
 2. run the live import only after reviewing the destination;
 3. verify the generated source mode, boolean sync guard, topic ID, and URL;
 4. review frontmatter before any directory-wide sync;
-5. remove the guard only after explicit promotion to Astro ownership.
+5. preserve and commit the imported source before promotion;
+6. promote only by changing `discussionSourceMode` to `astro-managed`, setting
+   `discussionSync: true`, and selecting the explicit writable target when
+   target bindings are present;
+7. run `sync-existing --dry-run --details` before the first promoted write.
 
 ## 5. Frontmatter Contract
 
@@ -414,6 +418,38 @@ npx astro-discussion-bridge check-discourse \
   --tags product,docs \
   --page-url https://docs.example.com/example-page/
 ```
+
+Global diagnostics-key example:
+
+```sh
+DISCOURSE_DIAGNOSTICS_API_KEY=diagnostics-key \
+npx astro-discussion-bridge check-discourse \
+  --discourse-url https://forum.example.com \
+  --api-username discussionbridge-editor \
+  --category-id 5 \
+  --tags product,docs \
+  --page-url https://docs.example.com/example-page/
+```
+
+Granular publishing-key example with reviewed explicit limits:
+
+```sh
+DISCOURSE_API_KEY=granular-publishing-key \
+npx astro-discussion-bridge check-discourse \
+  --discourse-url https://forum.example.com \
+  --api-username discussionbridge-editor \
+  --category-id 5 \
+  --tags product,docs \
+  --min-topic-title-length 15 \
+  --max-topic-title-length 255 \
+  --max-post-length 32000 \
+  --max-tags-per-topic 6 \
+  --max-tag-length 30
+```
+
+The granular run may still report settings/capabilities/reconciliation as 403
+warnings. Explicit limits constrain local validation; they do not manufacture
+missing read authority.
 
 Expected output sections:
 
@@ -1042,13 +1078,34 @@ commit, and leave unrelated unstaged changes and untracked artifacts untouched.
 | Wrong category/route | `--details` or post-write verification | Stop writes; correct lane; assess/relink affected topic explicitly. |
 | Active target mismatch | `skipped` with target reason | Use the matching `--target`; do not remove labels casually. |
 | `discussionSync is false` | guarded page skipped | Expected for display/import/Discourse-owned pages; remove only on approved promotion. |
-| Topic deleted | topic read failure | Do not auto-recreate; decide restore, relink, or replacement. |
-| First post deleted | missing-first-post failure | Restore or choose explicit repair; do not silently replace. |
+| Topic deleted | topic read failure | Prefer Discourse restore; otherwise verify and commit an explicit relink/replacement. Never auto-recreate or match by similar title. |
+| First post deleted | missing-first-post failure | Restore with Discourse controls; if identity cannot remain, use the same reviewed topic-replacement procedure. |
 | Discourse offline | clear network/API failure | Preserve Astro shell; retry after service recovery. |
 | Stale CDN output | source/topic correct but public view stale | Verify commit/topic, bypass cache, then purge relevant cache only. |
 
 CLI/build output is authoritative. Failure-notification PMs are best effort and
 must not be treated as the only failure record.
+
+Recovery sequence invariant:
+
+```yaml
+recovery:
+  preserve_source_first: true
+  record_old_binding: [topic_id, topic_url, target_name]
+  diagnose: [check_discourse_page_url, sync_existing_dry_run_details]
+  preferred_action: restore_existing_discourse_identity
+  replacement_requires:
+    - explicit_operator_decision
+    - verified_topic_ownership_category_permissions
+    - atomic_topic_id_and_url_source_change
+    - selected_target_binding_update_when_present
+  recreate_requires:
+    - committed_removal_of_stale_binding
+    - prior_binding_retained_in_git_history
+    - publish_new_dry_run_details
+    - stale_plugin_mapping_disposition_when_applicable
+  forbidden: [automatic_guess, title_similarity_match, retry_successful_targets]
+```
 
 ## 12. Standard Verification Loop
 

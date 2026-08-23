@@ -1,6 +1,6 @@
 ---
 title: "Content Lanes Guide"
-lastUpdated: 2026-08-01
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CONTENT_LANES.md"
 ---
@@ -212,6 +212,13 @@ Source-mode operating vocabulary:
 - `discourse-imported`: Astro contains an imported copy of a Discourse topic. Editors can refine it in Astro or GitCMS, but sync back to Discourse stays off until the page is explicitly promoted.
 
 Safety rule: never write back across a source-of-truth boundary unless the user explicitly changes or promotes the source mode.
+
+Promotion is a reviewed source change, not a side effect of running sync. Commit
+the imported content first, change `discussionSourceMode` to `astro-managed`,
+set `discussionSync: true`, and explicitly select the writable target with
+`discussionPublishTargets`/`--target` when the page uses named or multiple
+targets. Run `sync-existing --dry-run --details` before the first write. Do not
+remove only the boolean guard while leaving a Discourse-owned source mode.
 
 Current Alpha enforcement: `import-existing` accepts only
 `discourse-imported` or `discourse-managed` through `--source-mode`, defaults to

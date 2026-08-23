@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge for Astro Human Manual"
-lastUpdated: 2026-08-03
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/HUMAN_MANUAL.md"
 ---
@@ -100,8 +100,12 @@ preserves the topic ID and URL. Review those fields after every import before
 running any directory-wide sync command.
 
 Promotion means a human explicitly decides Astro will become the source of
-truth, reviews the page and linked topic, and removes the guard. Editing an
-imported file by itself is not promotion.
+truth, reviews and commits the page and linked topic, changes
+`discussionSourceMode` to `astro-managed`, and sets `discussionSync: true`.
+Named/multi-target pages must also name the writable target through
+`discussionPublishTargets` and the matching `--target`. Preview the promoted
+page with `sync-existing --dry-run --details` before the first write. Editing an
+imported file or removing only the boolean guard is not promotion.
 
 > **Stop if:** an imported or Discourse-owned page lacks `discussionSync:
 > false`, or promotion was not explicitly approved.
@@ -684,6 +688,23 @@ Never automatically recreate a deleted topic or first post. Confirm whether the
 deletion was intentional, then choose restore, relink, or replacement explicitly.
 See [Troubleshooting](/troubleshooting/) for known failures and recovery
 guidance.
+
+Use this exact recovery sequence:
+
+1. Preserve the current Astro source in Git and record the old topic ID/URL.
+2. Run `check-discourse --page-url` with the diagnostics key and
+   `sync-existing --dry-run --details`.
+3. Restore an accidentally deleted topic/first post with Discourse's own staff
+   controls whenever that identity should remain.
+4. If replacement is intentional, verify ownership/category/permissions, then
+   update topic ID and URL together (and the selected target binding when used).
+   Never choose a replacement because its title merely looks similar.
+5. If creating a new topic is the reviewed decision, remove stale linkage in a
+   committed source change, retain the prior values in Git history, then run
+   `publish-new --dry-run --details` before the live create. Plugin-managed
+   lanes may require administrator disposition of the stale mapping first.
+6. Verify the final Astro route, topic, first post, embed, category, tags, and
+   listing state. For multi-target failures, retry only the failed target.
 
 ## 11. Release Readiness And Product Boss Approval
 

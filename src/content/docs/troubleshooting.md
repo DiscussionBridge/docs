@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting Guide"
-lastUpdated: 2026-07-26
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/TROUBLESHOOTING.md"
 ---
@@ -72,7 +72,8 @@ Title is too short
 Fix:
 
 - give the Astro page a clearer `title`
-- use a title template or prefix when available
+- use an explicit reader-facing title; configurable title templates are Beta
+  scope, not an Alpha recovery mechanism
 - pass a site-appropriate `--title-min-length`
 - use `--dry-run --details` before publishing
 
