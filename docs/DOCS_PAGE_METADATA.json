@@ -8,11 +8,11 @@
     },
     "HUMAN_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "7a86e67d5fa9e72cce5200b2e1df490807804a60698158d97271bb0c8f0b2312"
+      "sourceSha256": "4d786aa23ddb2105bd663ff93fd0064f98fc1320909f7b1de72c065fd55dc1ff"
     },
     "MACHINE_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "d70bb9de6dbfc8915471027289e0184cd09e21f437e2ef06930b8d01a4d49374"
+      "sourceSha256": "400e0d521841a05102c12895975a31cc0538f77a2674da8f9310429661244972"
     },
     "SITE_RUNBOOK_HUMAN_TEMPLATE.md": {
       "lastUpdated": "2026-08-23",
@@ -64,7 +64,7 @@
     },
     "BUILD_LAUNCH_CHECKLISTS.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "045f8ca25f93bc1f3f238ff2c9a76f166f96ab0acbd6f362233c36dfd79f1256"
+      "sourceSha256": "30d5d375307489944d53e297ce4b9f2c8a272b176b605c67b0243f0a5363b429"
     },
     "CORE_ADAPTER_ARCHITECTURE.md": {
       "lastUpdated": "2026-07-27",

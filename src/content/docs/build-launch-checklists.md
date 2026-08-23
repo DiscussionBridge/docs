@@ -392,12 +392,17 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       instructions.
 - [ ] Receive and disposition human Discourse administrator installations of
       that exact published plugin candidate using only the public instructions:
-      one standard single-container `app` install and one official split
-      `data` + `web_only` install. Require separate rollback identity, installed
-      SHA, migrations, safe-default startup, ordinary forum health,
+      the standard single-container `app` install on
+      `sandbox-forum.discussionbridge.dev` and the official split `data` +
+      `web_only` install on `dev-forum.discussionbridge.dev`. Require separate
+      rollback identity, installed SHA, migrations, safe-default startup,
+      ordinary forum health,
       enable/configure, and disable/rollback/removal evidence for each.
       Plugin-backed `fullInteractive` release acceptance cannot close without
-      PASS; a failure gets a new prerelease identity.
+      both PASS records; a failure gets a new prerelease identity.
+      `forum.repealobbba.org` is not a substitute or third current proof; any
+      later independent real-world install there requires separate OBBBA
+      authorization and recovery acceptance.
 
 ## OBBBA Law As Amended Checklist
 
@@ -564,8 +569,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       to Discourse plugin installation.
 - [ ] Complete human-admin installs of the exact published plugin candidate in
       both supported topologies as a product release gate: single-container
-      `app` and split `data` + `web_only`. Automated/local installations are
+      `app` on `sandbox-forum.discussionbridge.dev` and split `data` +
+      `web_only` on `dev-forum.discussionbridge.dev`, with a separate acceptance
+      record for each host/topology. Automated/local installations are
       qualification evidence, not a substitute for those human install proofs.
+      `forum.repealobbba.org` remains a later, separately authorized independent
+      real-world proof and is not one of these two current release-gate installs.
 - [ ] Keep arbitrary post-as-user, PM automation, existing-topic migration,
       and broad many-to-many administration out of the first v0.1 boundary.
       Forum-policy, mapping, audit, and fail-closed creation interfaces are in.

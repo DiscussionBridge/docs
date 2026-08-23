@@ -552,10 +552,12 @@ For Alpha, use `simple` or `full` for plugin-free public production. Core-only
 `fullInteractive` is a compatibility/development preview. Production-quality
 comments-only `fullInteractive` requires DiscussionBridge for Discourse after
 its controlled-creation and embed capabilities pass. The Astro package does not
-install that plugin: a human Discourse administrator installs the exact
-published plugin identity first, rebuilds `app` for a standard single-container
-forum or only `web_only` for the official two-container layout, and proves the
-forum healthy with all DiscussionBridge settings still off. `simple` and `full`
+install that plugin. For an ordinary consumer forum, a human Discourse
+administrator installs the exact published plugin identity, rebuilds `app` for
+a standard single-container forum or only `web_only` for the official
+two-container layout, and proves that forum healthy with all DiscussionBridge
+settings still off. The final Alpha release gate separately exercises both
+topologies on the named acceptance hosts described below. `simple` and `full`
 remain plugin-free.
 
 For `full`, configure a same-origin `refreshEndpoint` when browser CORS does not
@@ -783,13 +785,17 @@ rollback to the qualified SHA passed on 2026-08-22. The endpoint is disabled at
 rest. Local/sandbox results remain dated qualification evidence; they are not
 the current installation state and are not a public release.
 
-The remaining plugin release gate is a human Discourse administrator installing
-the exact publicly published Alpha tag/SHA from the public instructions in both
-supported topologies: standard single-container `app` and official split
-`data` + `web_only`. Each install must prove its own rollback identity,
-installed SHA, migrations, safe-default startup, ordinary forum health,
-approved enable/configure behavior, and topology-matched rollback/removal.
-Another generic nonproduction install is not the gate. Post-as-user, PM
+The remaining plugin release gate is human Discourse administrator installation
+of the exact publicly published Alpha tag/SHA from the public instructions on
+both named acceptance hosts: the standard single-container `app` proof on
+`sandbox-forum.discussionbridge.dev` and the official split `data` + `web_only`
+proof on `dev-forum.discussionbridge.dev`. Each host/topology must prove its own
+rollback identity, installed SHA, migrations, safe-default startup, ordinary
+forum health, approved enable/configure behavior, and topology-matched
+rollback/removal. `forum.repealobbba.org` is not a substitute or third current
+release-gate install; any later independent real-world proof there requires
+separate OBBBA authorization and recovery acceptance. Another generic
+nonproduction install is not the gate. Post-as-user, PM
 automation, existing-topic migration, and broad unattended forum-to-forum
 administration remain outside this boundary.
 
@@ -1092,14 +1098,19 @@ a new prerelease tag and asset. A repository checkout or moving branch is not a
 release identity.
 
 Plugin-backed `fullInteractive` has an additional release gate. After the exact
-plugin candidate is published through its GitHub prerelease/install channel, a
-human forum administrator—not the implementation agent—must install that exact
-tag/SHA on a clean or restored representative Discourse instance using only the
-public instructions. The acceptance record must prove backup identity,
-installed SHA, migrations, safe-default startup, ordinary forum health, the
-documented enable/configure flow, and understandable disable/rollback/removal.
-Release acceptance cannot close without that human PASS. A failure creates a
-new corrected prerelease; it never rewrites the tested release identity.
+plugin candidate is published through its GitHub prerelease/install channel,
+human forum administration—not the implementation agent—must install that exact
+tag/SHA using only the public instructions on both named acceptance hosts: the
+single-container `app` sandbox at `sandbox-forum.discussionbridge.dev` and the
+split `data` + `web_only` stable-preproduction forum at
+`dev-forum.discussionbridge.dev`. Each host/topology acceptance record must
+prove rollback identity, installed SHA, migrations, safe-default startup,
+ordinary forum health, the documented enable/configure flow, and understandable
+disable/rollback/removal. `forum.repealobbba.org` remains outside these two
+current proofs and requires a later, separately authorized independent
+real-world gate. Release acceptance cannot close without both human PASS
+records. A failure creates a new corrected prerelease; it never rewrites the
+tested release identity.
 
 Before upgrade, record the installed asset filename/integrity and lockfile,
 start from a clean consumer worktree, download and verify the new asset hash,

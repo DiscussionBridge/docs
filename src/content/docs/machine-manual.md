@@ -1294,9 +1294,10 @@ tiers:
     next_boundary:
       kind: human_admin_installs_of_exact_publicly_published_Alpha_tag_and_SHA_from_public_instructions
       required_topologies:
-        - standard_single_container_app
-        - official_split_data_plus_web_only
-      separate_acceptance_record_per_topology: true
+        - { host: sandbox-forum.discussionbridge.dev, topology: standard_single_container_app }
+        - { host: dev-forum.discussionbridge.dev, topology: official_split_data_plus_web_only }
+      separate_acceptance_record_per_host_and_topology: true
+      forum_repealobbba_org: excluded_from_current_two_proofs_later_separate_OBBBA_authorization_and_recovery_gate
     fullInteractive_contract:
       accepted_preproduction_state: PASS_installed_migrated_configured_comments_only_ordinary_topic_isolation_admin_operations_and_rollback
       early_local_evidence_2026_08_02:
@@ -1492,8 +1493,11 @@ release_channel:
       required_before_product_release_acceptance_closes: true
       actor: human_Discourse_administrator
       input: public_release_instructions_only
-      standard_topology: containers/app.yml_then_rebuild_app
-      two_container_topology: containers/web_only.yml_then_rebuild_web_only_only
+      required_proofs:
+        - { host: sandbox-forum.discussionbridge.dev, topology: standard_single_container, action: containers/app.yml_then_rebuild_app }
+        - { host: dev-forum.discussionbridge.dev, topology: official_split_data_plus_web_only, action: containers/web_only.yml_then_rebuild_web_only_only }
+      separate_acceptance_record_per_host_and_topology: true
+      forum_repealobbba_org: excluded_from_current_two_proofs_later_separate_OBBBA_authorization_and_recovery_gate
       initial_settings: all_safe_defaults_off
       proof: [backup_identity, installed_SHA, migrations, ordinary_forum_health, enable_configure, disable_rollback_removal]
       failure: new_corrected_prerelease_never_rewrite_existing_identity
@@ -1702,8 +1706,9 @@ release_prerequisites:
   - README, docs, metadata, demos, and release notes agree
   - GitHub prerelease tag, source commit, release asset, and recorded hash agree
   - public install from the hash-verified local release asset and matching lockfile integrity verified
-  - human Discourse administrator installs the exact published plugin candidate from public instructions
-  - human plugin acceptance proves backup identity, installed SHA, migrations, safe-default startup, ordinary forum health, enable/configure, and disable/rollback/removal
+  - human Discourse administration installs the exact published plugin candidate from public instructions on sandbox-forum.discussionbridge.dev as standard single-container app and on dev-forum.discussionbridge.dev as official split data plus web_only
+  - separate human plugin acceptance for each named host/topology proves rollback identity, installed SHA, migrations, safe-default startup, ordinary forum health, enable/configure, and disable/rollback/removal
+  - forum.repealobbba.org is excluded from these two current proofs and remains a later separately authorized independent real-world gate
   - upgrade, downgrade, rollback, supersession, and recovery procedure verified
   - bad assets are warned and superseded by a new tag, never replaced or deleted in place
   - automatic npm audit fix prohibited
