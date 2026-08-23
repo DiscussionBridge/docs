@@ -1257,7 +1257,7 @@ tiers:
     removal_and_rollback_docs: required
     CAN_normal_topic_baseline: official_Discourse_Mermaid_theme_component
     logical_workspace_path: DiscussionBridge/plugins/discourse-discussion-bridge
-    local_development_root: C:\CodeProjects\CodeWorksLabs\DiscussionBridge\plugins\discourse-discussion-bridge
+    local_development_root: C:\CodeProjects\Products\DiscussionBridge\plugins\discourse-discussion-bridge
     current_installation_state: not_installed_not_enabled_not_deployed
     core_authority: [authentication, users, topics, posts, permissions, categories, tags, moderation, composer, replies, likes, quotes, edits, notifications, normal_topic_presentation]
     first_boundary:
@@ -1451,14 +1451,13 @@ alpha_topology_proof:
 ```yaml
 release_channel:
   Astro_package:
-    alpha: GitHub_prerelease_plus_npm_prerelease_same_commit
-    semver_example: 0.1.0-alpha.1
-    exact_first_version: release_gate_decision
-    npm_dist_tag: alpha
-    public_install: npm install astro-discussion-bridge@alpha
-    latest_reserved_for: first_stable_release
-    beta_tag: consciously_chosen_beta_next_or_other_prerelease
-    repo_tarball: development_recovery_fallback
+    alpha: GitHub_prerelease_plus_exact_attached_tarball
+    immutable_identity: exact_tag_source_commit_asset_filename_bytes_sha256_inventory
+    public_install: npm install --save-exact exact_GitHub_release_asset_URL
+    source_checkout_or_moving_branch: prohibited_as_release_identity
+    replace_or_delete_asset_in_place: prohibited
+    corrected_release: new_prerelease_tag_and_asset
+    npm_registry_publication: later_separately_authorized_gate
   Discourse_plugin:
     npm_distribution_decision_applies: false
 alpha_feature_lock:
@@ -1645,12 +1644,9 @@ attribution_and_licensing:
     remaining_findings: 0
     record: docs/evidence/ATTRIBUTION_LICENSING_REVIEW_B09DBCE_2026-07-23.md
 release_prerequisites:
-  - npm package name, ownership, and publisher authority confirmed
-  - npm account 2FA or trusted publishing confirmed
-  - exact reviewed semver prerelease selected
-  - npm pack --dry-run and tarball contents inspected
-  - clean install from packed artifact in plain Astro and Starlight
-  - clean registry install from @alpha in plain Astro and Starlight
+  - exact GitHub prerelease tag and reviewed source commit selected
+  - exact attached tarball filename, bytes, SHA-256, and file inventory recorded
+  - clean install of that same immutable tarball in supported Astro and Starlight consumers
   - exports, Astro components, CLI bin/help, import/sync, comments, source disclosure, and multi-target helpers verified
   - LICENSE, README, repository, bugs, and homepage metadata verified
   - credentials, fixtures, local paths, and unintended files absent
@@ -1664,9 +1660,10 @@ release_prerequisites:
   - live Alpha Support category verified
   - email route verified
   - README, docs, metadata, demos, and release notes agree
-  - GitHub prerelease and npm artifact resolve to the same commit
-  - npm view, dist-tags, and clean consumer install verified
-  - rollback, deprecation, and yank response documented for immutable versions
+  - GitHub prerelease tag, source commit, release asset, and recorded hash agree
+  - public install from the exact release-asset URL verified
+  - upgrade, downgrade, rollback, supersession, and recovery procedure verified
+  - bad assets are warned and superseded by a new tag, never replaced or deleted in place
   - automatic npm audit fix prohibited
   - package tests and demo build pass
   - dry-run CLI checks pass

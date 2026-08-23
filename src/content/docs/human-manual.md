@@ -74,7 +74,8 @@ separate lanes.
 > unclear. A wrong route base or source mode can attach or write to the wrong
 > discussion.
 
-**Visual placeholder:** lane-planning worksheet with one completed docs lane.
+Write this lane plan down before configuration. The completed row above is a
+text-only worksheet example; copy it once for each lane and replace every value.
 
 ## 2. Choose The Source Mode
 
@@ -193,8 +194,10 @@ placeholder.
 > recorded reason, the diagnostics key is configured as the normal publishing
 > key, or a real key appears in a file or screenshot.
 
-**Screenshot placeholder:** Discourse granular-key screen showing only the
-settled User Level and publishing scopes, with no visible key value.
+Verify the granular-key screen shows only the settled User Level and publishing
+scopes. Record the scope names as sanitized text; never capture or expose the
+key value or private account details. A screenshot is optional and must be
+reviewed for secret safety before retention.
 
 Create a `special-admin` custom group as the visible inventory for nonhuman
 admin/service accounts. Then assign actual admin, category, and API authority
@@ -209,10 +212,15 @@ Astro-origin actors should identify the source site or brand; keep established
 
 ## 4. Install And Configure Astro
 
-From the Astro project root:
+Alpha is distributed through an immutable asset attached to an accepted GitHub
+prerelease. Copy the exact tag, asset URL, and SHA-256 from that release record.
+Verify the downloaded asset before installing it; do not substitute an npm
+registry version or an unversioned package name.
+
+From the Astro project root, after verification:
 
 ```sh
-npm install astro-discussion-bridge
+npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/<exact-asset>.tgz"
 ```
 
 Configure the integration in `astro.config.mjs`:
@@ -590,10 +598,12 @@ embed class hook, for immediate table presentation. Mermaid still needs a
 Discourse-side embed extension, plugin, or upstream solution; do not mark it
 fixed.
 
-**Screenshot placeholders:** one desktop and one mobile capture for each mode.
-
-**Video placeholder:** sign in, reply, like, and return to the Astro page in
-`fullInteractive` mode.
+For each mode, verify the rendered discussion at desktop and narrow/mobile
+widths using the mode table above. For `fullInteractive`, sign in through the
+embedded forum, post a reply, return to the Astro page, and confirm the reply is
+present and ordinary forum behavior is unchanged. Keep sanitized evidence of
+the tested route and viewport; screenshots or video are optional evidence, not
+unfinished manual content.
 
 ### Comments-Boundary Credit
 
@@ -1040,27 +1050,40 @@ Citizen Activist topology gate.
 
 ## 13. Alpha Support And Release Channel
 
-The intended public Alpha channel is a GitHub prerelease plus an npm prerelease
-of the same reviewed Astro-package commit. Publish a semver prerelease such as
-`0.1.0-alpha.1` under npm dist-tag `alpha`—never `latest`. The exact first
-version remains a release-gate decision. Public installation becomes:
+The public Alpha channel is one GitHub prerelease with an attached package
+tarball built from the exact accepted Astro-package commit. npm registry
+publication is a later, separately authorized gate; Alpha instructions must not
+use an npm dist-tag, `latest`, or an unversioned registry install.
+
+The release record must name the exact tag, source commit, asset filename,
+tarball byte size, SHA-256, and package inventory. Consumers copy the immutable
+asset URL from that record, download it, verify its SHA-256, and install that
+exact URL:
 
 ```powershell
-npm install astro-discussion-bridge@alpha
+$asset = 'astro-discussion-bridge-<exact-version>.tgz'
+gh release download '<exact-tag>' --repo DiscussionBridge/astro-discussion-bridge --pattern $asset
+if ((Get-FileHash $asset -Algorithm SHA256).Hash -ne '<expected-sha256>') { throw 'Release asset hash mismatch' }
+npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/$asset"
 ```
 
-Reserve `latest` for the first stable release. Beta should deliberately choose
-`beta`, `next`, or another documented prerelease tag after Alpha learning; npm
-does not begin only in Beta. Repository/tarball installs remain useful for
-development, recovery, and fallback, but are not the primary public Alpha path.
+Never replace or delete a published Alpha asset in place. A correction receives
+a new prerelease tag and asset. A repository checkout or moving branch is not a
+release identity.
 
-Do not publish until the release checklist passes package ownership/publisher
-authority, account security, exact version/content review, clean packed and
-registry installs in plain Astro and Starlight, exports/components/CLI/feature
-smokes, metadata and secret/file hygiene, Code Boss and Manual Boss review,
-GitHub/npm commit correspondence, dist-tag verification, consumer install, and
-rollback/deprecation procedure. Published npm versions are immutable. Never run
-an automatic `npm audit fix` as part of release preparation.
+Before upgrade, record the installed asset URL and lockfile, start from a clean
+consumer worktree, verify the new asset hash, install it with `--save-exact`,
+inspect `package.json` and lockfile changes, then run package tests, the consumer
+build, `check-discourse`, dry-run sync, and one bounded deployed smoke. Stop on a
+hash mismatch, unexpected package inventory, dependency drift, build failure,
+Discourse diagnostic failure, or discussion regression.
+
+Rollback selects the last accepted prerelease, verifies its recorded asset
+hash, installs that exact prior URL with `--save-exact`, and repeats the build,
+diagnostic, deployment, and public discussion checks. Restore the prior
+lockfile when it is part of the accepted record. Mark a bad prerelease as
+superseded with a warning; do not replace, delete, or silently rewrite its
+asset. Never run an automatic `npm audit fix` during release or recovery.
 
 ### Attribution And Licensing Gate
 

@@ -93,13 +93,18 @@ Use the diagnostics/setup key for `check-discourse`, site settings/capability re
 
 ## 4. Install the Package
 
-From the Astro project root:
+Copy the exact GitHub prerelease tag, package asset URL, and SHA-256 from the
+accepted release record. Download and verify that asset. Then, from the Astro
+project root, install the exact release URL:
 
 ```sh
-npm install astro-discussion-bridge
+npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/<exact-asset>.tgz"
 ```
 
-For local package development, the demo may point to the package directory. For release testing, use the package version or tarball you intend to ship.
+Do not use an unversioned package name or npm dist-tag for Alpha. npm registry
+publication is a later gate. For local package development, the demo may point
+to the package directory. Release testing must use the exact verified tarball
+that will be attached to the GitHub prerelease.
 
 ## 5. Configure Astro
 

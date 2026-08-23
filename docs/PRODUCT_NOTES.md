@@ -140,17 +140,16 @@ the core.
 
 ## Public Alpha Distribution
 
-The Astro package's intended public Alpha path is a GitHub prerelease and npm
-prerelease from the same reviewed commit. Use a semver prerelease (candidate
-example `0.1.0-alpha.1`) and npm dist-tag `alpha`; never assign Alpha to
-`latest`. Public users install `astro-discussion-bridge@alpha`. Reserve `latest`
-for stable. Repo/tarball installation remains a development/recovery fallback.
+The Astro package's public Alpha path is a GitHub prerelease with one exact
+attached tarball built from the accepted commit. The release record fixes the
+tag, commit, asset filename, byte size, SHA-256, and file inventory. Public
+users verify that hash and install the exact release-asset URL with
+`--save-exact`; moving branches and unversioned package names are not release
+identities.
 
-Actual npm publication remains open until the release gates pass. The registry
-path is itself product proof: it must expose packaging, exports, CLI bin,
-dependencies, installation, docs, and support problems before stable. Beta
-continues on a deliberately selected prerelease tag rather than being the first
-npm publication.
+npm registry publication is a later, separately authorized gate. It is not an
+Alpha channel. A corrected Alpha receives a new prerelease tag and asset; never
+replace or delete an existing release asset in place.
 
 ### Attribution And Licensing Release Contract
 

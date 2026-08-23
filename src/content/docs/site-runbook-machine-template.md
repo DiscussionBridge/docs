@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Site Machine Runbook: {Site Name}"
-lastUpdated: 2026-07-27
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md"
 ---
@@ -407,7 +407,7 @@ outputs:
       - stop-if warnings
       - comments and deployment verification
       - recovery and support routing
-      - visual/video placeholders
+      - complete text-only verification plus optional reviewed visual evidence
       - release sign-off checklist
   machine_runbook:
     template: docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md

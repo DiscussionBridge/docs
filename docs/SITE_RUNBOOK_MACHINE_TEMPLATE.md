@@ -402,7 +402,7 @@ outputs:
       - stop-if warnings
       - comments and deployment verification
       - recovery and support routing
-      - visual/video placeholders
+      - complete text-only verification plus optional reviewed visual evidence
       - release sign-off checklist
   machine_runbook:
     template: docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md

@@ -156,7 +156,10 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 
 - [x] Tighten CLI/help text and friendly validation messages.
 - [x] Build and publish the paired Human Manual and Machine Manual in the repository and generated Starlight docs site.
-- [ ] Route the paired manuals through Manual Boss review for consistency, presentation, secrets, usability, accessibility, screenshot/video placeholders, and public/private boundaries; resolve Alpha-blocking findings before public release.
+- [ ] Route the paired manuals through Manual Boss review for consistency,
+      presentation, secrets, usability, accessibility, optional visual
+      evidence, and public/private boundaries; resolve Alpha-blocking findings
+      before public release.
 - [x] Add and live-confirm `check-discourse` examples for global diagnostics
       key, granular publishing key, and explicit configured limits.
 - [ ] Finish docs link wiring once Phil/Ops prerequisites produce final URLs.
@@ -278,7 +281,9 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] Complete Manual Boss Alpha quality review of the paired manuals and record or resolve findings.
 - [x] Add paired reusable site-specific Human and Machine Runbook templates that consume settled Machine Manual inputs.
 - [x] Create the first paired OBBBA runbooks for `onebigbeautifulbill.us` and `forum.repealobbba.org`, preserving topic `434`, `discourse-imported`, and `discussionSync: false` while exposing unresolved implementation inputs.
-- [ ] Review and replace or approve screenshot/video placeholders after Manual Boss confirms usability, accessibility, secret safety, and public/private boundaries.
+- [x] Replace screenshot/video placeholders with complete text-only desktop,
+      mobile, and real-user verification guidance. Visual captures remain
+      optional sanitized evidence rather than unfinished manual content.
 - [x] Add a concise Alpha setup guide.
 - [x] Add a key-management guide.
 - [x] Add a comments-display guide covering `simple`, `full`, and `fullInteractive`.
@@ -340,20 +345,19 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       Astro 7.2.4 + Starlight 0.41.7.
 - [ ] Test demo installs after Astro core and official integration releases, especially `@astrojs/cloudflare`.
 - [ ] Add a `doctor` or `check-upgrade` command.
-- [ ] Document the recommended upgrade order.
+- [x] Document the exact GitHub-release-asset upgrade, downgrade/rollback,
+      verification, stop, recovery, and supersession sequence in the Human and
+      Machine Manuals.
 - [ ] Keep Starlight optional.
 - [ ] Before any Alpha tag/release, run package tests, local demo build, dry-run CLI checks, and at least one live smoke sync.
-- [x] Alpha release channel decided: corresponding GitHub prerelease plus npm
-      prerelease for the Astro package under dist-tag `alpha`, never `latest`.
-      Repo/tarball installs remain development/recovery fallback.
-- [ ] Confirm npm package name/ownership and publisher authority.
-- [ ] Confirm npm account 2FA or trusted publishing.
-- [ ] Select the exact reviewed semver prerelease; `0.1.0-alpha.1` is an example,
-      not yet the release decision.
-- [ ] Run `npm pack --dry-run`, inspect the tarball, and prove it contains only
-      intended package files.
-- [ ] Clean-install from the packed artifact and then the registry `@alpha`
-      artifact in both plain Astro and Starlight demos.
+- [x] Alpha release channel decided: GitHub prerelease plus one exact attached
+      tarball built from the accepted Astro-package commit. npm registry
+      publication remains a later, separately authorized gate.
+- [ ] Select the exact GitHub prerelease tag and accepted source commit.
+- [ ] Pack from that exact commit; record the asset filename, bytes, SHA-256,
+      npm integrity, and complete file inventory.
+- [ ] Clean-install that same immutable tarball in every supported Astro and
+      Starlight compatibility consumer and rerun builds.
 - [ ] Verify exports, public Astro components, CLI bin/help, import/sync,
       comments modes, source disclosure, and multi-target helpers from the
       consumer installs.
@@ -364,12 +368,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] Retain the exact candidate's full automated attribution result from
       73/73 and its separate Manual Boss semantic
       `Attribution and Licensing: PASS / FAIL / N/A` review record.
-- [ ] Prove GitHub prerelease and npm artifact correspond to the same commit.
-- [ ] Verify `npm view`, dist-tags, and a clean consumer install by `@alpha`.
-- [ ] Document rollback, deprecation, and yank response; npm versions are
-      immutable. Do not run automatic `npm audit fix`.
-- [ ] Reserve `latest` for first stable; consciously choose `beta`, `next`, or
-      another documented prerelease channel after Alpha learning.
+- [ ] Prove the GitHub prerelease tag, source commit, attached tarball, recorded
+      hash, and public exact-asset install all correspond.
+- [x] Document upgrade, downgrade/rollback, verification, stop conditions,
+      recovery, and supersession. Never replace or delete an asset in place;
+      issue a corrected prerelease under a new tag. Do not run automatic
+      `npm audit fix`.
 - [ ] Confirm release pages, README, package metadata, and demo pages point to the same support and feedback channels after the Alpha Support category and email route are live.
 
 ## OBBBA Law As Amended Checklist
@@ -533,15 +537,15 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [ ] Build the plugin as a separate Boss-routed product/repository; prove it is
       installable and removable with rollback docs on supported stock/current
       Discourse, has no ordinary-topic regression, and passes live CAN full-app
-      embed verification. npm Alpha decisions here apply to the Astro package,
-      not Discourse plugin installation.
+      embed verification. Astro-package release-channel decisions do not apply
+      to Discourse plugin installation.
 - [ ] Keep arbitrary post-as-user, PM automation, existing-topic migration,
       and broad many-to-many administration out of the first v0.1 boundary.
       Forum-policy, mapping, audit, and fail-closed creation interfaces are in.
 - [x] Use logical/workspace path
       `DiscussionBridge/plugins/discourse-discussion-bridge`; the local physical
       development root is
-      `C:\CodeProjects\CodeWorksLabs\DiscussionBridge\plugins\discourse-discussion-bridge`.
+      `C:\CodeProjects\Products\DiscussionBridge\plugins\discourse-discussion-bridge`.
 - [x] Implement and document preferred request actor controls: `--post-as`,
       `DISCOURSE_POST_AS`, and lane/default `postAs`/`postAsEnv`, with legacy
       API-username controls as fallbacks and the resolved actor sent as

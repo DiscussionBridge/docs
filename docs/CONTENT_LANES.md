@@ -1,9 +1,9 @@
 # Content Lanes Guide
 
-Public Alpha consumers should ultimately receive lane behavior through
-`npm install astro-discussion-bridge@alpha`. Local packed artifacts and repository
-installs remain development/recovery proof paths until the npm Alpha release
-gates pass; they are not the primary public distribution story.
+Public Alpha consumers receive lane behavior from the exact package tarball
+attached to an accepted GitHub prerelease. They must verify the release-record
+SHA-256 and install the immutable asset URL with `--save-exact`. npm registry
+publication is a later, separately authorized gate and is not an Alpha channel.
 
 A content lane maps a group of Astro content to Discourse behavior.
 

@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Site Runbook: {Site Name}"
-lastUpdated: 2026-07-27
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_HUMAN_TEMPLATE.md"
 ---
@@ -51,8 +51,9 @@ Discourse, and what a successful connection gives readers and operators.}`
 > **Stop if:** a lane is missing its public route, source owner, destination
 > category, or managing-page rule. Do not infer these values.
 
-**Visual placeholder:** approved diagram showing `{Site Name}` lanes and their
-Discourse destinations.
+The table above is the required lane map. Add a diagram only when it materially
+clarifies the relationship, and review its labels against the same settled
+routes and destinations.
 
 ## 3. Source-Of-Truth Safety
 
@@ -89,8 +90,9 @@ Do not copy key values into this runbook, terminal screenshots, tickets, chat,
 or logs. The publishing key is the routine key. The broader diagnostics key is
 for setup checks and controlled troubleshooting only.
 
-**Screenshot placeholder:** sanitized Discourse key-scope selection with no key
-value or private account details visible.
+Record the selected Discourse key scopes as sanitized text. A screenshot is
+optional; if retained, review it to ensure no key value or private account
+detail is visible.
 
 ## 5. Preflight
 
@@ -158,10 +160,10 @@ Verify:
 - desktop and mobile layout are readable;
 - unavailable/forum-offline behavior leaves the article usable.
 
-**Screenshot placeholders:** approved desktop and mobile captures of the chosen
-mode.
-
-**Video placeholder:** `{optional interaction path to demonstrate}`.
+Record the tested desktop and narrow/mobile widths, public route, and sanitized
+result. For interactive mode, record the sign-in, reply, return-to-page, and
+reply-visible result. Screenshots or video may supplement that record but are
+optional and must preserve private and credential boundaries.
 
 ## 8. Deployment And Domain Verification
 
@@ -240,7 +242,8 @@ credentials, private account data, or production secrets.
 - [ ] No brace-delimited placeholder remains unintentionally.
 - [ ] Every command and exact value agrees with the Machine Runbook.
 - [ ] Every stop condition is site-appropriate.
-- [ ] Every screenshot/video placeholder is approved, replaced, or explicitly
-      deferred.
+- [ ] Any optional screenshot/video evidence is reviewed for accessibility,
+      secret safety, and public/private boundaries; text-only guidance remains
+      complete without it.
 - [ ] Public/private boundaries and secret safety have been reviewed.
 - [ ] The rendered runbook is readable on desktop and mobile.
