@@ -822,7 +822,6 @@ discussionBridge({
     dynamicHeight: true,
     embedMinHeight: "360",
     embedMaxHeight: "900",
-    embedViewportMaxHeight: "70vh",
     className: "discussion-bridge-embed",
   },
   replies: {
@@ -850,10 +849,10 @@ fullInteractive:
     initial: 800px
     min_px: 360
     max_px: 900
-    responsive_max: 70vh
-    responsive_max_disable: embedViewportMaxHeight_none
+    responsive_max: prohibited_competing_CSS_ceiling
+    legacy_embedViewportMaxHeight: none_only_or_configuration_failure
     operator_disable: dynamicHeight_false
-    purpose: follow_short_content_and_bound_long_first_post_or_topic_scroll
+    purpose: let_qualified_Discourse_Core_own_dynamic_iframe_height_without_host_clipping
   host_Astro_transforms_or_CSS_cross_boundary: false
   mermaid_and_table_styling_owner: Discourse
   ordinary_topic_434_mermaid_theme_result: SVG
@@ -1703,6 +1702,9 @@ release_prerequisites:
   - public install from the hash-verified local release asset and matching lockfile integrity verified
   - human Discourse administration installs the exact published plugin candidate from public instructions on sandbox-forum.discussionbridge.dev as standard single-container app and on dev-forum.discussionbridge.dev as official split data plus web_only
   - separate human plugin acceptance for each named host/topology proves rollback identity, installed SHA, migrations, safe-default startup, ordinary forum health, enable/configure, and disable/rollback/removal
+  - v0.1.0-alpha.5 is immutable rejected_do_not_install evidence because its human gate found an unreachable synthetic embedded logout trigger and paired adapter clipping
+  - corrected auth acceptance uses signed_out_initial_state, Core_popup_signin, new_user_signup, and separately_induced_Core_owned_session_loss_then_known_Astro_page_reload; Open_discussion_is_not_logout
+  - corrected frame acceptance proves topic_progress, lower_frame_scroll, composer_open_close, and credit_below_complete_iframe without a competing CSS viewport ceiling
   - forum.repealobbba.org is excluded from these two current proofs and remains a later separately authorized independent real-world gate
   - upgrade, downgrade, rollback, supersession, and recovery procedure verified
   - bad assets are warned and superseded by a new tag, never replaced or deleted in place

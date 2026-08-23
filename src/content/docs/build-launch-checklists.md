@@ -458,11 +458,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       deploy adoption commit `aa7846d`, and verify exactly one correct source
       notice/link on all five live Title I routes independently from comments.
 - [x] Add the unobtrusive, configurable `Connected by DiscussionBridge` comments-boundary credit; verify its canonical link, operator disable control, accessibility, reduced-motion behavior, and placement after `simple`, `full`, and `fullInteractive`.
-- [x] Add configurable `fullInteractive` dynamic iframe sizing. Default to
-      enabled with 800px initial, 360px minimum, 900px content maximum, and a
-      70vh responsive maximum; permit operator override/disable and verify
-      empty, short, long, composer-open, desktop, and mobile states without
-      site-specific compatibility CSS.
+- [ ] Requalify `fullInteractive` dynamic iframe sizing after the Alpha.5 human
+      pass proved that the adapter's competing 70vh CSS ceiling clipped
+      topic-progress/composer content. Corrected adapter commit `476c581` leaves
+      height updates to qualified Core and rejects a non-`none` legacy
+      `embedViewportMaxHeight`; verify topic progress, lower-frame scrolling,
+      composer open/close, credit placement, desktop, and mobile states.
 - [ ] Consider optional mapping from Astro/template content tags to Discourse topic tags.
 - [ ] Package the setup/diagnostics/docs workflow for self-serve users and paid assisted setup.
 - [x] Use the OBBBA implementation lane as a real-world Discourse-to-Astro
@@ -575,6 +576,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       qualification evidence, not a substitute for those human install proofs.
       `forum.repealobbba.org` remains a later, separately authorized independent
       real-world proof and is not one of these two current release-gate installs.
+- [ ] Preserve `v0.1.0-alpha.5` as immutable **REJECTED — DO NOT INSTALL**
+      evidence. Its human gate proved that Core exposes no embedded Log Out
+      control and that the paired adapter's 70vh ceiling clipped lower-frame
+      content. A superseding gate must use actual rendered controls, separately
+      induced Core-owned session loss, and the corrected uncapped adapter; never
+      use a synthetic logout button or **Open discussion** as a substitute.
 - [ ] Keep arbitrary post-as-user, PM automation, existing-topic migration,
       and broad many-to-many administration out of the first v0.1 boundary.
       Forum-policy, mapping, audit, and fail-closed creation interfaces are in.

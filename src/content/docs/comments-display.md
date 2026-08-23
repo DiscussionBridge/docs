@@ -1,6 +1,6 @@
 ---
 title: "Comments Display Guide"
-lastUpdated: 2026-08-02
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/COMMENTS_DISPLAY.md"
 ---
@@ -34,7 +34,6 @@ discussionBridge({
     dynamicHeight: true,
     embedMinHeight: "360",
     embedMaxHeight: "900",
-    embedViewportMaxHeight: "70vh",
   },
 });
 ```
@@ -123,15 +122,13 @@ or `full` for plugin-free production; production-quality comments-only
 DiscussionBridge enables Discourse's content-aware iframe resizing by default.
 The initial `embedHeight` remains `800px` as a loading fallback, then the iframe
 shrinks or grows with its content between `embedMinHeight: "360"` and
-`embedMaxHeight: "900"`. A separate responsive ceiling,
-`embedViewportMaxHeight: "70vh"`, limits how much of the host viewport the
-nested comments surface occupies. It does not remove a long companion first
-post from the embedded Discourse document, so a very long internal scrollbar
-may remain. Content shorter than that ceiling still sizes naturally. Operators may change all four values,
-use `embedViewportMaxHeight: "none"` to remove only the viewport-relative
-ceiling, or set
-`dynamicHeight: false` to retain a fixed-height iframe. These controls apply
-only to `fullInteractive`.
+`embedMaxHeight: "900"`. Discourse Core owns those dynamic height updates. The
+adapter does not apply a competing CSS viewport ceiling because the Alpha.5
+human pass proved that it can clip topic-progress and composer content at the
+host boundary. Operators may change the three supported height values or set
+`dynamicHeight: false` to retain a fixed-height iframe. The deprecated
+`embedViewportMaxHeight` option accepts only `"none"`; any other value fails
+configuration rather than silently restoring the clipping defect.
 
 Best for:
 

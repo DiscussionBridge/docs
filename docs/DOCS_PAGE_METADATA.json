@@ -8,11 +8,11 @@
     },
     "HUMAN_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "4d786aa23ddb2105bd663ff93fd0064f98fc1320909f7b1de72c065fd55dc1ff"
+      "sourceSha256": "88b4a6c781857b4d63da24d17708fd550d4e95653e069bb2e58ac09a4793a714"
     },
     "MACHINE_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "400e0d521841a05102c12895975a31cc0538f77a2674da8f9310429661244972"
+      "sourceSha256": "1bebd200895df74dade0565df95b106c12293aa1c8658eb571d47d5685556026"
     },
     "SITE_RUNBOOK_HUMAN_TEMPLATE.md": {
       "lastUpdated": "2026-08-23",
@@ -31,8 +31,8 @@
       "sourceSha256": "7c97a000fd11e05c844f9384350c3dbba4ff246b4873eb1a5eb9e5a7650ed21f"
     },
     "COMMENTS_DISPLAY.md": {
-      "lastUpdated": "2026-08-02",
-      "sourceSha256": "92cf8cb4c1b6489f399a0df9e6eefda1929387afa0d8009b3fe346ac5b15f36b"
+      "lastUpdated": "2026-08-23",
+      "sourceSha256": "51799c3fc08df073a79145a3decfc351f14d7d95c83ffe01a56be514435095d4"
     },
     "CONTENT_LANES.md": {
       "lastUpdated": "2026-08-23",
@@ -64,7 +64,7 @@
     },
     "BUILD_LAUNCH_CHECKLISTS.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "30d5d375307489944d53e297ce4b9f2c8a272b176b605c67b0243f0a5363b429"
+      "sourceSha256": "b85d6e7bfd134148a8f45da638fbf3b09e841f9f8d1396fd7ff812274cf50b4f"
     },
     "CORE_ADAPTER_ARCHITECTURE.md": {
       "lastUpdated": "2026-07-27",
@@ -84,7 +84,7 @@
     },
     "PRODUCT_NOTES.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "98c0f01cdb087aad428c091764a5b8d6e483e094f944b46a4f4546b546b08eaf"
+      "sourceSha256": "1041bb867acc4a3558ec800316e983c82a0822bd995d3a1ef5700cb0c5091a8e"
     },
     "evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md": {
       "lastUpdated": "2026-07-27",

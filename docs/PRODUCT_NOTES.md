@@ -252,12 +252,13 @@ site content. It is independent of Discourse's `Powered by Discourse` setting.
 
 For `fullInteractive`, DiscussionBridge enables Discourse's content-aware iframe
 height by default. The operator contract exposes the initial height, minimum,
-maximum, responsive viewport ceiling, and an explicit disable switch. Product
-defaults are 800px initial, 360px minimum, 900px content maximum, and 70vh
-responsive maximum. Discourse's full-app document includes the companion first
-post even when it has no replies, so the responsive ceiling keeps that nested
-surface subordinate to the host page while short content still shrinks
-naturally. This is shared product behavior, not a site-specific CSS fix.
+maximum, and an explicit dynamic-height disable switch. Product defaults are
+800px initial, 360px minimum, and 900px content maximum. Qualified Discourse
+Core owns dynamic height updates; the adapter no longer layers a CSS viewport
+ceiling over them because the Alpha.5 human pass proved that doing so can clip
+topic-progress and composer content at the host boundary. The deprecated
+`embedViewportMaxHeight` option accepts only `"none"` and otherwise fails
+configuration.
 
 ## Bounded Cross-Forum Proof
 

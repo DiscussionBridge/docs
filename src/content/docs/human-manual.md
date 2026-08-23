@@ -570,16 +570,14 @@ allow direct topic JSON reads. For `fullInteractive`, enable Discourse's full-ap
 embed settings and test both signed-in and signed-out users.
 
 `fullInteractive` uses dynamic iframe sizing by default. The iframe begins at
-`embedHeight: "800px"`, then follows its content between
-`embedMinHeight: "360"` and `embedMaxHeight: "900"`. The default
-`embedViewportMaxHeight: "70vh"` adds a responsive ceiling because Discourse's
-full-app document height includes the companion first post even when it has no
-replies. Short content still shrinks naturally; long discussions remain bounded
-and internally scrollable. The ceiling does not remove post 1 and therefore
-does not correct the very long internal scrollbar. Operators may tune all four values, use
-`embedViewportMaxHeight: "none"` to remove the responsive ceiling, or set
-`dynamicHeight: false` for a fixed-height embed. Verify short, long, composer-
-open, desktop, and mobile states.
+`embedHeight: "800px"`, then follows Core's content reports between
+`embedMinHeight: "360"` and `embedMaxHeight: "900"`. The adapter does not add a
+CSS viewport ceiling: the Alpha.5 human pass proved that a competing `70vh`
+maximum can clip topic-progress and composer content at the host boundary.
+Operators may tune the three supported values or set `dynamicHeight: false` for
+a fixed-height embed. The deprecated `embedViewportMaxHeight` option accepts
+only `"none"`; any other value fails configuration. Verify topic-progress,
+scroll, short, long, composer-open, desktop, and mobile states.
 
 To close a live signed-in interaction item, create one clearly labeled test
 reply through the browser, then verify its public post URL, content marker, and
@@ -1116,6 +1114,17 @@ current proofs and requires a later, separately authorized independent
 real-world gate. Release acceptance cannot close without both human PASS
 records. A failure creates a new corrected prerelease; it never rewrites the
 tested release identity.
+
+Published plugin `v0.1.0-alpha.5` is immutable **REJECTED — DO NOT INSTALL**
+evidence. Its real Astro-hosted gate found that qualified Core shows a profile
+summary but no embedded **Log Out** control; the automated test had synthesized
+that unreachable trigger. The adapter's competing `70vh` ceiling separately
+clipped topic-progress/composer content. A corrected gate must prove the lower
+frame and credit boundary, visible **Post reply**/**Save edit**, Reply, Like,
+Quote, edit, signed-out initial state, sign-in, and new-user sign-up. Session
+loss is induced separately through Core-owned logout/session behavior, followed
+by reloading the known mapped Astro page; **Open discussion** is an external
+handoff, not an embedded logout control.
 
 Before upgrade, record the installed asset filename/integrity and lockfile,
 start from a clean consumer worktree, download and verify the new asset hash,
