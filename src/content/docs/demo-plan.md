@@ -1,6 +1,6 @@
 ---
 title: "Demo Plan"
-lastUpdated: 2026-08-05
+lastUpdated: 2026-08-22
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/DEMO_PLAN.md"
 ---

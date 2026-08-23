@@ -1,6 +1,6 @@
 ---
 title: "Key Management Guide"
-lastUpdated: 2026-07-27
+lastUpdated: 2026-08-22
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/KEY_MANAGEMENT.md"
 ---
@@ -397,6 +397,25 @@ Keys can leak through:
 - CI/CD secret misconfiguration
 - shared machines or synced folders with broad access
 - package fixtures or demo repos that accidentally include real credentials
+
+### Discourse launcher output
+
+The standard Discourse `launcher rebuild` process can echo the final Docker
+command with environment values. Depending on the forum configuration, that
+output can include SMTP and database credentials even when the plugin being
+installed does not use those credentials directly.
+
+- Run launcher commands only in a private administrator terminal.
+- Do not stream raw launcher output into CI, automation chat, issues, support
+  systems, or shared transcripts.
+- If automation must retain the raw output, write it only to a root-owned file
+  with restrictive permissions. Sanitize all environment assignments before
+  publishing any excerpt, then dispose of the protected raw copy under the
+  operator's retention policy.
+- Use separate sanitized postflight commands to report container health,
+  installed revision, migrations, and safe site-setting state.
+- Treat an unredacted launcher transcript as credential-bearing. A successful
+  ordinary rebuild does not make its terminal output safe to share.
 
 If a key leaks, revoke it in Discourse, create a replacement, update the deployment secret, and rerun `check-discourse`.
 
