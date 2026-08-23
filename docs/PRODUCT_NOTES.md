@@ -143,9 +143,9 @@ the core.
 The Astro package's public Alpha path is a GitHub prerelease with one exact
 attached tarball built from the accepted commit. The release record fixes the
 tag, commit, asset filename, byte size, SHA-256, and file inventory. Public
-users verify that hash and install the exact release-asset URL with
-`--save-exact`; moving branches and unversioned package names are not release
-identities.
+users verify that hash, install the same local asset with `--save-exact`, and
+confirm the lockfile resolution/integrity matches the accepted record. Moving
+branches and unversioned package names are not release identities.
 
 npm registry publication is a later, separately authorized gate. It is not an
 Alpha channel. A corrected Alpha receives a new prerelease tag and asset; never

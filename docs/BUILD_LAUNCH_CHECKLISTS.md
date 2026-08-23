@@ -369,7 +369,8 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       73/73 and its separate Manual Boss semantic
       `Attribution and Licensing: PASS / FAIL / N/A` review record.
 - [ ] Prove the GitHub prerelease tag, source commit, attached tarball, recorded
-      hash, and public exact-asset install all correspond.
+      hash, installed local tarball, and lockfile resolution/integrity all
+      correspond.
 - [x] Document upgrade, downgrade/rollback, verification, stop conditions,
       recovery, and supersession. Never replace or delete an asset in place;
       issue a corrected prerelease under a new tag. Do not run automatic

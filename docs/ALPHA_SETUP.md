@@ -93,18 +93,23 @@ Use the diagnostics/setup key for `check-discourse`, site settings/capability re
 
 ## 4. Install the Package
 
-Copy the exact GitHub prerelease tag, package asset URL, and SHA-256 from the
-accepted release record. Download and verify that asset. Then, from the Astro
-project root, install the exact release URL:
+Copy the exact GitHub prerelease tag, package asset filename, SHA-256, and npm
+integrity from the accepted release record. Download the asset, verify it, and
+install that same local file. From the Astro project root:
 
 ```sh
-npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/<exact-asset>.tgz"
+asset="astro-discussion-bridge-<exact-version>.tgz"
+gh release download "<exact-tag>" --repo DiscussionBridge/astro-discussion-bridge --pattern "$asset"
+printf '%s  %s\n' '<expected-sha256>' "$asset" | sha256sum -c -
+npm install --save-exact "./$asset"
+node -e "const p=require('./package-lock.json').packages['node_modules/astro-discussion-bridge']; console.log({resolved:p.resolved,integrity:p.integrity})"
 ```
 
 Do not use an unversioned package name or npm dist-tag for Alpha. npm registry
-publication is a later gate. For local package development, the demo may point
-to the package directory. Release testing must use the exact verified tarball
-that will be attached to the GitHub prerelease.
+publication is a later gate. Stop unless the lockfile resolution names that
+verified local asset and its integrity equals the accepted release record. For
+local package development, the demo may point to the package directory. Release
+testing must use the exact verified tarball attached to the GitHub prerelease.
 
 ## 5. Configure Astro
 

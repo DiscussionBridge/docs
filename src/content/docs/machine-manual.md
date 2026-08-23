@@ -1458,7 +1458,8 @@ release_channel:
   Astro_package:
     alpha: GitHub_prerelease_plus_exact_attached_tarball
     immutable_identity: exact_tag_source_commit_asset_filename_bytes_sha256_inventory
-    public_install: npm install --save-exact exact_GitHub_release_asset_URL
+    public_install: download_then_SHA256_verify_then_npm_install_--save-exact_same_local_tarball
+    post_install_proof: lockfile_resolution_names_verified_asset_and_integrity_matches_release_record
     source_checkout_or_moving_branch: prohibited_as_release_identity
     replace_or_delete_asset_in_place: prohibited
     corrected_release: new_prerelease_tag_and_asset
@@ -1666,7 +1667,7 @@ release_prerequisites:
   - email route verified
   - README, docs, metadata, demos, and release notes agree
   - GitHub prerelease tag, source commit, release asset, and recorded hash agree
-  - public install from the exact release-asset URL verified
+  - public install from the hash-verified local release asset and matching lockfile integrity verified
   - upgrade, downgrade, rollback, supersession, and recovery procedure verified
   - bad assets are warned and superseded by a new tag, never replaced or deleted in place
   - automatic npm audit fix prohibited

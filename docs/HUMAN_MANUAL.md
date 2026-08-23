@@ -208,15 +208,22 @@ Astro-origin actors should identify the source site or brand; keep established
 ## 4. Install And Configure Astro
 
 Alpha is distributed through an immutable asset attached to an accepted GitHub
-prerelease. Copy the exact tag, asset URL, and SHA-256 from that release record.
-Verify the downloaded asset before installing it; do not substitute an npm
-registry version or an unversioned package name.
+prerelease. Copy the exact tag, asset filename, SHA-256, and npm integrity from
+that release record. Download the asset, verify it, and install that same local
+file; do not substitute an npm registry version or make npm fetch a second copy.
 
-From the Astro project root, after verification:
+From the Astro project root:
 
 ```sh
-npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/<exact-asset>.tgz"
+asset="astro-discussion-bridge-<exact-version>.tgz"
+gh release download "<exact-tag>" --repo DiscussionBridge/astro-discussion-bridge --pattern "$asset"
+printf '%s  %s\n' '<expected-sha256>' "$asset" | sha256sum -c -
+npm install --save-exact "./$asset"
+node -e "const p=require('./package-lock.json').packages['node_modules/astro-discussion-bridge']; console.log({resolved:p.resolved,integrity:p.integrity})"
 ```
+
+Stop unless the lockfile `resolved` value names the verified local asset and
+its `integrity` equals the npm integrity in the accepted release record.
 
 Configure the integration in `astro.config.mjs`:
 
@@ -1051,31 +1058,37 @@ publication is a later, separately authorized gate; Alpha instructions must not
 use an npm dist-tag, `latest`, or an unversioned registry install.
 
 The release record must name the exact tag, source commit, asset filename,
-tarball byte size, SHA-256, and package inventory. Consumers copy the immutable
-asset URL from that record, download it, verify its SHA-256, and install that
-exact URL:
+tarball byte size, SHA-256, npm integrity, and package inventory. Consumers
+download the asset, verify its SHA-256, install that exact local file, and bind
+the resulting lockfile to the accepted npm integrity:
 
 ```powershell
 $asset = 'astro-discussion-bridge-<exact-version>.tgz'
 gh release download '<exact-tag>' --repo DiscussionBridge/astro-discussion-bridge --pattern $asset
 if ((Get-FileHash $asset -Algorithm SHA256).Hash -ne '<expected-sha256>') { throw 'Release asset hash mismatch' }
-npm install --save-exact "https://github.com/DiscussionBridge/astro-discussion-bridge/releases/download/<exact-tag>/$asset"
+npm install --save-exact "./$asset"
+$lock = Get-Content package-lock.json -Raw | ConvertFrom-Json -AsHashtable
+$installed = $lock.packages['node_modules/astro-discussion-bridge']
+if ($installed.resolved -notmatch [regex]::Escape($asset)) { throw 'Lockfile does not resolve the verified asset' }
+if ($installed.integrity -ne '<expected-npm-integrity>') { throw 'Installed package integrity mismatch' }
 ```
 
 Never replace or delete a published Alpha asset in place. A correction receives
 a new prerelease tag and asset. A repository checkout or moving branch is not a
 release identity.
 
-Before upgrade, record the installed asset URL and lockfile, start from a clean
-consumer worktree, verify the new asset hash, install it with `--save-exact`,
-inspect `package.json` and lockfile changes, then run package tests, the consumer
-build, `check-discourse`, dry-run sync, and one bounded deployed smoke. Stop on a
-hash mismatch, unexpected package inventory, dependency drift, build failure,
-Discourse diagnostic failure, or discussion regression.
+Before upgrade, record the installed asset filename/integrity and lockfile,
+start from a clean consumer worktree, download and verify the new asset hash,
+install that same local file with `--save-exact`, verify the resulting lockfile
+resolution and integrity, then run package tests, the consumer build,
+`check-discourse`, dry-run sync, and one bounded deployed smoke. Stop on a hash
+or integrity mismatch, unexpected package inventory, dependency drift, build
+failure, Discourse diagnostic failure, or discussion regression.
 
-Rollback selects the last accepted prerelease, verifies its recorded asset
-hash, installs that exact prior URL with `--save-exact`, and repeats the build,
-diagnostic, deployment, and public discussion checks. Restore the prior
+Rollback selects the last accepted prerelease, downloads and verifies its
+recorded asset hash, installs that exact verified local file with
+`--save-exact`, verifies the restored lockfile integrity, and repeats the
+build, diagnostic, deployment, and public discussion checks. Restore the prior
 lockfile when it is part of the accepted record. Mark a bad prerelease as
 superseded with a warning; do not replace, delete, or silently rewrite its
 asset. Never run an automatic `npm audit fix` during release or recovery.
