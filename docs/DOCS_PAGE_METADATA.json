@@ -8,11 +8,11 @@
     },
     "HUMAN_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "8f4dac251295126c402873470b7154796ce8d092ca8d7d7fae65696b3a76969c"
+      "sourceSha256": "abe3f59f02be95f5f37a6ea9ec0a385e1d577a1a9271258bd6bab696f76cc3a9"
     },
     "MACHINE_MANUAL.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "c4c80c7ae06837456e5e397cc629eb64855df24a7414c7ca0070db5473dfdc48"
+      "sourceSha256": "3ef138329b2b62f41f1ca197741b26819cbfbf7b16948159e3bbea9b1e1dac71"
     },
     "SITE_RUNBOOK_HUMAN_TEMPLATE.md": {
       "lastUpdated": "2026-08-23",
@@ -24,7 +24,7 @@
     },
     "ALPHA_SETUP.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "dc3ac4ec12e45eac3952e8173ff2e6c3df5e1f536f4b3c89ed262cb20320d051"
+      "sourceSha256": "4d7ed41fc5a76785cc1cff5d4dc6221397fa396cec87f3aec8e19beff5f7517c"
     },
     "KEY_MANAGEMENT.md": {
       "lastUpdated": "2026-08-22",
@@ -51,8 +51,8 @@
       "sourceSha256": "5b9583e22b7e648c0034590f0c3d5740d8659ca6cd0a39b2a8258deafbd6c86a"
     },
     "SUPPORT_AND_FEEDBACK.md": {
-      "lastUpdated": "2026-07-21",
-      "sourceSha256": "cd57bfc7ba86349ac4b14cce097d29abbb9c1362d5407b0fb95b22ebabfd51ce"
+      "lastUpdated": "2026-08-23",
+      "sourceSha256": "59dc2ff359c1b22a1a811bcbe8705702b3c3314f51056ab7dbd58cf7dba976d3"
     },
     "KNOWN_ISSUES.md": {
       "lastUpdated": "2026-08-05",
@@ -64,7 +64,7 @@
     },
     "BUILD_LAUNCH_CHECKLISTS.md": {
       "lastUpdated": "2026-08-23",
-      "sourceSha256": "c89d91e38d13b6ac84c3d85b6f6faaf7c6e2c3db81e3264b49abc15be6c993f7"
+      "sourceSha256": "a5872b08da06beac85c23f571f5a12844e776f6232a1841ea0fa34dc53816ae0"
     },
     "CORE_ADAPTER_ARCHITECTURE.md": {
       "lastUpdated": "2026-07-27",

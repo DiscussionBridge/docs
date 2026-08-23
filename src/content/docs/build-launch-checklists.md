@@ -153,9 +153,12 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       docs URLs are 200, but raw
       `https://docs-discussionbridge-dev.pages.dev/` still returns 200. Add and
       verify a 301 to `https://docs.discussionbridge.dev/`.
-- [ ] Create live Discourse Alpha Support category.
+- [x] Create public Discourse Alpha Support category at
+      `https://forum.discussionbridge.dev/c/alpha-support/7` (category ID `7`).
 - [ ] Route `alphasupport@discussionbridge.dev` into Discourse.
-- [ ] Confirm final public support links after the live support category and email route exist.
+- [x] Enable GitHub Discussions on
+      `DiscussionBridge/astro-discussion-bridge`; retain GitHub Issues.
+- [ ] Confirm final public support links after the email route exists.
 
 #### Codex/Product Work That Can Continue Now
 
@@ -181,7 +184,10 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [x] Confirm title/body/tag preflight messages are friendly enough for non-package authors.
 - [ ] Confirm generated first-post body is reader-facing and does not expose implementation labels.
 - [x] Finalize Alpha support and feedback channel model: GitHub Issues for formal product work, GitHub Discussions for repo-bound design/implementation discussion, Discourse Alpha Support plus `alphasupport@discussionbridge.dev` for support discovery/community memory, and cross-links when support becomes tracked work.
-- [ ] Create live Discourse Alpha Support category, route `alphasupport@discussionbridge.dev` into Discourse, and wire final channel links into README, docs, package metadata, demo pages, and release notes. Phil/Ops owns the live category and email route; Codex owns final link wiring after those exist.
+- [x] Create the live Discourse Alpha Support category and enable GitHub
+      Discussions. Route `alphasupport@discussionbridge.dev` into Discourse and
+      wire final channel links into README, package metadata, demo pages, and
+      release notes after the email route is verified.
 - [x] Product docs URL decided: use `docs.discussionbridge.dev` with Starlight. Keep `discussionbridge.dev/docs` only as a redirect or fallback if needed.
 - [x] Deploy the Starlight docs site source for `docs.discussionbridge.dev` into the repo under `sites/docs`, generated from repository `docs/*.md`.
 - [ ] Reconfigure DiscussionBridge Cloudflare under the new ownership/account plan before Alpha: owning account, admin email, DNS, Pages, redirects, Access, Workers, billing boundary, and operator roles. Phil/Ops prerequisite.
@@ -381,6 +387,15 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       issue a corrected prerelease under a new tag. Do not run automatic
       `npm audit fix`.
 - [ ] Confirm release pages, README, package metadata, and demo pages point to the same support and feedback channels after the Alpha Support category and email route are live.
+- [ ] Publish the immutable DiscussionBridge for Discourse plugin candidate with
+      exact tag/SHA and public single-container plus two-container installation
+      instructions.
+- [ ] Receive and disposition one human Discourse administrator installation of
+      that exact published plugin candidate using only the public instructions.
+      Require backup identity, installed SHA, migrations, safe-default startup,
+      ordinary forum health, enable/configure, and disable/rollback/removal.
+      Plugin-backed `fullInteractive` release acceptance cannot close without
+      PASS; a failure gets a new prerelease identity.
 
 ## OBBBA Law As Amended Checklist
 
@@ -545,6 +560,9 @@ publish -> sync -> diagnose -> maintain -> recover -> document
       Discourse, has no ordinary-topic regression, and passes live CAN full-app
       embed verification. Astro-package release-channel decisions do not apply
       to Discourse plugin installation.
+- [ ] Complete one human-admin install of the exact published plugin candidate
+      as a product release gate. Automated/local/dev-forum installation is
+      qualification evidence, not a substitute for human installation proof.
 - [ ] Keep arbitrary post-as-user, PM automation, existing-topic migration,
       and broad many-to-many administration out of the first v0.1 boundary.
       Forum-policy, mapping, audit, and fail-closed creation interfaces are in.

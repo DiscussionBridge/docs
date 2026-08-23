@@ -1466,6 +1466,18 @@ release_channel:
     npm_registry_publication: later_separately_authorized_gate
   Discourse_plugin:
     npm_distribution_decision_applies: false
+    channel: exact_GitHub_prerelease_tag_and_commit
+    required_for: plugin_backed_fullInteractive_and_forum_control_plane
+    not_required_for: [simple, full]
+    human_install_acceptance:
+      required_before_product_release_acceptance_closes: true
+      actor: human_Discourse_administrator
+      input: public_release_instructions_only
+      standard_topology: containers/app.yml_then_rebuild_app
+      two_container_topology: containers/web_only.yml_then_rebuild_web_only_only
+      initial_settings: all_safe_defaults_off
+      proof: [backup_identity, installed_SHA, migrations, ordinary_forum_health, enable_configure, disable_rollback_removal]
+      failure: new_corrected_prerelease_never_rewrite_existing_identity
 alpha_feature_lock:
   status: locked
   cumulative_scope_source: docs/BUILD_LAUNCH_CHECKLISTS.md
@@ -1611,7 +1623,10 @@ category_contract:
 support:
   formal_work: GitHub Issues
   setup_and_field_reports: Discourse Alpha Support category
-  email_intake: alphasupport@discussionbridge.dev -> Discourse
+  email_intake:
+    address: alphasupport@discussionbridge.dev
+    destination: Discourse
+    status: planned_pending_verified_route
   private_help: paid implementation/migration
 attribution_and_licensing:
   implementation:
@@ -1668,6 +1683,8 @@ release_prerequisites:
   - README, docs, metadata, demos, and release notes agree
   - GitHub prerelease tag, source commit, release asset, and recorded hash agree
   - public install from the hash-verified local release asset and matching lockfile integrity verified
+  - human Discourse administrator installs the exact published plugin candidate from public instructions
+  - human plugin acceptance proves backup identity, installed SHA, migrations, safe-default startup, ordinary forum health, enable/configure, and disable/rollback/removal
   - upgrade, downgrade, rollback, supersession, and recovery procedure verified
   - bad assets are warned and superseded by a new tag, never replaced or deleted in place
   - automatic npm audit fix prohibited

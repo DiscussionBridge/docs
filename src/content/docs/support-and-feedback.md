@@ -1,6 +1,6 @@
 ---
 title: "Support And Feedback"
-lastUpdated: 2026-07-21
+lastUpdated: 2026-08-23
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SUPPORT_AND_FEEDBACK.md"
 ---
@@ -12,15 +12,15 @@ DiscussionBridge needs a clear support path before Alpha. Users should know wher
 Alpha support channel decision:
 
 ```text
-For Alpha help, check GitHub Issues for known bugs or open work, then start in the Alpha Support category on forum.discussionbridge.dev or email alphasupport@discussionbridge.dev.
+For Alpha help, check [GitHub Issues](https://github.com/DiscussionBridge/astro-discussion-bridge/issues) for known bugs or open work, then start in the [Alpha Support category](https://forum.discussionbridge.dev/c/alpha-support/7). The planned `alphasupport@discussionbridge.dev` intake must not be advertised as active until its Discourse route is verified.
 ```
 
 Channel roles:
 
-- GitHub Issues: confirmed bugs, reproducible failures, docs gaps, feature requests, release tasks, labels, assignment, and release references.
-- GitHub Discussions: repo-bound product, design, or implementation discussion when GitHub context matters.
-- Discourse Alpha Support category: setup questions, examples, field reports, screenshots, configuration discussion, support discovery, and community help.
-- `alphasupport@discussionbridge.dev`: email intake routed into Discourse, not a standalone inbox.
+- [GitHub Issues](https://github.com/DiscussionBridge/astro-discussion-bridge/issues): confirmed bugs, reproducible failures, docs gaps, feature requests, release tasks, labels, assignment, and release references.
+- [GitHub Discussions](https://github.com/DiscussionBridge/astro-discussion-bridge/discussions): repo-bound product, design, or implementation discussion when GitHub context matters.
+- [Discourse Alpha Support](https://forum.discussionbridge.dev/c/alpha-support/7): setup questions, examples, field reports, screenshots, configuration discussion, support discovery, and community help.
+- `alphasupport@discussionbridge.dev`: planned email intake into Discourse, not active until the route is separately verified.
 - Paid implementation help: private setup, migration, customization, and hand-holding.
 
 Handoff rule:
@@ -33,7 +33,10 @@ Handoff rule:
 
 Use one public canonical support page or README section that points to the active channels.
 
-Before Alpha, create the live Alpha Support category, route `alphasupport@discussionbridge.dev` into Discourse, and wire these channel links into README, docs, package metadata, demo pages, and release notes.
+The live Alpha Support category and GitHub Discussions are active. Before Alpha
+release acceptance closes, verify the `alphasupport@discussionbridge.dev` route
+into Discourse and wire the exact channel links into README, package metadata,
+demo pages, and release notes.
 
 ## What Users Should Include
 

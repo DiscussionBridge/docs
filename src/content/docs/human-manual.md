@@ -556,7 +556,12 @@ the destination separately only when that is the intended publishing decision.
 For Alpha, use `simple` or `full` for plugin-free public production. Core-only
 `fullInteractive` is a compatibility/development preview. Production-quality
 comments-only `fullInteractive` requires DiscussionBridge for Discourse after
-its controlled-creation and embed capabilities pass.
+its controlled-creation and embed capabilities pass. The Astro package does not
+install that plugin: a human Discourse administrator installs the exact
+published plugin identity first, rebuilds `app` for a standard single-container
+forum or only `web_only` for the official two-container layout, and proves the
+forum healthy with all DiscussionBridge settings still off. `simple` and `full`
+remain plugin-free.
 
 For `full`, configure a same-origin `refreshEndpoint` when browser CORS does not
 allow direct topic JSON reads. For `fullInteractive`, enable Discourse's full-app
@@ -1082,6 +1087,16 @@ Never replace or delete a published Alpha asset in place. A correction receives
 a new prerelease tag and asset. A repository checkout or moving branch is not a
 release identity.
 
+Plugin-backed `fullInteractive` has an additional release gate. After the exact
+plugin candidate is published through its GitHub prerelease/install channel, a
+human forum administrator—not the implementation agent—must install that exact
+tag/SHA on a clean or restored representative Discourse instance using only the
+public instructions. The acceptance record must prove backup identity,
+installed SHA, migrations, safe-default startup, ordinary forum health, the
+documented enable/configure flow, and understandable disable/rollback/removal.
+Release acceptance cannot close without that human PASS. A failure creates a
+new corrected prerelease; it never rewrites the tested release identity.
+
 Before upgrade, record the installed asset filename/integrity and lockfile,
 start from a clean consumer worktree, download and verify the new asset hash,
 install that same local file with `--save-exact`, verify the resulting lockfile
@@ -1140,9 +1155,9 @@ The intended support split is:
 
 - GitHub Issues for confirmed bugs, reproducible failures, docs gaps, and
   feature work;
-- the DiscussionBridge Alpha Support category for setup questions, field
-  reports, screenshots, and community help;
-- `alphasupport@discussionbridge.dev` as email intake routed into Discourse;
+- the [DiscussionBridge Alpha Support category](https://forum.discussionbridge.dev/c/alpha-support/7) for setup questions, field reports, screenshots, and community help;
+- `alphasupport@discussionbridge.dev` as planned email intake, not active until
+  its Discourse route is separately verified;
 - paid help for private implementation and migration work.
 
 The live support category and email route remain release prerequisites until

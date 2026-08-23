@@ -24,6 +24,13 @@ document. Production-quality comments-only `fullInteractive` requires the
 separate DiscussionBridge for Discourse plugin after installation and live
 acceptance; the plugin skeleton alone is not sufficient.
 
+The Astro package install does not install the forum plugin. A human Discourse
+administrator installs the exact published plugin release first, using its
+public single-container (`app`) or two-container (`web_only`) instructions. The
+forum must return healthy with DiscussionBridge settings off before the Astro
+operator configures plugin-backed `fullInteractive`. `simple` and `full` do not
+require the plugin.
+
 ## 2. Configure Discourse
 
 In Discourse admin:
