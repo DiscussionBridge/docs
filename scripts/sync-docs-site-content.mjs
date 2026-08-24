@@ -1,7 +1,8 @@
-import { access, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { publishGeneratedTreeAtomically } from "./atomic-generated-tree.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDir = path.join(repoRoot, "docs");
@@ -235,12 +236,7 @@ if (checkOnly) {
     process.exitCode = 1;
   }
 } else {
-  await rm(targetDir, { recursive: true, force: true });
-  await mkdir(targetDir, { recursive: true });
-
-  for (const { file, content } of renderedPages) {
-    await writeFile(path.join(targetDir, file), content, "utf8");
-  }
+  await publishGeneratedTreeAtomically({ targetDir, files: renderedPages });
 
   console.log(`Synced ${docs.length} docs pages to ${targetDir}`);
 }
