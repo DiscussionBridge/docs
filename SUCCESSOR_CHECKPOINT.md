@@ -33,3 +33,6 @@ the attribution/protected-path gate, the 25-page production build, Pagefind,
 the sitemap, and the Wrangler dry run passed. Local browser replay at the exact
 `#what-users-should-include` anchor found the full profile list, no old
 Astro-only key-scope checklist, and no horizontal overflow.
+
+Source commit `eac2a95` is pushed to `origin/main` and deployed as Cloudflare
+Worker version `2432e3cc-dddc-4e23-a871-05a561ec8841`.
