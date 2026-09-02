@@ -14,14 +14,14 @@ export default defineConfig({
       },
       social: [
         {
-          icon: "github",
-          label: "GitHub",
-          href: "https://github.com/DiscussionBridge/docs",
-        },
-        {
           icon: "discourse",
           label: "DiscussionBridge community forum",
           href: "https://forum.discussionbridge.dev/",
+        },
+        {
+          icon: "github",
+          label: "DiscussionBridge on GitHub",
+          href: "https://github.com/DiscussionBridge",
         },
         {
           icon: "blueSky",
