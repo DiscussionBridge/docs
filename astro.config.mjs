@@ -10,6 +10,7 @@ export default defineConfig({
       lastUpdated: true,
       components: {
         PageTitle: "./src/components/PageTitle.astro",
+        SocialIcons: "./src/components/SocialIcons.astro",
       },
       social: [
         {
