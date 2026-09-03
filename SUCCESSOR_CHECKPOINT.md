@@ -63,3 +63,36 @@ diff checking passed before publication. Source commit
 `c08280576e55d2099cc2895861e7185b3bfd4443` is pushed to `origin/main` and
 deployed as Cloudflare Worker version
 `43f8e7d8-af9e-4bb0-9564-d8972f50c3a3`.
+
+## 2026-09-03 current Alpha operator documentation
+
+The primary documentation navigation now reflects the implemented product
+family rather than presenting the earlier Astro/API-only phase as current.
+Four canonical pages were added:
+
+- `ALPHA_OPERATOR_GUIDE.md` — end-to-end recovery, Bridge installation,
+  forum policy, Content Connection, adapter binding, both-direction exercise,
+  presentation verification, disable/re-enable, removal and rollback;
+- `PLATFORM_PROFILES.md` — current Astro/Astro + Starlight, Ghost, Hugo,
+  Statamic Flat/DB/SSG, WordPress and Discourse-as-Publisher boundaries;
+- `PRESENTATION_MODES.md` — Simple, Full and fullInteractive behavior,
+  branding, rich content, authorship, TOC, sessions and ownership;
+- `DRAFT_ROADMAP.md` — advanced profiles, candidate adapters, migration,
+  identity, DiscussionBridge Network, deployment capabilities, themes and
+  Guided Demo Conversations.
+
+The overview and key-management/known-issues/attribution pages were reconciled
+with the current Alpha. Earlier Astro manuals, templates, setup, comments,
+lanes, roadmap, demo and cumulative product records remain available, but now
+carry explicit current/historical scope notices. Their sidebar group is named
+`Astro Deep Reference` so an operator is not directed into stale setup first.
+
+Metadata covers all 29 synchronized pages. Metadata tests, source/generated
+synchronization, the attribution/protected-path gate, the 30-page production
+build, Pagefind and sitemap generation passed. Live browser verification found
+the four new primary routes and Versions page present, correctly titled,
+linked from the overview/sidebar, and free of page-level horizontal overflow.
+
+Source commit `ac97db7d7b229e801a1211b7ccf71cd51e769768` is pushed to
+`origin/main`. The deployed Cloudflare Worker version is
+`41ac8a26-709b-462a-ae28-facaf7538fdb`.
