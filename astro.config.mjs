@@ -54,6 +54,7 @@ export default defineConfig({
           label: "Start",
           items: [
             { label: "Overview", slug: "index" },
+            { label: "Versions & Live Status", slug: "versions-and-live-status" },
             { label: "Alpha Setup", slug: "alpha-setup" },
             { label: "Key Management", slug: "key-management" },
             { label: "Support And Feedback", slug: "support-and-feedback" },
@@ -80,6 +81,15 @@ export default defineConfig({
             { label: "Demo Plan", slug: "demo-plan" },
             { label: "Discourse Field Notes", slug: "discourse-field-notes" },
             { label: "Product Notes", slug: "product-notes" },
+          ],
+        },
+        {
+          label: "DiscussionBridge",
+          items: [
+            { label: "Main Site", link: "https://discussionbridge.dev/" },
+            { label: "Live Demos", link: "https://demo.discussionbridge.dev/" },
+            { label: "The Bridge", link: "https://bridge.demo.discussionbridge.dev/" },
+            { label: "Community & Support", link: "https://forum.discussionbridge.dev/" },
           ],
         },
       ],

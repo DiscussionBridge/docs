@@ -3,8 +3,12 @@
   "appliesTo": "DiscussionBridge Alpha",
   "pages": {
     "README.md": {
-      "lastUpdated": "2026-08-05",
-      "sourceSha256": "737c883957a3e38706ff5cdb288b9b08220c5eaf8e4c73f17e6bc861c0886320"
+      "lastUpdated": "2026-09-03",
+      "sourceSha256": "3584463078439b85c312a560e33c62a12841a17f23d3c2b6bae914c15eeb0bd5"
+    },
+    "VERSIONS_AND_LIVE_STATUS.md": {
+      "lastUpdated": "2026-09-03",
+      "sourceSha256": "2be899e3f032226eabc5aa5bd8d3a2da2f5f74b5f5a7104e1df5068d50c9f255"
     },
     "HUMAN_MANUAL.md": {
       "lastUpdated": "2026-08-23",

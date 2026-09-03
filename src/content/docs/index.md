@@ -1,11 +1,22 @@
 ---
 title: "DiscussionBridge Public Docs"
-lastUpdated: 2026-08-05
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
 
-This folder is for documentation that can live with the public GitHub repository.
+DiscussionBridge is a family of focused tools built around **The Bridge**, its
+Discourse-powered flagship. The current Alpha connects Astro, Ghost, Hugo,
+Statamic, and WordPress through one Bridge contract and demonstrates Discourse
+as a publishing source across those platforms.
+
+Start with the [Versions And Live Status](/versions-and-live-status/) page
+for the exact packages, live profiles, demo destinations, and current acceptance
+boundary. Explore the working product at the
+[Demo chooser](https://demo.discussionbridge.dev/) or open
+[The Bridge](https://bridge.demo.discussionbridge.dev/).
+
+This repository contains the public product and operator documentation.
 
 Good fits:
 
@@ -23,6 +34,7 @@ Keep commercial strategy, pricing, services positioning, and private brand plann
 
 ## Current Docs
 
+- [Versions And Live Status](/versions-and-live-status/) - exact package versions, source identities, live profiles, and environment roles.
 - [Human Manual](/human-manual/) - operator journey, safety decisions, and verification.
 - [Machine Manual](/machine-manual/) - exact reusable commands, fields, scopes, and runbook inputs.
 - [Site Human Runbook Template](/site-runbook-human-template/) - client/operator-specific readable runbook.

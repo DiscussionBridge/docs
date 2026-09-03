@@ -1,6 +1,6 @@
 # DiscussionBridge Docs Successor Checkpoint
 
-Updated: 2026-09-01
+Updated: 2026-09-03
 
 ## Current publication boundary
 
@@ -36,3 +36,28 @@ Astro-only key-scope checklist, and no horizontal overflow.
 
 Source commit `eac2a95` is pushed to `origin/main` and deployed as Cloudflare
 Worker version `2432e3cc-dddc-4e23-a871-05a561ec8841`.
+
+## 2026-09-03 Versions and live-status documentation
+
+`docs/VERSIONS_AND_LIVE_STATUS.md` is the dated public identity anchor for the
+Alpha product family. It records the six exact implementation packages, eight
+independently exercised profiles, public demo destinations, Bridge runtime
+census, candidate artifact hashes, static-consumer deployment identities, and
+the distinct roles of the public Bridge, public demos, build sandbox,
+development/pre-production forum, and community forum.
+
+The page reports existing component version strings exactly. It does not claim
+they are already normalized. It identifies The Bridge `0.2` compatibility line
+and documents the intended future separation of product-family release,
+Bridge-contract compatibility, and component-build identity.
+
+The docs overview now describes the complete product family and links Versions
+and Live Status first. Starlight navigation exposes the page under Start and
+adds external links to the main site, live demos, The Bridge, and community
+support. The canonical-to-generated sync list and metadata ledger include the
+new page.
+
+Metadata, generated-content synchronization, attribution/protected-path
+checks, the 26-page production build, Pagefind, sitemap generation, and scoped
+diff checking passed before publication. Deployment identity is recorded below
+after the exact commit is published.

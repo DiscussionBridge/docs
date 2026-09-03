@@ -25,6 +25,7 @@ if (!checkOnly && expectedChanges.length > 0) {
 
 const docs = [
   "README.md",
+  "VERSIONS_AND_LIVE_STATUS.md",
   "HUMAN_MANUAL.md",
   "MACHINE_MANUAL.md",
   "SITE_RUNBOOK_HUMAN_TEMPLATE.md",
