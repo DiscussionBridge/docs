@@ -111,3 +111,26 @@ canonical/generated synchronization, attribution and protected-path checks,
 the 30-page build, Pagefind, sitemap and Wrangler dry run passed. Source commit
 `78b1f4a` is pushed to `origin/main` and deployed as Cloudflare Worker version
 `cddd9bd7-11bf-4e2f-b645-e8efeee93abd`.
+
+## 2026-09-03 operator wording and future-profile clarification
+
+The Alpha Operator Guide now explains why plugin installation uses two Git
+steps: clone obtains the repository, while checkout pins the exact immutable
+reviewed commit. The checkout must not be omitted or replaced with a moving
+branch. Testing instructions now use `test` rather than `exercise` throughout
+the canonical documentation set.
+
+Platform Profiles now uses sentence-case conjunctions in the Astro and
+Statamic headings and platform-native terminology: Statamic `Multi-Site` and
+WordPress `Multisite`. The future-profile section distinguishes Statamic
+site/locale/region/section/brand variants, WordPress network/site activation
+and isolation choices, and additional trusted static deployment arrangements.
+Its feedback invitation now lists the topology, authority, direction, mode,
+authorship, hosting, lifecycle, and preservation evidence needed for a useful
+request.
+
+Metadata tests, canonical/generated synchronization, attribution and
+protected-path checks, the 30-page production build, Pagefind, sitemap,
+Wrangler dry run, and scoped diff checking passed. Source commit `54cdb15` is
+pushed to `origin/main` and deployed as Cloudflare Worker version
+`7e41e6e0-cc64-459e-87ab-62b30c29c337`.
