@@ -59,5 +59,7 @@ new page.
 
 Metadata, generated-content synchronization, attribution/protected-path
 checks, the 26-page production build, Pagefind, sitemap generation, and scoped
-diff checking passed before publication. Deployment identity is recorded below
-after the exact commit is published.
+diff checking passed before publication. Source commit
+`c08280576e55d2099cc2895861e7185b3bfd4443` is pushed to `origin/main` and
+deployed as Cloudflare Worker version
+`43f8e7d8-af9e-4bb0-9564-d8972f50c3a3`.
