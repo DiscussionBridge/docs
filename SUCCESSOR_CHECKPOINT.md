@@ -134,3 +134,23 @@ protected-path checks, the 30-page production build, Pagefind, sitemap,
 Wrangler dry run, and scoped diff checking passed. Source commit `54cdb15` is
 pushed to `origin/main` and deployed as Cloudflare Worker version
 `7e41e6e0-cc64-459e-87ab-62b30c29c337`.
+
+## 2026-09-03 Built in public census detail
+
+Versions and Live Status now contains the authoritative dated detail behind
+the product homepage's `Built in public` card. It reports physical and nonblank
+line counts plus file counts for source, tests, documentation, configuration,
+and other counted text across the six current implementation repositories.
+
+The measurement was produced by the local reusable Project Census tool from
+the exact clean package commits already named on the page. The superseded
+standalone Discourse publisher repository is excluded because publishing is
+now part of the unified Bridge plugin. Dependencies, generated browser bundles
+and site output, lockfiles, vendored code, archives, source maps, and binary
+assets are also excluded.
+
+Metadata refresh and tests, canonical/generated synchronization, attribution
+and protected-path checks, the 30-page production build, Pagefind, sitemap,
+Wrangler dry run, and scoped diff checking passed. Source commit `9598123` is
+pushed to `origin/main` and deployed as Cloudflare Worker version
+`bdfef112-26e6-4884-af76-b4849ae3d21f`.
