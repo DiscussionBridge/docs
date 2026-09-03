@@ -13,19 +13,48 @@ Discourse plugin and flagship. Platform adapters and addons connect publishing
 systems to that same Bridge contract without turning the product into a generic
 control plane.
 
+## Downloads And Release Records
+
+- [Download DiscussionBridge](https://discussionbridge.dev/download/) for the
+  current public-package status and installation path.
+- [Versions and releases on The Bridge](https://bridge.demo.discussionbridge.dev/t/discussionbridge-versions-and-live-status/62)
+  for the public release record and discussion.
+- [DiscussionBridge on GitHub](https://github.com/DiscussionBridge) for source
+  repositories as they are published.
+
+The reviewed Alpha package is still being prepared for public download. Older
+GitHub prereleases are historical candidates, not substitutes for the versions
+listed below.
+
 ## Current Product Packages
 
 The current Alpha candidate contains six implementation packages. Statamic uses
 one addon in three independently configured profiles.
 
-| Product package | Current version | Source commit | Public role |
-| --- | --- | --- | --- |
-| The Bridge — unified Discourse plugin | `0.2.0.alpha.18` | `b4698f6e4ad1b5afe04b4af8939258c8eea50b3b` | Receives platform publications, owns Content Connections and Bridge Records, presents native administration, and can publish Discourse-owned content outward. |
-| DiscussionBridge for Astro | `0.1.0-alpha.20260903.7` | `474685a3dc45613df74a85fc89c2e709e497be9b` | Astro and Astro + Starlight publishing, retrieval, and comments presentation. |
-| DiscussionBridge for Ghost | `0.1.0-alpha.38` | `3439abdab380a6e1fae0dd27161f19d4f7db3f53` | Ghost integration, hosting-layer adapter service, publishing, retrieval, and comments presentation. |
-| DiscussionBridge for Hugo | `0.1.0-alpha.17` | `a56bf9939a7e61509ca61ae26b70663c9c6066fe` | Hugo build integration, durable publication state, retrieval, and comments presentation. |
-| DiscussionBridge for Statamic | `0.1.0-alpha.25` | `c6c6a7b5da2b90feb44e574e1a5702a936671f63` | One native Statamic addon exercised separately with Flat, DB, and SSG. |
-| DiscussionBridge for WordPress | `0.1.0-alpha.17` | `c28ab205a256722eb2c5b70965c3eca6472a30c0` | Native WordPress plugin for publishing, retrieval, retry, and comments presentation. |
+| Product package | Current version | Source commit |
+| --- | --- | --- |
+| The Bridge — unified Discourse plugin | `0.2.0.alpha.18` | `b4698f6e4ad1b5afe04b4af8939258c8eea50b3b` |
+| DiscussionBridge for Astro | `0.1.0-alpha.20260903.7` | `474685a3dc45613df74a85fc89c2e709e497be9b` |
+| DiscussionBridge for Ghost | `0.1.0-alpha.38` | `3439abdab380a6e1fae0dd27161f19d4f7db3f53` |
+| DiscussionBridge for Hugo | `0.1.0-alpha.17` | `a56bf9939a7e61509ca61ae26b70663c9c6066fe` |
+| DiscussionBridge for Statamic | `0.1.0-alpha.25` | `c6c6a7b5da2b90feb44e574e1a5702a936671f63` |
+| DiscussionBridge for WordPress | `0.1.0-alpha.17` | `c28ab205a256722eb2c5b70965c3eca6472a30c0` |
+
+### Public Roles
+
+- **The Bridge** receives platform publications, owns Content Connections and
+  Bridge Records, presents native administration, and can publish
+  Discourse-owned content outward.
+- **Astro** supplies Astro and Astro + Starlight publishing, retrieval, and
+  comments presentation.
+- **Ghost** combines a native Ghost integration with a hosting-layer adapter
+  service for publishing, retrieval, and comments presentation.
+- **Hugo** supplies build integration, durable publication state, retrieval,
+  and comments presentation.
+- **Statamic** is one native addon exercised independently with Flat, DB, and
+  SSG.
+- **WordPress** is a native plugin for publishing, retrieval, retry, and
+  comments presentation.
 
 These are exact Alpha candidate versions, not floating package names. The
 adapter version strings are still independently incremented. The public
@@ -88,7 +117,9 @@ plugin files matched that artifact at verification time.
 ## Exact Candidate Artifacts
 
 These hashes identify the reviewed Alpha candidate bytes. They are verification
-identities, not download links.
+identities, not download links. Use the
+[Download page](https://discussionbridge.dev/download/) for current public
+package availability.
 
 | Package | Artifact | SHA-256 |
 | --- | --- | --- |
