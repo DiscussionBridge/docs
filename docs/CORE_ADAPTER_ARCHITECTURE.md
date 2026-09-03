@@ -83,7 +83,7 @@ the same adapter simultaneously.
 ### Tier 1 API-Only Compatibility
 
 API-only operation remains supported as a useful compatibility and self-serve
-capability. It exercises the same portable contracts and policies wherever
+capability. It uses the same portable contracts and policies wherever
 practical. It must not become a second orchestration authority or force every
 adapter to reproduce the control plane.
 

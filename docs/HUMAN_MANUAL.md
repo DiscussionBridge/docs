@@ -562,7 +562,7 @@ install that plugin. For an ordinary consumer forum, a human Discourse
 administrator installs the exact published plugin identity, rebuilds `app` for
 a standard single-container forum or only `web_only` for the official
 two-container layout, and proves that forum healthy with all DiscussionBridge
-settings still off. The final Alpha release gate separately exercises both
+settings still off. The final Alpha release gate separately tests both
 topologies on the named acceptance hosts described below. `simple` and `full`
 remain plugin-free.
 
@@ -678,7 +678,7 @@ topic first. Then test with a cache-bypassing request or clear only the relevant
 Cloudflare cache. Do not treat a confirmed sync as failed until cache state is
 ruled out.
 
-DiscussionBridge has now been exercised against the production
+DiscussionBridge has now been tested against the production
 Cloudflare-CDN-backed Discourse deployment at `forum.repealobbba.org`.
 Diagnostics/API reads, topic imports, target reconciliation and source-topic
 links, `fullInteractive` comments, signed-in replies, five live source notices,
@@ -762,7 +762,7 @@ edit-pending Code Boss review blocks Product Boss approval.
 
 The cumulative Alpha feature/function set is locked in the product checklist.
 After the lock, work belongs in Alpha only when it closes an existing promise or
-gate, fixes exercised behavior, or is approved explicitly as a scope change.
+gate, fixes tested behavior, or is approved explicitly as a scope change.
 Unchecked Alpha gates still need to be finished; the lock does not mark them
 complete.
 

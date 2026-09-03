@@ -86,7 +86,7 @@ Outcome: Discourse can host the core and operate a no-write vertical slice.
 - Do not use Discourse Core's unlisted-until-first-reply behavior as a substitute
   for forum approval; a reply is engagement, not an authorization decision.
 - Run the first vertical slice as GET-only and zero-write against newly reviewed
-  neutral fixtures that exercise the portable contracts without importing an
+  neutral fixtures that test the portable contracts without importing an
   OBBBA-specific source, cardinality, comparison, or publication assumption.
 
 Gate: Discourse Boss approves platform fit and compatibility; Code Boss
@@ -121,7 +121,7 @@ from Discourse.
   recovery.
 - Preserve source authority and no-writeback rules.
 - Add per-operation audit evidence and human-readable summaries.
-- Exercise one bounded create/update workflow before enabling batch writes.
+- Test one bounded create/update workflow before enabling batch writes.
 
 Gate: explicit Product, Code, Manual, and Bridge acceptance; recovery and
 rollback drills pass; no write is possible from an unapproved or stale plan.

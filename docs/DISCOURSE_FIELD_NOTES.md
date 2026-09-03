@@ -73,7 +73,7 @@ This is a living list of Discourse issues, feature needs, wishlist items, shortc
 ### Cloudflare-CDN-backed production forum
 
 Field confirmation on 2026-07-22 established that `forum.repealobbba.org` is
-served through Cloudflare CDN. DiscussionBridge successfully exercised
+served through Cloudflare CDN. DiscussionBridge successfully tested
 `check-discourse` and API reads, Discourse-to-Astro imports, target/topic
 reconciliation, protected source links, `fullInteractive` comments, signed-in
 reply behavior, five live source disclosures, and no-writeback safety against

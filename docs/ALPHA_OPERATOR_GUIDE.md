@@ -67,6 +67,10 @@ hooks:
           - cd discourse-discussion-bridge && git checkout <immutable-commit>
 ```
 
+The two entries have different jobs: `git clone` obtains the plugin repository,
+and `git checkout` pins the installation to the exact reviewed commit. Do not
+omit the checkout or replace the immutable commit with a moving branch name.
+
 ```bash
 cd /var/discourse
 ./launcher rebuild app
@@ -137,7 +141,7 @@ Install the exact adapter artifact for the platform. Bind it to:
 See [Platform Profiles](./PLATFORM_PROFILES.md) for each platform's native
 installation and execution boundary.
 
-## 7. Exercise The Workflow
+## 7. Test The Workflow
 
 Use newly created demo content so existing content cannot hide an identity or
 collision error.
@@ -170,7 +174,7 @@ messages.
 
 ## 8. Verify Presentation
 
-Exercise every mode the profile claims on desktop and mobile. The current
+Test every mode the profile claims on desktop and mobile. The current
 modes are defined in [Presentation Modes](./PRESENTATION_MODES.md).
 
 Check source content, headings/TOC, tables, code, links, images, Mermaid, math,
@@ -183,7 +187,7 @@ behavior.
 
 ## 9. Disable, Re-enable, Remove, And Roll Back
 
-Before relying on the connection, exercise these operations against test data:
+Before relying on the connection, test these operations against test data:
 
 - disable the connection and verify adapter requests fail closed;
 - re-enable it and verify the same identity resolves without duplication;

@@ -48,13 +48,13 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 
 - [x] Lock the cumulative Alpha feature/function set recorded by this checklist.
       After this lock, new work must close an existing promise or gate, fix
-      exercised behavior, or receive explicit approval as a scope change.
+      tested behavior, or receive explicit approval as a scope change.
 - [x] Treat this dashboard/checklist as the cumulative Alpha scope source of
       truth; new plugin or multi-target gates do not displace prior accepted
       items, and items remain until Phil explicitly removes them.
 - [x] Treat Alpha as nearly feature-complete for the declared product promise;
       include known central capabilities or narrow the promise honestly.
-- [x] Treat Beta primarily as refinement of exercised behavior: usability,
+- [x] Treat Beta primarily as refinement of tested behavior: usability,
       compatibility, reliability, performance, packaging, docs, installation,
       recovery, support, and presentation.
 - [x] Keep long-term roadmap, plugin expansion, and Layer 3 ideas outside Alpha
@@ -327,7 +327,7 @@ publish -> sync -> diagnose -> maintain -> recover -> document
 - [x] Verify live Astro and Starlight demos deploy from the canonical `astro-discussion-bridge` example source trees.
 - [ ] Include demo routes, comments modes, full-app embed settings, and forum category/tag/permission checks in the repeatable live smoke pass before Alpha and every release candidate.
 - [x] Test with Cloudflare CDN in place on Discourse. Production field evidence
-      from `forum.repealobbba.org` confirms the exercised diagnostics/API,
+      from `forum.repealobbba.org` confirms the tested diagnostics/API,
       import, reconciliation/source-link, `fullInteractive`, signed-in reply,
       source-disclosure, and no-writeback workflows work through this
       Cloudflare-CDN-backed forum. This is not a guarantee for every CDN/WAF/

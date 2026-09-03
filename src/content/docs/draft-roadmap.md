@@ -22,7 +22,7 @@ features that operators do not need.
   selected forum content through multiple platform connections.
 
 The Alpha release threshold is a working Bridge plugin, all current adapters,
-and live demos that exercise both directions and the claimed presentation
+and live demos that test both directions and the claimed presentation
 modes. Documentation, human installation/configuration testing, pre-production
 mirroring, Guided Demo Conversations, and release packaging remain separate
 gates.

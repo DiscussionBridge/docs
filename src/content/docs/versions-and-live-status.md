@@ -56,7 +56,7 @@ one addon in three independently configured profiles.
   service for publishing, retrieval, and comments presentation.
 - **Hugo** supplies build integration, durable publication state, retrieval,
   and comments presentation.
-- **Statamic** is one native addon exercised independently with Flat, DB, and
+- **Statamic** is one native addon tested independently with Flat, DB, and
   SSG.
 - **WordPress** is a native plugin for publishing, retrieval, retry, and
   comments presentation.

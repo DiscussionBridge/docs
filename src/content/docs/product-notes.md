@@ -297,7 +297,7 @@ Citizen Activist thread remained independently reachable through accessible
 Additional discussions navigation. This strengthens interaction/presentation
 evidence only; it does not expand the bounded claim.
 
-This proves the exercised same-page two-forum topology, not a general
+This proves the tested same-page two-forum topology, not a general
 many-to-many administration plane. Credential records remain protected; their
 format cleanup is a vault task, not public documentation. Dependency review is
 still required for the exact install's 10 audit findings (1 low, 1 moderate,
@@ -476,7 +476,7 @@ plane design; they must not become a Tier 1 plugin dependency.
 
 `forum.repealobbba.org` is served through Cloudflare CDN. The completed OBBBA
 work therefore proves DiscussionBridge compatibility with this production
-CDN-backed Discourse deployment across the workflows actually exercised:
+CDN-backed Discourse deployment across the workflows actually tested:
 diagnostics/API reads, imports, topic reconciliation and protected source links,
 `fullInteractive` comments and signed-in replies, source disclosure, and
 no-writeback behavior.
@@ -660,7 +660,7 @@ writes and performed no live deployment.
 
 The cumulative Alpha feature/function set in the build/launch checklist is now
 locked. New work after the lock must close a recorded promise or release gate,
-fix behavior exercised by implementation or users, or be approved explicitly as
+fix behavior tested by implementation or users, or be approved explicitly as
 a scope change. Remaining unchecked work is the proof, operations,
 documentation, compatibility, and release work required to finish the locked
 promise.
@@ -671,7 +671,7 @@ removed from that promise; planned deferral of known product pillars is not the
 default Beta strategy. This does not pull every long-term, plugin, or Layer 3
 idea into Alpha.
 
-Beta primarily refines what real users exercise: usability, compatibility,
+Beta primarily refines what real users test: usability, compatibility,
 reliability, performance, packaging, documentation, installation, recovery,
 support, and presentation. User evidence may still reveal a genuinely missing
 capability during Beta, but Beta is not the planned home for central pillars we
@@ -997,7 +997,7 @@ semantic review, attribution/licensing review, or release approval.
 
 ### After Alpha
 
-Beta primarily refines exercised usability, compatibility, reliability,
+Beta primarily refines tested usability, compatibility, reliability,
 performance, packaging, installation, recovery, support, documentation, and
 presentation. The plugin v0.1 Alpha slice remains intentionally bounded, but
 the settled product architecture now places the portable core and natural

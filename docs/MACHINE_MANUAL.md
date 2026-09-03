@@ -993,7 +993,7 @@ verified_at: 2026-07-22
 forum: https://forum.repealobbba.org
 forum_edge: Cloudflare_CDN
 status: PASS_for_exercised_production_workflows
-exercised:
+tested:
   - check_discourse_and_API_reads
   - Discourse_topic_imports_to_Astro
   - target_topic_reconciliation

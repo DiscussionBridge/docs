@@ -9,7 +9,7 @@ This page describes what is installed for each current Alpha profile. It is a
 product-boundary guide, not a substitute for the exact package README or a
 site-specific rollback runbook.
 
-## Astro And Astro + Starlight
+## Astro and Astro + Starlight
 
 **Product:** DiscussionBridge for Astro, one package used by plain Astro and
 Astro + Starlight.
@@ -64,7 +64,7 @@ presentation. Native From Discourse materialization requires explicit authority
 and writes an ordinary Hugo content record without placing a receiver secret
 in source or output.
 
-## Statamic Flat And Statamic DB
+## Statamic Flat and Statamic DB
 
 **Product:** DiscussionBridge for Statamic, one native Composer addon installed
 independently in both profiles.
@@ -134,9 +134,29 @@ mode, retry history, and platform-native page.
 
 ## Not Yet Current Profiles
 
-Hugo is included in the current Alpha. Advanced profiles such as Statamic
-Multi-Site, WordPress Multisite, and additional SSG arrangements remain future
-work. Drupal/Drupal CMS and Next.js are candidate adapters, not current product
+Hugo is included in the current Alpha. These additional profiles remain future
+work:
+
+- **Statamic Multi-Site** — determine whether each Statamic site, locale,
+  region, section, or brand needs its own Content Connection and author policy,
+  and how shared entries retain distinct canonical identities. Statamic's
+  Multi-Site feature is intended for variations or sections of one site, not
+  unrelated multi-tenant estates.
+- **WordPress Multisite** — determine network activation versus per-site
+  activation, per-site connection and credential isolation, canonical identity
+  across domain- or path-based sites, and network-admin responsibilities.
+- **Additional static deployment profiles** — establish how a trusted build,
+  preview environment, scheduled regeneration, cache refresh, and rollback work
+  for the operator's actual Astro, Hugo, or Statamic SSG pipeline.
+
+Drupal/Drupal CMS and Next.js are candidate adapters, not current product
 claims. Cross-forum DiscussionBridge Network concepts, comment migration, and
 identity/login capabilities are separate future products or capability lanes;
 they are not hidden switches in The Bridge.
+
+When proposing one of these profiles, include the platform and version, site
+topology, authoritative content source, desired To/From direction, presentation
+modes, user/author model, hosting constraints, build or publishing lifecycle,
+and the specific outcome DiscussionBridge should preserve. Share that evidence
+through [Support And Feedback](/support-and-feedback/) or the
+[DiscussionBridge community forum](https://forum.discussionbridge.dev/).

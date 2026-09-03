@@ -150,7 +150,7 @@ publishing work but may receive `403 Forbidden` from site-level endpoints used
 by `check-discourse`. One granular key therefore cannot currently provide every
 publishing and setup-diagnostics capability that DiscussionBridge needs.
 
-With the exercised granular key configuration, the publishing key could read
+With the tested granular key configuration, the publishing key could read
 `/categories.json` and `/tags.json`, but could not read all of:
 
 - `/site/settings.json`
