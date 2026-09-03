@@ -96,3 +96,18 @@ linked from the overview/sidebar, and free of page-level horizontal overflow.
 Source commit `ac97db7d7b229e801a1211b7ccf71cd51e769768` is pushed to
 `origin/main`. The deployed Cloudflare Worker version is
 `41ac8a26-709b-462a-ae28-facaf7538fdb`.
+
+## 2026-09-03 release routing and package-role readability
+
+Versions and Live Status now opens with direct routes to the product Download
+page, the public Releases topic on The Bridge and the GitHub organization. It
+states that the reviewed Alpha package is not yet a public download and that
+older prereleases are historical candidates.
+
+The cramped four-column package table was split into a compact identity table
+and a separately readable Public Roles list. Candidate hashes remain explicitly
+verification identities rather than download links. Metadata refresh and tests,
+canonical/generated synchronization, attribution and protected-path checks,
+the 30-page build, Pagefind, sitemap and Wrangler dry run passed. Source commit
+`78b1f4a` is pushed to `origin/main` and deployed as Cloudflare Worker version
+`cddd9bd7-11bf-4e2f-b645-e8efeee93abd`.
