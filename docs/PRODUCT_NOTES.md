@@ -1,5 +1,11 @@
 # Product Notes
 
+> **Cumulative product history.** Some statements below describe earlier Astro
+> and migration phases rather than current behavior. Use the
+> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md),
+> [Platform Profiles](./PLATFORM_PROFILES.md), and
+> [Draft Roadmap](./DRAFT_ROADMAP.md) for the current public model.
+
 ## Mission
 
 > Between people and institutions.

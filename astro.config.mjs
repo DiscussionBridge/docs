@@ -55,14 +55,16 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "index" },
             { label: "Versions & Live Status", slug: "versions-and-live-status" },
-            { label: "Alpha Setup", slug: "alpha-setup" },
+            { label: "Alpha Operator Guide", slug: "alpha-operator-guide" },
+            { label: "Platform Profiles", slug: "platform-profiles" },
+            { label: "Presentation Modes", slug: "presentation-modes" },
             { label: "Key Management", slug: "key-management" },
             { label: "Support And Feedback", slug: "support-and-feedback" },
             { label: "Known Issues", slug: "known-issues" },
           ],
         },
         {
-          label: "Using The Bridge",
+          label: "Astro Deep Reference",
           items: [
             { label: "Comments Display", slug: "comments-display" },
             { label: "Content Lanes", slug: "content-lanes" },
@@ -74,6 +76,7 @@ export default defineConfig({
         {
           label: "Project",
           items: [
+            { label: "Draft Roadmap", slug: "draft-roadmap" },
             { label: "Attribution, Ownership, And Licensing", slug: "attribution-ownership-license" },
             { label: "Build/Launch Checklists", slug: "build-launch-checklists" },
             { label: "Core/Adapter Architecture", slug: "core-adapter-architecture" },

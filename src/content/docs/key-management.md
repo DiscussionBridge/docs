@@ -1,11 +1,33 @@
 ---
 title: "Key Management Guide"
-lastUpdated: 2026-08-22
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/KEY_MANAGEMENT.md"
 ---
 
-DiscussionBridge uses Discourse API keys to publish, sync, diagnose, and recover companion topics. Treat keys as operational credentials.
+## Current Alpha Credential Model
+
+Current platform adapters authenticate to The Bridge with one connection-scoped
+ID and one secret created under **Plugins → DiscussionBridge → Connections**:
+
+```text
+X-DiscussionBridge-Connection: dbc_...
+X-DiscussionBridge-Secret: ...
+```
+
+The secret is shown once and belongs in the adapter's protected server-side
+secret file or deployment secret store. It must not enter browser JavaScript,
+platform content, public environment variables, URLs, logs, support reports, or
+Git. Rotate it from the selected connection and update only that adapter. Test
+that the old secret is denied before closing rotation.
+
+The Discourse API-key material below documents the earlier Astro API-only and
+diagnostic path. It is not the ordinary credential for current Bridge Records,
+Content Connections, publishing, retrieval, or comments presentation. Keep any
+broader Discourse administrator/recovery key separate from adapter credentials.
+
+Historical API-only tooling uses Discourse API keys to publish, sync, diagnose,
+and recover companion topics. Treat those keys as operational credentials.
 
 ## Key Roles
 

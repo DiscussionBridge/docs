@@ -1,9 +1,15 @@
 ---
 title: "Product Build/Launch Checklists"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/BUILD_LAUNCH_CHECKLISTS.md"
 ---
+
+> **Cumulative historical dashboard.** Completed and superseded checkpoints are
+> retained below for provenance. Current package/deployment identities and the
+> active Alpha acceptance boundary are in
+> [Versions And Live Status](/versions-and-live-status/); current operator
+> steps are in [Alpha Operator Guide](/alpha-operator-guide/).
 
 Use these checklists as the product dashboard for DiscussionBridge for Astro. They are organized around the operating loop:
 

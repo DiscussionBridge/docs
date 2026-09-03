@@ -26,6 +26,10 @@ if (!checkOnly && expectedChanges.length > 0) {
 const docs = [
   "README.md",
   "VERSIONS_AND_LIVE_STATUS.md",
+  "ALPHA_OPERATOR_GUIDE.md",
+  "PLATFORM_PROFILES.md",
+  "PRESENTATION_MODES.md",
+  "DRAFT_ROADMAP.md",
   "HUMAN_MANUAL.md",
   "MACHINE_MANUAL.md",
   "SITE_RUNBOOK_HUMAN_TEMPLATE.md",

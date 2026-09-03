@@ -1,5 +1,9 @@
 # Presets And Placement
 
+> This page is an Astro placement reference. For the current product-family
+> boundary and all platform profiles, start with
+> [Platform Profiles](./PLATFORM_PROFILES.md).
+
 DiscussionBridge for Astro has one package and two primary preset stories:
 
 ```js

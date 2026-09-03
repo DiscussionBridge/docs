@@ -1,5 +1,11 @@
 # DiscussionBridge for Astro Human Manual
 
+> **Historical Astro deep reference.** This manual preserves the earlier Astro
+> operating model and provenance. It is not the current multi-platform setup
+> sequence. Start with the [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md),
+> [Platform Profiles](./PLATFORM_PROFILES.md), and
+> [Presentation Modes](./PRESENTATION_MODES.md).
+
 This manual is the operator-facing path for connecting Astro pages to Discourse.
 It explains the decisions, safe sequence, expected results, and points where an
 operator should stop. Use the [Machine Manual](./MACHINE_MANUAL.md) beside it

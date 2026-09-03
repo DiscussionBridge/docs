@@ -4,6 +4,28 @@ This page records confirmed issues that operators may encounter while using or
 building DiscussionBridge sites. It distinguishes product defects from
 upstream framework behavior and keeps workarounds bounded.
 
+## Current Alpha Review Follow-Ups
+
+The Alpha.18 source/artifact candidate completed product-family review without
+P0 or P1 findings. Four nonblocking P2 follow-ups remain:
+
+1. A signed receiver feed snapshot binds record/binding identity and timestamps
+   but not every mutable first-post field or a stable whole-post revision, so a
+   multi-page read can mix revisions.
+2. Snapshot validation currently performs two full scoped-population scans per
+   page, which adds avoidable cost as a connection grows.
+3. Astro, Hugo, Statamic and WordPress materialize page-by-page before the full
+   feed census is validated. A late-page rejection can leave earlier
+   identity-bound, idempotent materializations in place. Ghost validates the
+   whole candidate population first.
+4. Durable evidence must name the monitored upstream Statamic CMS advisory,
+   affected/fixed ranges, applicability to Flat/DB/SSG, mitigation, and
+   upgrade/retest trigger.
+
+These are current evidence and implementation follow-ups, not claims that the
+live demos are unavailable. Any correction changes the candidate identity and
+requires proportionate impact assessment before release.
+
 ## Astro
 
 ### Starlight

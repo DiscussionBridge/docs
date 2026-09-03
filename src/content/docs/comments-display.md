@@ -1,9 +1,14 @@
 ---
 title: "Comments Display Guide"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/COMMENTS_DISPLAY.md"
 ---
+
+> **Earlier Astro-specific detail.** The current cross-platform behavior,
+> branding, live Simple refresh, bounded Full/fullInteractive frames, rich
+> content and From Discourse rules are in
+> [Presentation Modes](/presentation-modes/).
 
 DiscussionBridge supports three comments display modes for Astro pages connected to Discourse topics:
 

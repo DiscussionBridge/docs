@@ -1,5 +1,11 @@
 # Demo Plan
 
+> **Historical Astro-first demo record.** The current public chooser and live
+> eight-profile matrix are listed in
+> [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md). Preserve the dated
+> evidence below, but do not use old sandbox/community hostnames as current
+> configuration.
+
 ## Goal
 
 Develop in public with a visible path from local preview to a live Cloudflare demo backed by a real Discourse sandbox. DiscussionBridge is Discourse-first; the Astro demo should prove an excellent Discourse integration across Astro, Starlight, and deployment targets.

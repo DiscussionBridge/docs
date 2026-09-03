@@ -1,5 +1,10 @@
 # Comments Display Guide
 
+> **Earlier Astro-specific detail.** The current cross-platform behavior,
+> branding, live Simple refresh, bounded Full/fullInteractive frames, rich
+> content and From Discourse rules are in
+> [Presentation Modes](./PRESENTATION_MODES.md).
+
 DiscussionBridge supports three comments display modes for Astro pages connected to Discourse topics:
 
 - `simple`

@@ -1,9 +1,14 @@
 ---
 title: "DiscussionBridge Core/Adapter Implementation Roadmap"
-lastUpdated: 2026-07-31
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CORE_ADAPTER_IMPLEMENTATION_ROADMAP.md"
 ---
+
+> **Historical implementation roadmap.** The multi-platform Alpha described as
+> future work here now exists. Current and proposed work is summarized in the
+> [Draft Roadmap](/draft-roadmap/); this document remains as decision and
+> migration provenance.
 
 Status: Current Product roadmap; every discrete implementation step requires separate approval
 Architecture: [`CORE_ADAPTER_ARCHITECTURE.md`](/core-adapter-architecture/)  

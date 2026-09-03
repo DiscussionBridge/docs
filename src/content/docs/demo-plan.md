@@ -1,9 +1,15 @@
 ---
 title: "Demo Plan"
-lastUpdated: 2026-08-22
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/DEMO_PLAN.md"
 ---
+
+> **Historical Astro-first demo record.** The current public chooser and live
+> eight-profile matrix are listed in
+> [Versions And Live Status](/versions-and-live-status/). Preserve the dated
+> evidence below, but do not use old sandbox/community hostnames as current
+> configuration.
 
 ## Goal
 

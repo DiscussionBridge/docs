@@ -1,5 +1,10 @@
 # DiscussionBridge Core/Adapter Implementation Roadmap
 
+> **Historical implementation roadmap.** The multi-platform Alpha described as
+> future work here now exists. Current and proposed work is summarized in the
+> [Draft Roadmap](./DRAFT_ROADMAP.md); this document remains as decision and
+> migration provenance.
+
 Status: Current Product roadmap; every discrete implementation step requires separate approval
 Architecture: [`CORE_ADAPTER_ARCHITECTURE.md`](./CORE_ADAPTER_ARCHITECTURE.md)  
 Source decision: [`DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md`](./evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md)

@@ -1,5 +1,10 @@
 # DiscussionBridge for Astro Machine Manual
 
+> **Historical Astro implementation reference.** Do not use this page as a
+> current package-family install contract. Use the
+> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md), then the exact README and
+> immutable artifact for the selected platform profile.
+
 This is the exact, reusable implementation memory for DiscussionBridge for
 Astro. Use it with the [Human Manual](./HUMAN_MANUAL.md) to generate a
 site-specific runbook. It may name variables, paths, endpoints, and scopes; it

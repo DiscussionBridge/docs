@@ -1,9 +1,13 @@
 ---
 title: "Presets And Placement"
-lastUpdated: 2026-07-27
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/PRESETS_AND_PLACEMENT.md"
 ---
+
+> This page is an Astro placement reference. For the current product-family
+> boundary and all platform profiles, start with
+> [Platform Profiles](/platform-profiles/).
 
 DiscussionBridge for Astro has one package and two primary preset stories:
 

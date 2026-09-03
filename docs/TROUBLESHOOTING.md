@@ -1,5 +1,27 @@
 # Troubleshooting Guide
 
+> This page contains detailed Astro CLI diagnostics from the earlier product
+> phase. Apply them only to the Astro adapter. For initial cross-platform
+> diagnosis, follow the ordered checks below and the current
+> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md).
+
+## Current Cross-Platform First Checks
+
+1. Record the exact Bridge, adapter and deployed component versions from
+   [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md).
+2. Verify The Bridge, the platform page, and the direct topic independently.
+3. Confirm the exact Content Connection is enabled and permits the direction,
+   origin and lane in use.
+4. Confirm the adapter can read its protected secret file without printing it.
+5. Inspect native adapter state/queue output and The Bridge reconciliation.
+6. Retry the same stable identity; never create a replacement merely because a
+   response or local completion record is missing.
+7. Separate content, presentation, session/CORS, and deployment-cache failures.
+8. Preserve logs and rollback evidence before changing configuration.
+
+Report the platform, mode, direction, sanitized error, page URL, direct topic
+URL, versions and timestamps. Never include credentials.
+
 Start with the CLI or build output. It is the source of truth for publish and sync runs. Discourse notifications are useful, but they can fail when credentials, network access, or forum permissions are broken.
 
 ## First Checks

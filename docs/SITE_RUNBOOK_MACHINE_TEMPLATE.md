@@ -1,5 +1,10 @@
 # DiscussionBridge Site Machine Runbook: {Site Name}
 
+> **Astro-era machine template.** It is not a generic copy/paste installer.
+> Reconcile every field with the current exact package README, immutable
+> artifact, [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md), and
+> [Platform Profiles](./PLATFORM_PROFILES.md).
+
 Status: `{draft | review | approved | current}`  
 Environment: `{development | staging | production}`  
 Release/version: `{package version or release candidate}`  

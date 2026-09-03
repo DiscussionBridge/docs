@@ -1,9 +1,14 @@
 ---
 title: "Alpha Setup Guide"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_SETUP.md"
 ---
+
+> **Superseded Astro-only setup path.** The current Alpha includes The Bridge
+> plus Astro, Ghost, Hugo, Statamic and WordPress products. Follow the
+> [Alpha Operator Guide](/alpha-operator-guide/). This page remains available
+> only for historical Astro/API-only detail.
 
 Use this guide to connect an Astro or Starlight site to one Discourse forum with the Tier 1 API-only bridge.
 

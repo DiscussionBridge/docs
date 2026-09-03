@@ -1,9 +1,14 @@
 ---
 title: "DiscussionBridge Site Machine Runbook: {Site Name}"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md"
 ---
+
+> **Astro-era machine template.** It is not a generic copy/paste installer.
+> Reconcile every field with the current exact package README, immutable
+> artifact, [Alpha Operator Guide](/alpha-operator-guide/), and
+> [Platform Profiles](/platform-profiles/).
 
 Status: `{draft | review | approved | current}`  
 Environment: `{development | staging | production}`  

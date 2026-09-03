@@ -1,5 +1,11 @@
 # Product Build/Launch Checklists
 
+> **Cumulative historical dashboard.** Completed and superseded checkpoints are
+> retained below for provenance. Current package/deployment identities and the
+> active Alpha acceptance boundary are in
+> [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md); current operator
+> steps are in [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md).
+
 Use these checklists as the product dashboard for DiscussionBridge for Astro. They are organized around the operating loop:
 
 publish -> sync -> diagnose -> maintain -> recover -> document

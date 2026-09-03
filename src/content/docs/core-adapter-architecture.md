@@ -1,14 +1,20 @@
 ---
 title: "DiscussionBridge Core/Adapter Architecture"
-lastUpdated: 2026-07-27
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CORE_ADAPTER_ARCHITECTURE.md"
 ---
 
 Status: Authoritative product architecture  
 Decision date: 2026-07-25  
-Implementation status: Migration in progress; this document does not claim the
-current Astro implementation has already been separated
+Implementation status: The Bridge and six adapter packages now implement the
+Alpha family across eight live profiles. Later portability and standalone-host
+work remains roadmap scope.
+
+> This document preserves the architectural decision and some earlier migration
+> framing. Use [Platform Profiles](/platform-profiles/) and
+> [Versions And Live Status](/versions-and-live-status/) for current
+> implementation claims.
 
 ## Canonical Definition
 

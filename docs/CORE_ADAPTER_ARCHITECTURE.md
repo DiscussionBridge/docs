@@ -2,8 +2,14 @@
 
 Status: Authoritative product architecture  
 Decision date: 2026-07-25  
-Implementation status: Migration in progress; this document does not claim the
-current Astro implementation has already been separated
+Implementation status: The Bridge and six adapter packages now implement the
+Alpha family across eight live profiles. Later portability and standalone-host
+work remains roadmap scope.
+
+> This document preserves the architectural decision and some earlier migration
+> framing. Use [Platform Profiles](./PLATFORM_PROFILES.md) and
+> [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md) for current
+> implementation claims.
 
 ## Canonical Definition
 

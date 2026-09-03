@@ -1,5 +1,10 @@
 # Alpha Setup Guide
 
+> **Superseded Astro-only setup path.** The current Alpha includes The Bridge
+> plus Astro, Ghost, Hugo, Statamic and WordPress products. Follow the
+> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md). This page remains available
+> only for historical Astro/API-only detail.
+
 Use this guide to connect an Astro or Starlight site to one Discourse forum with the Tier 1 API-only bridge.
 
 ## 1. Confirm the Discourse Target

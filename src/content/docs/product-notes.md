@@ -1,9 +1,15 @@
 ---
 title: "Product Notes"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/PRODUCT_NOTES.md"
 ---
+
+> **Cumulative product history.** Some statements below describe earlier Astro
+> and migration phases rather than current behavior. Use the
+> [Alpha Operator Guide](/alpha-operator-guide/),
+> [Platform Profiles](/platform-profiles/), and
+> [Draft Roadmap](/draft-roadmap/) for the current public model.
 
 ## Mission
 

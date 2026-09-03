@@ -7,7 +7,11 @@ as a publishing source across those platforms.
 
 Start with the [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md) page
 for the exact packages, live profiles, demo destinations, and current acceptance
-boundary. Explore the working product at the
+boundary. Follow the [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md) for the
+current end-to-end install/configure/exercise/rollback sequence, use
+[Platform Profiles](./PLATFORM_PROFILES.md) for each adapter's real execution
+boundary, and compare the three choices in
+[Presentation Modes](./PRESENTATION_MODES.md). Explore the working product at the
 [Demo chooser](https://demo.discussionbridge.dev/) or open
 [The Bridge](https://bridge.demo.discussionbridge.dev/).
 
@@ -30,6 +34,10 @@ Keep commercial strategy, pricing, services positioning, and private brand plann
 ## Current Docs
 
 - [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md) - exact package versions, source identities, live profiles, and environment roles.
+- [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md) - current product-family installation, configuration, exercise, disable/re-enable, removal, and rollback sequence.
+- [Platform Profiles](./PLATFORM_PROFILES.md) - Astro, Ghost, Hugo, Statamic Flat/DB/SSG, WordPress, and Discourse-as-Publisher boundaries.
+- [Presentation Modes](./PRESENTATION_MODES.md) - Simple, Full, fullInteractive, rich content, branding, authorship, and navigation.
+- [Draft Roadmap](./DRAFT_ROADMAP.md) - advanced profiles, candidate adapters, migration, identity, network, deployment, themes, and demo conversations.
 - [Human Manual](./HUMAN_MANUAL.md) - operator journey, safety decisions, and verification.
 - [Machine Manual](./MACHINE_MANUAL.md) - exact reusable commands, fields, scopes, and runbook inputs.
 - [Site Human Runbook Template](./SITE_RUNBOOK_HUMAN_TEMPLATE.md) - client/operator-specific readable runbook.

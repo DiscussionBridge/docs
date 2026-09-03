@@ -1,9 +1,15 @@
 ---
 title: "DiscussionBridge for Astro Human Manual"
-lastUpdated: 2026-08-23
+lastUpdated: 2026-09-03
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/HUMAN_MANUAL.md"
 ---
+
+> **Historical Astro deep reference.** This manual preserves the earlier Astro
+> operating model and provenance. It is not the current multi-platform setup
+> sequence. Start with the [Alpha Operator Guide](/alpha-operator-guide/),
+> [Platform Profiles](/platform-profiles/), and
+> [Presentation Modes](/presentation-modes/).
 
 This manual is the operator-facing path for connecting Astro pages to Discourse.
 It explains the decisions, safe sequence, expected results, and points where an

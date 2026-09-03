@@ -1,5 +1,11 @@
 # Content Lanes Guide
 
+> **Historical architecture and field record.** Content Connections and Bridge
+> Records now implement the shared multi-platform boundary. Begin with the
+> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and
+> [Platform Profiles](./PLATFORM_PROFILES.md); use this page for provenance and
+> earlier Astro lane detail only.
+
 Public Alpha consumers receive lane behavior from the exact package tarball
 attached to an accepted GitHub prerelease. They must verify the release-record
 SHA-256, install that same local file with `--save-exact`, and confirm the
