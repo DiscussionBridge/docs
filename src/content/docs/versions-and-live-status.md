@@ -66,6 +66,28 @@ adapter version strings are still independently incremented. The public
 compatibility statement is therefore **compatible with The Bridge 0.2**, not an
 invented claim that every package already shares one identical version string.
 
+## Built in Public
+
+**Last measured:** September 3, 2026
+
+Project Census measured the six current implementation repositories from their
+exact Git-tracked files. The separate categories keep generated or packaged
+output from being presented as work written by the product team.
+
+| Category | Files | Physical lines | Nonblank lines |
+| --- | ---: | ---: | ---: |
+| First-party product source | 157 | 15,073 | 13,554 |
+| Tests | 49 | 6,877 | 6,168 |
+| Product documentation | 28 | 2,455 | 1,984 |
+| Configuration | 15 | 589 | 584 |
+| Other counted text | 20 | 222 | 203 |
+
+The census excludes dependencies, generated browser bundles and site output,
+lockfiles, vendored code, archives, source maps, and binary assets. It records
+the exact repository commits and refuses to create a release census from a
+dirty package. The source commits in the package table above are the identities
+used for this measurement.
+
 ## Versioning Convention
 
 DiscussionBridge needs to communicate three different identities:
