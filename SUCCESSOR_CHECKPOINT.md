@@ -154,3 +154,15 @@ and protected-path checks, the 30-page production build, Pagefind, sitemap,
 Wrangler dry run, and scoped diff checking passed. Source commit `9598123` is
 pushed to `origin/main` and deployed as Cloudflare Worker version
 `bdfef112-26e6-4884-af76-b4849ae3d21f`.
+
+## 2026-09-04 installation-guide title clarification
+
+The primary guide is now titled **Alpha Installation and Operator Guide** in
+its canonical source, synchronized Starlight content, documentation references,
+overview and sidebar. Its stable route remains `/alpha-operator-guide/` so
+existing links and bookmarks do not break.
+
+Metadata tests, canonical/generated synchronization, attribution and protected-
+path checks, the 30-page production build, Pagefind, sitemap and scoped diff
+checking passed. Source commit `38ae830` is pushed to `origin/main` and deployed
+as Cloudflare Worker version `8ab75579-4253-467f-89ed-1dc2471a544a`.
