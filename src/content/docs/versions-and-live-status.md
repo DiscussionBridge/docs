@@ -30,18 +30,20 @@ control plane.
 
 The current source baseline is public. An ordinary clone of a repository's
 `main` branch obtains its current Alpha source. The shared
-`v0.2.0-alpha.18` tag identifies this coordinated publication across all six
-repositories; exact commits remain evidence identities, not extra operator
-installation steps. Packaged release assets remain a separate release action.
+`v0.2.0-alpha.18` tag identifies the coordinated publication across all six
+repositories. Each `main` branch is the current public source and may include
+subsequent non-release maintenance; exact commits remain evidence identities,
+not extra operator installation steps. Packaged release assets remain a
+separate release action.
 
 ## Current Product Packages
 
 The current public Alpha baseline contains six implementation packages. Statamic uses
 one addon in three independently configured profiles.
 
-| Product package | Component version | Public repository | Public main/tag commit |
+| Product package | Component version | Public repository | Current public `main` |
 | --- | --- | --- | --- |
-| The Bridge — unified Discourse plugin | `0.2.0.alpha.18` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `35af8cea1c172cee7d8ab334f72ef9635a1af4ba` |
+| The Bridge — unified Discourse plugin | `0.2.0.alpha.18` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `31bc1775d757d6797cfe0a083717a31e2187e1f8` |
 | DiscussionBridge for Astro | `0.1.0-alpha.20260903.7` | [GitHub](https://github.com/DiscussionBridge/astro-discussion-bridge) | `faa528025e6ab67d0a91cab0533eea0e61da76ff` |
 | DiscussionBridge for Ghost | `0.1.0-alpha.38` | [GitHub](https://github.com/DiscussionBridge/ghost-discussion-bridge) | `e696db825f9293ae5b55e79d0cf41af9fecd2e4e` |
 | DiscussionBridge for Hugo | `0.1.0-alpha.17` | [GitHub](https://github.com/DiscussionBridge/hugo-discussion-bridge) | `956339537f681d3ba0e144e3c51c5f26915b9958` |
