@@ -166,3 +166,23 @@ Metadata tests, canonical/generated synchronization, attribution and protected-
 path checks, the 30-page production build, Pagefind, sitemap and scoped diff
 checking passed. Source commit `38ae830` is pushed to `origin/main` and deployed
 as Cloudflare Worker version `8ab75579-4253-467f-89ed-1dc2471a544a`.
+
+## 2026-09-04 public source distribution baseline
+
+The documentation now records **DiscussionBridge 0.2.0-alpha.18** as the
+coordinated public source baseline. Versions and Live Status links all six
+public product repositories and records their exact public `main` / shared-tag
+commits. It distinguishes cloneable source from packaged GitHub release assets,
+which remain a separate release action.
+
+The Alpha Installation and Operator Guide now uses the single ordinary
+Discourse plugin installation entry requested by Phil:
+`git clone https://github.com/DiscussionBridge/discourse-discussion-bridge.git`.
+Exact tag and commit identities remain visible evidence, not a second operator
+command. The guide and Platform Profiles link each public adapter/addon
+repository directly.
+
+Metadata refresh and tests, canonical/generated synchronization, attribution
+and protected-path checks, the 30-page production build, and scoped diff
+checking passed. Source commit `f68fe13` is pushed to `origin/main` and deployed
+as Cloudflare Worker version `f90867af-e06e-4c3a-8560-2c6e1421bf03`.
