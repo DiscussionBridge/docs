@@ -58,8 +58,8 @@ the runbook.
 
 ## 3. Install The Bridge
 
-Install the exact immutable plugin commit in the intended Discourse container.
-For the standard `app` layout, add the pinned repository to `app.yml` and
+Install The Bridge from its public GitHub repository in the intended Discourse
+container. For the standard `app` layout, add the repository to `app.yml` and
 rebuild only that container:
 
 ```yaml
@@ -69,12 +69,12 @@ hooks:
         cd: $home/plugins
         cmd:
           - git clone https://github.com/DiscussionBridge/discourse-discussion-bridge.git
-          - cd discourse-discussion-bridge && git checkout <immutable-commit>
 ```
 
-The two entries have different jobs: `git clone` obtains the plugin repository,
-and `git checkout` pins the installation to the exact reviewed commit. Do not
-omit the checkout or replace the immutable commit with a moving branch name.
+That single ordinary clone is the operator installation entry. The current
+family tag and exact commit are recorded on
+[Versions And Live Status](/versions-and-live-status/) for evidence and
+support; they are not a second command the operator must add to `app.yml`.
 
 ```bash
 cd /var/discourse
@@ -133,7 +133,16 @@ not silently rewrite prior ownership.
 
 ## 6. Install And Bind The Platform Adapter
 
-Install the exact adapter artifact for the platform. Bind it to:
+Obtain the appropriate adapter or addon from its public repository, follow that
+component's installation instructions, and bind it to:
+
+- [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
+- [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge)
+- [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge)
+- [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge)
+- [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
+
+Configure the installed component with:
 
 - The Bridge HTTPS origin;
 - the `dbc_…` connection ID;

@@ -4,19 +4,19 @@
   "pages": {
     "README.md": {
       "lastUpdated": "2026-09-04",
-      "sourceSha256": "0c03a6344a7cf75e71142daef457334b05d163dbe06514a95768f8812fae96dd"
+      "sourceSha256": "006ba71bcd59e9bc285b644786f8d1441426d565432d4e7b071e015c96855bb2"
     },
     "VERSIONS_AND_LIVE_STATUS.md": {
-      "lastUpdated": "2026-09-03",
-      "sourceSha256": "1725f01eeed174d5a31a4007bb715d308c29456c3ac1be06d795ba26339180ec"
+      "lastUpdated": "2026-09-04",
+      "sourceSha256": "23998907466f5729658826d4d838633d2b279fbd1d29449cd4c34fc66193a869"
     },
     "ALPHA_OPERATOR_GUIDE.md": {
       "lastUpdated": "2026-09-04",
-      "sourceSha256": "ee29571b133fbc116d4a0efe8d75bb839e40807c37063bc67da4dd8defea6f14"
+      "sourceSha256": "5a372614ea6849b355fe31c6030abceca3febc0825b5c7dd1457e92d98050b11"
     },
     "PLATFORM_PROFILES.md": {
-      "lastUpdated": "2026-09-03",
-      "sourceSha256": "9cc92bd23c1b48b39ab6d4de455178ebe0f18fdc7bf8b73aeeb846ec64d26707"
+      "lastUpdated": "2026-09-04",
+      "sourceSha256": "e97fe89a5b014d496881421cfdcfbe3911c706228cdb50837b7812573fb5145b"
     },
     "PRESENTATION_MODES.md": {
       "lastUpdated": "2026-09-03",

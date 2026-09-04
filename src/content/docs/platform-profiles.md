@@ -1,6 +1,6 @@
 ---
 title: "Platform Profiles"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/PLATFORM_PROFILES.md"
 ---
@@ -12,7 +12,7 @@ site-specific rollback runbook.
 ## Astro and Astro + Starlight
 
 **Product:** DiscussionBridge for Astro, one package used by plain Astro and
-Astro + Starlight.
+Astro + Starlight. [Source and installation](https://github.com/DiscussionBridge/astro-discussion-bridge).
 
 The package supports publishing to The Bridge, retrieving authorized From
 Discourse records, and Simple, Full, and fullInteractive presentation. An
@@ -34,6 +34,7 @@ an operator later adds The Bridge.
 
 **Product:** DiscussionBridge for Ghost, consisting of a native Ghost custom
 integration plus a small hosting-layer adapter service.
+[Source and installation](https://github.com/DiscussionBridge/ghost-discussion-bridge).
 
 Ghost Admin creates the integration and signed `post.published` webhook. The
 adapter service verifies Ghost's HMAC, runs under a dedicated OS identity,
@@ -51,6 +52,7 @@ routes, and theme integration.
 ## Hugo
 
 **Product:** DiscussionBridge for Hugo, a trusted-build adapter.
+[Source and installation](https://github.com/DiscussionBridge/hugo-discussion-bridge).
 
 Hugo emits a deterministic manifest. The adapter validates the complete corpus,
 resolves authorized publications, retrieves selected From Discourse records,
@@ -68,6 +70,7 @@ in source or output.
 
 **Product:** DiscussionBridge for Statamic, one native Composer addon installed
 independently in both profiles.
+[Source and installation](https://github.com/DiscussionBridge/statamic-discussion-bridge).
 
 The addon adds opt-in/presentation fields, durable delivery state, bounded
 worker and reconciliation commands, native tags, source-author reporting, all
@@ -104,6 +107,7 @@ recovery and evidence boundaries.
 ## WordPress
 
 **Product:** DiscussionBridge for WordPress, a native WordPress plugin.
+[Source and installation](https://github.com/DiscussionBridge/wordpress-discussion-bridge).
 
 The plugin has native settings, publishing opt-in, durable post metadata,
 status/retry controls, a dynamic From Discourse block and compatibility
@@ -120,6 +124,7 @@ independently enforced coexistence rule prevents duplicate publication.
 
 The same downloadable Bridge plugin performs both receiving and publishing
 jobs. There is no separate Publisher plugin.
+[Source and installation](https://github.com/DiscussionBridge/discourse-discussion-bridge).
 
 An administrator selects an existing Discourse topic, one Content Connection,
 the platform's stable identity and exact destination, then creates a From
