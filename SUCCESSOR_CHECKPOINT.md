@@ -186,3 +186,9 @@ Metadata refresh and tests, canonical/generated synchronization, attribution
 and protected-path checks, the 30-page production build, and scoped diff
 checking passed. Source commit `f68fe13` is pushed to `origin/main` and deployed
 as Cloudflare Worker version `f90867af-e06e-4c3a-8560-2c6e1421bf03`.
+
+After The Bridge's annotation-only CI repair advanced its public `main`, the
+Versions page was refreshed to distinguish current `main` from the immutable
+coordinated release tag. Source commit `1f35819` is pushed to `origin/main` and
+deployed as Cloudflare Worker version
+`bd84759e-2eea-491e-b0c8-c76e6676f77e`.
