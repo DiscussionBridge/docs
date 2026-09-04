@@ -1,13 +1,13 @@
 ---
 title: "Content Lanes Guide"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CONTENT_LANES.md"
 ---
 
 > **Historical architecture and field record.** Content Connections and Bridge
 > Records now implement the shared multi-platform boundary. Begin with the
-> [Alpha Operator Guide](/alpha-operator-guide/) and
+> [Alpha Installation and Operator Guide](/alpha-operator-guide/) and
 > [Platform Profiles](/platform-profiles/); use this page for provenance and
 > earlier Astro lane detail only.
 

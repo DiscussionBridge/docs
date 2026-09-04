@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting Guide"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/TROUBLESHOOTING.md"
 ---
@@ -8,7 +8,7 @@ editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/TROUBLESHOOTIN
 > This page contains detailed Astro CLI diagnostics from the earlier product
 > phase. Apply them only to the Astro adapter. For initial cross-platform
 > diagnosis, follow the ordered checks below and the current
-> [Alpha Operator Guide](/alpha-operator-guide/).
+> [Alpha Installation and Operator Guide](/alpha-operator-guide/).
 
 ## Current Cross-Platform First Checks
 

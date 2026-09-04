@@ -1,7 +1,7 @@
 # DiscussionBridge Site Runbook: {Site Name}
 
 > **Astro-era template.** Use only after reconciling it with the current
-> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and selected entry in
+> [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and selected entry in
 > [Platform Profiles](./PLATFORM_PROFILES.md). Remove fields that do not apply
 > and add the platform's native package, state, service and rollback identities.
 

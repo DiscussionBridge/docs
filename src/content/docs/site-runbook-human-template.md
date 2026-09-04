@@ -1,12 +1,12 @@
 ---
 title: "DiscussionBridge Site Runbook: {Site Name}"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_HUMAN_TEMPLATE.md"
 ---
 
 > **Astro-era template.** Use only after reconciling it with the current
-> [Alpha Operator Guide](/alpha-operator-guide/) and selected entry in
+> [Alpha Installation and Operator Guide](/alpha-operator-guide/) and selected entry in
 > [Platform Profiles](/platform-profiles/). Remove fields that do not apply
 > and add the platform's native package, state, service and rollback identities.
 

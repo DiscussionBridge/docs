@@ -1,6 +1,6 @@
 ---
-title: "Alpha Operator Guide"
-lastUpdated: 2026-09-03
+title: "Alpha Installation and Operator Guide"
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_OPERATOR_GUIDE.md"
 ---

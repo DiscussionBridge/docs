@@ -3,7 +3,7 @@
 > This page contains detailed Astro CLI diagnostics from the earlier product
 > phase. Apply them only to the Astro adapter. For initial cross-platform
 > diagnosis, follow the ordered checks below and the current
-> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md).
+> [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md).
 
 ## Current Cross-Platform First Checks
 

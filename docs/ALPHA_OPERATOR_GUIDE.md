@@ -1,4 +1,4 @@
-# Alpha Operator Guide
+# Alpha Installation and Operator Guide
 
 This is the current operator path for the DiscussionBridge Alpha. Start here,
 then use the platform-specific notes in [Platform Profiles](./PLATFORM_PROFILES.md)

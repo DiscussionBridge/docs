@@ -2,7 +2,7 @@
 
 > **Astro-era machine template.** It is not a generic copy/paste installer.
 > Reconcile every field with the current exact package README, immutable
-> artifact, [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md), and
+> artifact, [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md), and
 > [Platform Profiles](./PLATFORM_PROFILES.md).
 
 Status: `{draft | review | approved | current}`  

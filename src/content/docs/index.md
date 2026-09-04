@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Public Docs"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
@@ -12,7 +12,7 @@ as a publishing source across those platforms.
 
 Start with the [Versions And Live Status](/versions-and-live-status/) page
 for the exact packages, live profiles, demo destinations, and current acceptance
-boundary. Follow the [Alpha Operator Guide](/alpha-operator-guide/) for the
+boundary. Follow the [Alpha Installation and Operator Guide](/alpha-operator-guide/) for the
 current end-to-end install/configure/test/rollback sequence, use
 [Platform Profiles](/platform-profiles/) for each adapter's real execution
 boundary, and compare the three choices in
@@ -39,7 +39,7 @@ Keep commercial strategy, pricing, services positioning, and private brand plann
 ## Current Docs
 
 - [Versions And Live Status](/versions-and-live-status/) - exact package versions, source identities, live profiles, and environment roles.
-- [Alpha Operator Guide](/alpha-operator-guide/) - current product-family installation, configuration, testing, disable/re-enable, removal, and rollback sequence.
+- [Alpha Installation and Operator Guide](/alpha-operator-guide/) - current product-family installation, configuration, testing, disable/re-enable, removal, and rollback sequence.
 - [Platform Profiles](/platform-profiles/) - Astro, Ghost, Hugo, Statamic Flat/DB/SSG, WordPress, and Discourse-as-Publisher boundaries.
 - [Presentation Modes](/presentation-modes/) - Simple, Full, fullInteractive, rich content, branding, authorship, and navigation.
 - [Draft Roadmap](/draft-roadmap/) - advanced profiles, candidate adapters, migration, identity, network, deployment, themes, and demo conversations.

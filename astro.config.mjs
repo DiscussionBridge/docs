@@ -55,7 +55,7 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "index" },
             { label: "Versions & Live Status", slug: "versions-and-live-status" },
-            { label: "Alpha Operator Guide", slug: "alpha-operator-guide" },
+            { label: "Alpha Installation and Operator Guide", slug: "alpha-operator-guide" },
             { label: "Platform Profiles", slug: "platform-profiles" },
             { label: "Presentation Modes", slug: "presentation-modes" },
             { label: "Key Management", slug: "key-management" },

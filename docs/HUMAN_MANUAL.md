@@ -2,7 +2,7 @@
 
 > **Historical Astro deep reference.** This manual preserves the earlier Astro
 > operating model and provenance. It is not the current multi-platform setup
-> sequence. Start with the [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md),
+> sequence. Start with the [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md),
 > [Platform Profiles](./PLATFORM_PROFILES.md), and
 > [Presentation Modes](./PRESENTATION_MODES.md).
 

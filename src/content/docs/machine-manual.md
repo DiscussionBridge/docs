@@ -1,13 +1,13 @@
 ---
 title: "DiscussionBridge for Astro Machine Manual"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-04
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/MACHINE_MANUAL.md"
 ---
 
 > **Historical Astro implementation reference.** Do not use this page as a
 > current package-family install contract. Use the
-> [Alpha Operator Guide](/alpha-operator-guide/), then the exact README and
+> [Alpha Installation and Operator Guide](/alpha-operator-guide/), then the exact README and
 > immutable artifact for the selected platform profile.
 
 This is the exact, reusable implementation memory for DiscussionBridge for

@@ -2,7 +2,7 @@
 
 > **Historical architecture and field record.** Content Connections and Bridge
 > Records now implement the shared multi-platform boundary. Begin with the
-> [Alpha Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and
+> [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and
 > [Platform Profiles](./PLATFORM_PROFILES.md); use this page for provenance and
 > earlier Astro lane detail only.
 
