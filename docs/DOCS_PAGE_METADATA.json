@@ -3,16 +3,16 @@
   "appliesTo": "DiscussionBridge Alpha",
   "pages": {
     "README.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "006ba71bcd59e9bc285b644786f8d1441426d565432d4e7b071e015c96855bb2"
+      "lastUpdated": "2026-09-05",
+      "sourceSha256": "fe91df06f3af14117b6e7c4fed11aa7ec0329a01aedf19c1ea201cd50039d37c"
     },
     "VERSIONS_AND_LIVE_STATUS.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "b1fe10bb9c7e0075b459ed6d2d3720db9b4401de5649a68f383f30f1e8f50eca"
+      "lastUpdated": "2026-09-05",
+      "sourceSha256": "08538049a76a9daedfa376c3f92137518b6994bb59f43b35eeb15a83f499d8bc"
     },
     "ALPHA_OPERATOR_GUIDE.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "5a372614ea6849b355fe31c6030abceca3febc0825b5c7dd1457e92d98050b11"
+      "lastUpdated": "2026-09-05",
+      "sourceSha256": "47bef689b7f311b9e23925e40213a603a0bb6495fec2b3967c961b6d3cf5239d"
     },
     "PLATFORM_PROFILES.md": {
       "lastUpdated": "2026-09-04",

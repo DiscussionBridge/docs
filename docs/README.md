@@ -15,8 +15,8 @@ boundary, and compare the three choices in
 [Demo chooser](https://demo.discussionbridge.dev/) or open
 [The Bridge](https://bridge.demo.discussionbridge.dev/).
 
-The current public source baseline is **DiscussionBridge 0.2.0-alpha.18**. Its
-six product repositories are available through ordinary GitHub clone URLs:
+The current public release candidate is **DiscussionBridge 0.2.0-alpha.19**.
+Its six product repositories are available through ordinary GitHub clone URLs:
 
 - [The Bridge — DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
 - [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
@@ -24,10 +24,12 @@ six product repositories are available through ordinary GitHub clone URLs:
 - [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge)
 - [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge)
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
+- [DiscussionBridge Adapter Contract](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
 
-Each repository's `main` branch and `v0.2.0-alpha.18` tag identify this public
-baseline. Component build versions remain visible separately for support and
-compatibility reporting.
+Each repository's `v0.2.0-alpha.19` tag and GitHub prerelease identify the
+immutable sandbox candidate. The `main` branches are the ongoing public source;
+exact commits and artifact hashes remain visible for support and compatibility
+reporting.
 
 This repository contains the public product and operator documentation.
 

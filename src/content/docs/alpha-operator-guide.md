@@ -1,6 +1,6 @@
 ---
 title: "Alpha Installation and Operator Guide"
-lastUpdated: 2026-09-04
+lastUpdated: 2026-09-05
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_OPERATOR_GUIDE.md"
 ---
@@ -68,7 +68,7 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone https://github.com/DiscussionBridge/discourse-discussion-bridge.git
+          - git clone --branch v0.2.0-alpha.19 --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
 ```
 
 That single ordinary clone is the operator installation entry. The current

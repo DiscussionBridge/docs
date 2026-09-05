@@ -2,7 +2,7 @@
 
 - **Last verified:** September 4, 2026
 - **Release channel:** Alpha
-- **Product-family source baseline:** DiscussionBridge `0.2.0-alpha.18`
+- **Product-family release candidate:** DiscussionBridge `0.2.0-alpha.19`
 - **Compatibility line:** The Bridge `0.2`
 
 This page is the current public inventory of the DiscussionBridge product
@@ -21,15 +21,14 @@ control plane.
 - [Versions and releases on The Bridge](https://bridge.demo.discussionbridge.dev/t/discussionbridge-versions-and-live-status/62)
   for the public release record and discussion.
 - [DiscussionBridge on GitHub](https://github.com/DiscussionBridge) for all six
-  public product repositories.
+  public product repositories and the shared adapter contract.
 
-The current source baseline is public. An ordinary clone of a repository's
-`main` branch obtains its current Alpha source. The shared
-`v0.2.0-alpha.18` tag identifies the coordinated publication across all six
-repositories. Each `main` branch is the current public source and may include
-subsequent non-release maintenance; exact commits remain evidence identities,
-not extra operator installation steps. Packaged release assets remain a
-separate release action.
+The current source and release candidate are public. An ordinary clone of a
+repository's `main` branch obtains its current Alpha source. The shared
+`v0.2.0-alpha.19` tag identifies the coordinated candidate across all six
+product repositories and the adapter contract. Each `main` branch may later
+include non-release maintenance; the tag and packaged GitHub release asset are
+the immutable installation identities for this gate.
 
 ## Current Product Packages
 
@@ -38,12 +37,12 @@ one addon in three independently configured profiles.
 
 | Product package | Component version | Public repository | Current public `main` |
 | --- | --- | --- | --- |
-| The Bridge — unified Discourse plugin | `0.2.0.alpha.18` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `31bc1775d757d6797cfe0a083717a31e2187e1f8` |
-| DiscussionBridge for Astro | `0.1.0-alpha.20260903.7` | [GitHub](https://github.com/DiscussionBridge/astro-discussion-bridge) | `faa528025e6ab67d0a91cab0533eea0e61da76ff` |
-| DiscussionBridge for Ghost | `0.1.0-alpha.38` | [GitHub](https://github.com/DiscussionBridge/ghost-discussion-bridge) | `e696db825f9293ae5b55e79d0cf41af9fecd2e4e` |
-| DiscussionBridge for Hugo | `0.1.0-alpha.17` | [GitHub](https://github.com/DiscussionBridge/hugo-discussion-bridge) | `956339537f681d3ba0e144e3c51c5f26915b9958` |
-| DiscussionBridge for Statamic | `0.1.0-alpha.25` | [GitHub](https://github.com/DiscussionBridge/statamic-discussion-bridge) | `450cc5ac4be68f28c145d815620d3812bbd83ded` |
-| DiscussionBridge for WordPress | `0.1.0-alpha.17` | [GitHub](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | `7260a825ffdd05ba1225213fd2251d8f3f07c569` |
+| The Bridge — unified Discourse plugin | `0.2.0.alpha.19` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `941120fc97cfa7fdb32862c2ae495efee54626fc` |
+| DiscussionBridge for Astro | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/astro-discussion-bridge) | `d36d00eaeaa11a058b500355ac6e13c523090d71` |
+| DiscussionBridge for Ghost | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/ghost-discussion-bridge) | `347afcf055ccf4e81d8b9a7149282bbdffc88e76` |
+| DiscussionBridge for Hugo | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/hugo-discussion-bridge) | `1d113225f0d89165c8cad8818e4464605750ac4a` |
+| DiscussionBridge for Statamic | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/statamic-discussion-bridge) | `f5f90113b4100f4871aa759385b4883b76024437` |
+| DiscussionBridge for WordPress | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | `fd8c07d554e4a2a71bd5332a46a88c53a69e5b17` |
 
 ### Public Roles
 
@@ -61,12 +60,12 @@ one addon in three independently configured profiles.
 - **WordPress** is a native plugin for publishing, retrieval, retry, and
   comments presentation.
 
-Every repository also contains `discussionbridge-release.json`, which records
-the shared family release, component name and version, Bridge compatibility
-line, and canonical repository URL. The component versions remain independently
-incremented. The public compatibility statement is therefore **compatible with
-The Bridge 0.2**, not a claim that every component has one identical build
-version.
+Every product repository also contains `discussionbridge-release.json`, which
+records the shared family release, component name and version, Bridge
+compatibility line, and canonical repository URL. Beginning with Alpha.19, the
+five adapter/addon packages use the family version directly; the Discourse
+plugin uses the equivalent Ruby metadata form `0.2.0.alpha.19`. Exact commits
+and artifact hashes still distinguish the independently built packages.
 
 ## Built in Public
 
@@ -86,9 +85,9 @@ output from being presented as work written by the product team.
 
 The census excludes dependencies, generated browser bundles and site output,
 lockfiles, vendored code, archives, source maps, and binary assets. It records
-the exact repository commits and refuses to create a release census from a
-dirty package. The source commits in the package table above are the identities
-used for this measurement.
+exact repository commits and refuses to create a release census from a dirty
+package. These September 3 figures describe the Alpha.18 predecessor baseline;
+they will be refreshed separately for Alpha.19 rather than silently relabeled.
 
 ## Versioning Convention
 
@@ -98,14 +97,14 @@ DiscussionBridge needs to communicate three different identities:
    users are evaluating.
 2. **Bridge compatibility line:** the receiver contract an adapter implements,
    currently `0.2`.
-3. **Component build:** the exact plugin, adapter, addon, or consumer artifact
-   installed or deployed.
+3. **Component build:** the exact commit and artifact hash for the plugin,
+   adapter, addon, or consumer installed or deployed.
 
 The family and component identities are now machine-readable in every public
-repository. A component must never imply compatibility merely because two
-unrelated counters happen to match. Support reports should include both values,
-for example: **DiscussionBridge 0.2.0-alpha.18; The Bridge 0.2; Ghost adapter
-0.1.0-alpha.38**.
+repository. Support reports should include the family version, Bridge
+compatibility line, component name, and exact artifact identity, for example:
+**DiscussionBridge 0.2.0-alpha.19; The Bridge 0.2; Ghost adapter; artifact
+SHA-256 8f23282b…**.
 
 ## Live Profiles
 
@@ -139,22 +138,21 @@ The public Bridge currently runs:
 The runtime was installed from the exact Alpha.18 candidate artifact. Installed
 plugin files matched that artifact at verification time.
 
-## Exact Candidate Artifacts
+## Exact Alpha.19 Candidate Artifacts
 
-These hashes identify the previously built Alpha candidate artifacts. They are
-verification identities, not claims that GitHub release assets have already
-been published. The public source repositories above are now cloneable; use the
-[Download page](https://discussionbridge.dev/download/) for the current release-
-asset status.
+These immutable assets are published on each repository's GitHub prerelease.
+They are ready for human sandbox installation and configuration testing; they
+are not yet claims of development/pre-production or live-demo promotion.
 
 | Package | Artifact | SHA-256 |
 | --- | --- | --- |
-| The Bridge | `discourse-discussion-bridge-0.2.0-alpha.18.tar` | `8dbd064e1851a84db655d80a2941cea7212f87aa4999be66948ae928e0d48a3e` |
-| Astro | `astro-discussion-bridge-0.1.0-alpha.20260903.7.tgz` | `3d44fdc3da4fe64ef098c845b252a88d3ff843f79a3fb1108c55f910a95b3bc3` |
-| Ghost | `ghost-discussion-bridge-0.1.0-alpha.38.tgz` | `c09d7fc21d209bfb7bcf4a5b73fd6c94735c6f10f15f96b8bdddd2d81a687907` |
-| Hugo | `hugo-discussion-bridge-0.1.0-alpha.17.tgz` | `bd278f980964a3b3750400bf181bd091a37df438c061a94d26d665bf09a66477` |
-| Statamic | `statamic-discussion-bridge-0.1.0-alpha.25.tar` | `b758e696b04e21c30f09d6aa6bdf1ca6155a4e6da33b5a9c88afd6d6fe75af59` |
-| WordPress | `wordpress-discussion-bridge-0.1.0-alpha.17.zip` | `000ea023059b0390dcdf9ee1bcf4484a300aeef420fda766b1a229b46b3770b1` |
+| The Bridge | `discourse-discussion-bridge-0.2.0-alpha.19.tar.gz` | `cfc847ace069772cfdb8e0ded1cfb59becee4bdc60f56a42baf7efe7d6c433df` |
+| Astro | `astro-discussion-bridge-0.2.0-alpha.19.tgz` | `5a332121ca91f8ae4e322a71175626472345fb042b0dec97c0c4ed4501812dec` |
+| Ghost | `ghost-discussion-bridge-0.2.0-alpha.19.tgz` | `8f23282b7037e3eeede92018536b87bbf691d29552eaca27f5be995f60a071c3` |
+| Hugo | `hugo-discussion-bridge-0.2.0-alpha.19.tgz` | `f98bef80005b3f0a77a626358382190a8d599c4d168a5a14ab96c8498c1094af` |
+| Statamic | `statamic-discussion-bridge-0.2.0-alpha.19.zip` | `edbcf27323f3be8f12474d982f493a3e06473e099445c610b322d5d91f54af1f` |
+| WordPress | `wordpress-discussion-bridge-0.2.0-alpha.19.zip` | `521bba5f3e3fe7ed1e92a5a282bab0b81e48a43aea2ff222b8271d7bb8b27cc5` |
+| Adapter contract | `discussionbridge-adapter-contract-0.2.0-alpha.19.zip` | `e14db3a3002e7c824bf47ae2d6ef36e9238fffc67774c35a9352da7569bf3651` |
 
 ## Public Deployment Identities
 
@@ -186,11 +184,13 @@ protected operational identifiers are intentionally not published here.
 
 ## Current Acceptance State
 
-Public source availability is now established, but publication is not final
-Alpha release acceptance. Human installation/configuration testing, packaged
-release assets, and the remaining release gates are tracked separately. This
-page does not claim provider recovery, pre-production, production, or product-
-risk acceptance.
+Public source and immutable Alpha.19 prerelease assets are now established, but
+publication is not final Alpha release acceptance. Human sandbox installation
+and configuration, unchanged promotion through development/pre-production, and
+the remaining release gates are tracked separately. The public live profiles
+above continue to report their installed Alpha.18 identities until that
+promotion occurs. This page does not claim provider recovery, production, or
+product-risk acceptance.
 
 For help, use [Alpha Support](./SUPPORT_AND_FEEDBACK.md). For the complete public
 demonstration, use the [Demo chooser](https://demo.discussionbridge.dev/).

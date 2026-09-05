@@ -63,7 +63,7 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone https://github.com/DiscussionBridge/discourse-discussion-bridge.git
+          - git clone --branch v0.2.0-alpha.19 --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
 ```
 
 That single ordinary clone is the operator installation entry. The current
