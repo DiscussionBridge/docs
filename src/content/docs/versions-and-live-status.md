@@ -218,7 +218,7 @@ the [Demo chooser](https://demo.discussionbridge.dev/).
 
 ## The Bridge Runtime
 
-The public Bridge currently runs:
+As verified on **September 4, 2026**, the public Bridge runs:
 
 - The Bridge — DiscussionBridge for Discourse plugin `0.2.0.alpha.18`;
 - Discourse Core commit `7dfd824b151fc5b206812e72f3aca6078a71b75f`;
