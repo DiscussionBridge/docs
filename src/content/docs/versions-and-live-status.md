@@ -124,7 +124,7 @@ evidence; they do not imply testing of every version inside a declared range.
 | DiscussionBridge for Astro | Astro `6.x` or `7.x`; optional Starlight `0.35.0` or newer | Package tests use Astro `7.2.4` and Starlight `0.41.7`; clean sandbox baselines use Astro `7.3.1` and Starlight `0.42.0`. |
 | DiscussionBridge for Ghost | Node.js `22` or newer; no broader Ghost CMS range is declared yet | Ghost `6.59.0` with Node.js `22.23.2`. |
 | DiscussionBridge for Hugo | Node.js `22` or newer; no broader Hugo generator range is declared yet | Hugo `0.165.0`. |
-| DiscussionBridge for Statamic | PHP `8.3.x`; Statamic `6.x` | Alpha.19 package verification resolved Statamic `6.31.0`; the three clean sandbox profiles also use Statamic `6.31.0`. |
+| DiscussionBridge for Statamic | PHP `8.3` or newer within PHP `8.x`; Statamic `6.x` | Alpha.19 package verification resolved Statamic `6.31.0`; the three clean sandbox profiles also use Statamic `6.31.0`. |
 | DiscussionBridge for WordPress | WordPress `6.6` or newer; PHP `8.1` or newer | WordPress `7.1` on PHP `8.3`. |
 
 Ghost and Hugo intentionally have narrow evidence statements at this point.
