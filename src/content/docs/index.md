@@ -29,7 +29,7 @@ Its six product repositories are available through ordinary GitHub clone URLs:
 - [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge)
 - [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge)
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
-- [DiscussionBridge Adapter Contract](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
+- [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
 
 Each repository's `v0.2.0-alpha.19` tag and GitHub prerelease identify the
 immutable sandbox candidate. The `main` branches are the ongoing public source;

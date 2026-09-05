@@ -14,10 +14,10 @@ This page is the current public inventory of the DiscussionBridge product
 family. It distinguishes product packages, live platform profiles, public demo
 deployments, and environments that are not part of the public release boundary.
 
-DiscussionBridge is one family of focused tools. **The Bridge** is the unified
-Discourse plugin and flagship. Platform adapters and addons connect publishing
-systems to that same Bridge contract without turning the product into a generic
-control plane.
+DiscussionBridge is one family of focused tools. **The Bridge — DiscussionBridge
+for Discourse** is the flagship Discourse plugin. Platform adapters and addons
+connect publishing systems through the DiscussionBridge Adapter Protocol
+without turning the product into a generic control plane.
 
 ## Downloads And Release Records
 
@@ -26,12 +26,12 @@ control plane.
 - [Versions and releases on The Bridge](https://bridge.demo.discussionbridge.dev/t/discussionbridge-versions-and-live-status/62)
   for the public release record and discussion.
 - [DiscussionBridge on GitHub](https://github.com/DiscussionBridge) for all six
-  public product repositories and the shared adapter contract.
+  public product repositories and the DiscussionBridge Adapter Protocol.
 
 The current source and release candidate are public. An ordinary clone of a
 repository's `main` branch obtains its current Alpha source. The shared
 `v0.2.0-alpha.19` tag identifies the coordinated candidate across all six
-product repositories and the adapter contract. Each `main` branch may later
+product repositories and the Adapter Protocol. Each `main` branch may later
 include non-release maintenance; the tag and packaged GitHub release asset are
 the immutable installation identities for this gate.
 
@@ -42,7 +42,7 @@ one addon in three independently configured profiles.
 
 | Product package | Component version | Public repository | Current public `main` |
 | --- | --- | --- | --- |
-| The Bridge — unified Discourse plugin | `0.2.0.alpha.19` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `941120fc97cfa7fdb32862c2ae495efee54626fc` |
+| The Bridge — DiscussionBridge for Discourse | `0.2.0.alpha.19` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `941120fc97cfa7fdb32862c2ae495efee54626fc` |
 | DiscussionBridge for Astro | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/astro-discussion-bridge) | `d36d00eaeaa11a058b500355ac6e13c523090d71` |
 | DiscussionBridge for Ghost | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/ghost-discussion-bridge) | `347afcf055ccf4e81d8b9a7149282bbdffc88e76` |
 | DiscussionBridge for Hugo | `0.2.0-alpha.19` | [GitHub](https://github.com/DiscussionBridge/hugo-discussion-bridge) | `1d113225f0d89165c8cad8818e4464605750ac4a` |
@@ -220,7 +220,7 @@ the [Demo chooser](https://demo.discussionbridge.dev/).
 
 The public Bridge currently runs:
 
-- unified receiver/publisher plugin `0.2.0.alpha.18`;
+- The Bridge — DiscussionBridge for Discourse plugin `0.2.0.alpha.18`;
 - Discourse Core commit `7dfd824b151fc5b206812e72f3aca6078a71b75f`;
 - seven configured Content Connections; and
 - 30 Bridge Records with 30 durable bindings at the last verified census.
@@ -242,7 +242,7 @@ are not yet claims of development/pre-production or live-demo promotion.
 | Hugo | `hugo-discussion-bridge-0.2.0-alpha.19.tgz` | `f98bef80005b3f0a77a626358382190a8d599c4d168a5a14ab96c8498c1094af` |
 | Statamic | `statamic-discussion-bridge-0.2.0-alpha.19.zip` | `edbcf27323f3be8f12474d982f493a3e06473e099445c610b322d5d91f54af1f` |
 | WordPress | `wordpress-discussion-bridge-0.2.0-alpha.19.zip` | `521bba5f3e3fe7ed1e92a5a282bab0b81e48a43aea2ff222b8271d7bb8b27cc5` |
-| Adapter contract | `discussionbridge-adapter-contract-0.2.0-alpha.19.zip` | `e14db3a3002e7c824bf47ae2d6ef36e9238fffc67774c35a9352da7569bf3651` |
+| Adapter Protocol | `discussionbridge-adapter-contract-0.2.0-alpha.19.zip` | `e14db3a3002e7c824bf47ae2d6ef36e9238fffc67774c35a9352da7569bf3651` |
 
 ## Public Deployment Identities
 
