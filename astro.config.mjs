@@ -8,6 +8,7 @@ export default defineConfig({
       title: "DiscussionBridge Docs",
       disable404Route: true,
       lastUpdated: true,
+      customCss: ["./src/styles/custom.css"],
       components: {
         PageTitle: "./src/components/PageTitle.astro",
         SocialIcons: "./src/components/SocialIcons.astro",

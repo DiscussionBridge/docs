@@ -1,0 +1,96 @@
+.db-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block: 1.25rem;
+}
+
+.db-profile-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.8rem;
+  background: linear-gradient(145deg, var(--sl-color-bg), var(--sl-color-bg-nav));
+  box-shadow: 0 0.4rem 1.2rem color-mix(in srgb, var(--sl-color-black) 8%, transparent);
+}
+
+.db-profile-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.db-profile-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.db-live-badge {
+  flex: 0 0 auto;
+  padding: 0.12rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--sl-color-green) 45%, transparent);
+  border-radius: 999px;
+  color: var(--sl-color-green-high);
+  background: color-mix(in srgb, var(--sl-color-green) 12%, transparent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.db-profile-card dl {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.db-profile-card dl > div {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.42fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.db-profile-card dt {
+  color: var(--sl-color-gray-2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.db-profile-card dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.db-profile-card > p {
+  margin-block: 0.9rem 0;
+}
+
+.db-profile-card .db-profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  font-weight: 650;
+}
+
+@media (max-width: 72rem) {
+  .db-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 35rem) {
+  .db-profile-card dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}

@@ -133,16 +133,80 @@ All links below are public demonstrations. A `Live` label means the profile is
 deployed and reachable; it is not a promise of production support or final
 release acceptance.
 
-| Profile | Status | Platform currently demonstrated | DiscussionBridge currently installed | Directions and presentation | Live destination |
-| --- | --- | --- | --- | --- | --- |
-| The Bridge — Discourse as Publisher | Live | Discourse Core `7dfd824b151fc5b206812e72f3aca6078a71b75f` | The Bridge `0.2.0.alpha.18` | Receives connected publications and publishes Discourse-owned material to selected platforms. | [The Bridge](https://bridge.demo.discussionbridge.dev/) |
-| Astro | Live | Plain Astro `7.1.1`; Astro `7.2.4` + Starlight `0.41.2` | Astro adapter `0.1.0-alpha.20260903.7` | To/From The Bridge; Simple, Full, and fullInteractive. | [Astro + Starlight](https://astrostarlight.demo.discussionbridge.dev/) · [Plain Astro](https://astro.demo.discussionbridge.dev/) |
-| Ghost | Live | Ghost `6.59.0` | Ghost adapter `0.1.0-alpha.38` | To/From The Bridge; Simple, Full, and fullInteractive through a Ghost integration plus hosting-layer service. | [Ghost](https://ghost.demo.discussionbridge.dev/) |
-| Hugo | Live | Hugo `0.165.0` | Hugo adapter `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive. | [Hugo](https://hugo.demo.discussionbridge.dev/) |
-| Statamic Flat | Live | Statamic `6.28.0` | Statamic addon `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with file-backed Statamic content. | [Statamic Flat](https://statamic-flat.demo.discussionbridge.dev/) |
-| Statamic DB | Live | Statamic `6.28.0` | Statamic addon `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with database-backed Statamic content. | [Statamic DB](https://statamic-db.demo.discussionbridge.dev/) |
-| Statamic SSG | Live | Statamic `6.30.0` + Statamic SSG `4.1.0` | Statamic addon `0.1.0-alpha.25` | Trusted-build publishing and retrieval; static Simple output and embedded live modes. | [Statamic SSG](https://statamic-ssg.demo.discussionbridge.dev/) |
-| WordPress | Live | WordPress `7.1` | WordPress plugin `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive through a native WordPress plugin. | [WordPress](https://wordpress.demo.discussionbridge.dev/) |
+<div class="db-profile-grid">
+  <article class="db-profile-card">
+    <header><h3>The Bridge — Discourse as Publisher</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Discourse Core <code>7dfd824b…</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>The Bridge <code>0.2.0.alpha.18</code></dd></div>
+    </dl>
+    <p>Receives connected publications and publishes Discourse-owned material to selected platforms.</p>
+    <p class="db-profile-links"><a href="https://bridge.demo.discussionbridge.dev/">Open The Bridge →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Astro</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Plain Astro <code>7.1.1</code>; Astro <code>7.2.4</code> + Starlight <code>0.41.2</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Astro adapter <code>0.1.0-alpha.20260903.7</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive.</p>
+    <p class="db-profile-links"><a href="https://astrostarlight.demo.discussionbridge.dev/">Astro + Starlight →</a><a href="https://astro.demo.discussionbridge.dev/">Plain Astro →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Ghost</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Ghost <code>6.59.0</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Ghost adapter <code>0.1.0-alpha.38</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive through a Ghost integration plus hosting-layer service.</p>
+    <p class="db-profile-links"><a href="https://ghost.demo.discussionbridge.dev/">Open Ghost demo →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Hugo</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Hugo <code>0.165.0</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Hugo adapter <code>0.1.0-alpha.17</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive.</p>
+    <p class="db-profile-links"><a href="https://hugo.demo.discussionbridge.dev/">Open Hugo demo →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Statamic Flat</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Statamic <code>6.28.0</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Statamic addon <code>0.1.0-alpha.25</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive with file-backed Statamic content.</p>
+    <p class="db-profile-links"><a href="https://statamic-flat.demo.discussionbridge.dev/">Open Flat demo →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Statamic DB</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Statamic <code>6.28.0</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Statamic addon <code>0.1.0-alpha.25</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive with database-backed Statamic content.</p>
+    <p class="db-profile-links"><a href="https://statamic-db.demo.discussionbridge.dev/">Open DB demo →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>Statamic SSG</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>Statamic <code>6.30.0</code> + Statamic SSG <code>4.1.0</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>Statamic addon <code>0.1.0-alpha.25</code></dd></div>
+    </dl>
+    <p>Trusted-build publishing and retrieval; static Simple output and embedded live modes.</p>
+    <p class="db-profile-links"><a href="https://statamic-ssg.demo.discussionbridge.dev/">Open SSG demo →</a></p>
+  </article>
+  <article class="db-profile-card">
+    <header><h3>WordPress</h3><span class="db-live-badge">Live</span></header>
+    <dl>
+      <div><dt>Platform</dt><dd>WordPress <code>7.1</code></dd></div>
+      <div><dt>DiscussionBridge</dt><dd>WordPress plugin <code>0.1.0-alpha.17</code></dd></div>
+    </dl>
+    <p>To/From The Bridge; Simple, Full, and fullInteractive through a native WordPress plugin.</p>
+    <p class="db-profile-links"><a href="https://wordpress.demo.discussionbridge.dev/">Open WordPress demo →</a></p>
+  </article>
+</div>
 
 Explore the cross-platform examples and shared-topic presentation matrix at
 the [Demo chooser](https://demo.discussionbridge.dev/).
