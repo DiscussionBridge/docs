@@ -100,7 +100,7 @@ DiscussionBridge needs to communicate three different identities:
 
 1. **Product-family release:** the coordinated Alpha, Beta, or stable release
    users are evaluating.
-2. **Bridge compatibility line:** the receiver contract an adapter implements,
+2. **Bridge compatibility line:** The Bridge contract an adapter implements,
    currently `0.2`.
 3. **Component build:** the exact commit and artifact hash for the plugin,
    adapter, addon, or consumer installed or deployed.
@@ -111,22 +111,43 @@ compatibility line, component name, and exact artifact identity, for example:
 **DiscussionBridge 0.2.0-alpha.19; The Bridge 0.2; Ghost adapter; artifact
 SHA-256 8f23282b…**.
 
+## Platform Compatibility And Test Targets
+
+Package compatibility and observed installation evidence are different claims.
+The ranges below are what each Alpha.19 package currently declares. The exact
+targets are the platform versions exercised by its present test or sandbox
+evidence; they do not imply testing of every version inside a declared range.
+
+| DiscussionBridge package | Declared platform/runtime compatibility | Exact current Alpha.19 test or sandbox target |
+| --- | --- | --- |
+| The Bridge — DiscussionBridge for Discourse | Discourse `3.3.0` or newer | CI against Discourse Core commit `36698aae084678151dffa875d49c8d59216d2733`; human-install sandbox currently runs Core `cc1783374630ef2951e3813777aaf5cb9c82aafe` before Alpha.19 installation. |
+| DiscussionBridge for Astro | Astro `6.x` or `7.x`; optional Starlight `0.35.0` or newer | Package tests use Astro `7.2.4` and Starlight `0.41.7`; clean sandbox baselines use Astro `7.3.1` and Starlight `0.42.0`. |
+| DiscussionBridge for Ghost | Node.js `22` or newer; no broader Ghost CMS range is declared yet | Ghost `6.59.0` with Node.js `22.23.2`. |
+| DiscussionBridge for Hugo | Node.js `22` or newer; no broader Hugo generator range is declared yet | Hugo `0.165.0`. |
+| DiscussionBridge for Statamic | PHP `8.3.x`; Statamic `6.x` | Alpha.19 package verification resolved Statamic `6.31.0`; the three clean sandbox profiles also use Statamic `6.31.0`. |
+| DiscussionBridge for WordPress | WordPress `6.6` or newer; PHP `8.1` or newer | WordPress `7.1` on PHP `8.3`. |
+
+Ghost and Hugo intentionally have narrow evidence statements at this point.
+Their packages declare the execution runtime they require, but do not yet make
+an unsupported broad CMS/generator compatibility promise. Broader ranges should
+be published only after a deliberate version matrix is tested.
+
 ## Live Profiles
 
 All links below are public demonstrations. A `Live` label means the profile is
 deployed and reachable; it is not a promise of production support or final
 release acceptance.
 
-| Profile | Status | Package | Directions and presentation | Live destination |
-| --- | --- | --- | --- | --- |
-| The Bridge — Discourse as Publisher | Live | The Bridge `0.2.0.alpha.18` | Receives connected publications and publishes Discourse-owned material to selected platforms. | [The Bridge](https://bridge.demo.discussionbridge.dev/) |
-| Astro | Live | Astro `0.1.0-alpha.20260903.7` | To/From The Bridge; Simple, Full, and fullInteractive. Two consumers demonstrate plain Astro and Astro + Starlight. | [Astro + Starlight](https://astrostarlight.demo.discussionbridge.dev/) · [Plain Astro](https://astro.demo.discussionbridge.dev/) |
-| Ghost | Live | Ghost `0.1.0-alpha.38` | To/From The Bridge; Simple, Full, and fullInteractive through a Ghost integration plus hosting-layer service. | [Ghost](https://ghost.demo.discussionbridge.dev/) |
-| Hugo | Live | Hugo `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive. | [Hugo](https://hugo.demo.discussionbridge.dev/) |
-| Statamic Flat | Live | Statamic `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with file-backed Statamic content. | [Statamic Flat](https://statamic-flat.demo.discussionbridge.dev/) |
-| Statamic DB | Live | Statamic `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with database-backed Statamic content. | [Statamic DB](https://statamic-db.demo.discussionbridge.dev/) |
-| Statamic SSG | Live | Statamic `0.1.0-alpha.25` | Trusted-build publishing and retrieval; static Simple output and embedded live modes. | [Statamic SSG](https://statamic-ssg.demo.discussionbridge.dev/) |
-| WordPress | Live | WordPress `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive through a native WordPress plugin. | [WordPress](https://wordpress.demo.discussionbridge.dev/) |
+| Profile | Status | Platform currently demonstrated | DiscussionBridge currently installed | Directions and presentation | Live destination |
+| --- | --- | --- | --- | --- | --- |
+| The Bridge — Discourse as Publisher | Live | Discourse Core `7dfd824b151fc5b206812e72f3aca6078a71b75f` | The Bridge `0.2.0.alpha.18` | Receives connected publications and publishes Discourse-owned material to selected platforms. | [The Bridge](https://bridge.demo.discussionbridge.dev/) |
+| Astro | Live | Plain Astro `7.1.1`; Astro `7.2.4` + Starlight `0.41.2` | Astro adapter `0.1.0-alpha.20260903.7` | To/From The Bridge; Simple, Full, and fullInteractive. | [Astro + Starlight](https://astrostarlight.demo.discussionbridge.dev/) · [Plain Astro](https://astro.demo.discussionbridge.dev/) |
+| Ghost | Live | Ghost `6.59.0` | Ghost adapter `0.1.0-alpha.38` | To/From The Bridge; Simple, Full, and fullInteractive through a Ghost integration plus hosting-layer service. | [Ghost](https://ghost.demo.discussionbridge.dev/) |
+| Hugo | Live | Hugo `0.165.0` | Hugo adapter `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive. | [Hugo](https://hugo.demo.discussionbridge.dev/) |
+| Statamic Flat | Live | Statamic `6.28.0` | Statamic addon `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with file-backed Statamic content. | [Statamic Flat](https://statamic-flat.demo.discussionbridge.dev/) |
+| Statamic DB | Live | Statamic `6.28.0` | Statamic addon `0.1.0-alpha.25` | To/From The Bridge; Simple, Full, and fullInteractive with database-backed Statamic content. | [Statamic DB](https://statamic-db.demo.discussionbridge.dev/) |
+| Statamic SSG | Live | Statamic `6.30.0` + Statamic SSG `4.1.0` | Statamic addon `0.1.0-alpha.25` | Trusted-build publishing and retrieval; static Simple output and embedded live modes. | [Statamic SSG](https://statamic-ssg.demo.discussionbridge.dev/) |
+| WordPress | Live | WordPress `7.1` | WordPress plugin `0.1.0-alpha.17` | To/From The Bridge; Simple, Full, and fullInteractive through a native WordPress plugin. | [WordPress](https://wordpress.demo.discussionbridge.dev/) |
 
 Explore the cross-platform examples and shared-topic presentation matrix at
 the [Demo chooser](https://demo.discussionbridge.dev/).
