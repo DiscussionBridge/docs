@@ -52,7 +52,7 @@ Keep commercial strategy, pricing, services positioning, and private brand plann
 - [Versions And Live Status](./VERSIONS_AND_LIVE_STATUS.md) - exact package versions, source identities, live profiles, and environment roles.
 - [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md) - current product-family installation, configuration, testing, disable/re-enable, removal, and rollback sequence.
 - [Platform Profiles](./PLATFORM_PROFILES.md) - Astro, Ghost, Hugo, Statamic Flat/DB/SSG, WordPress, and Discourse-as-Publisher boundaries.
-- [Presentation Modes](./PRESENTATION_MODES.md) - Simple, Full, fullInteractive, rich content, branding, authorship, and navigation.
+- [Presentation Modes](./PRESENTATION_MODES.md) - Simple, Full, Interactive, rich content, branding, authorship, and navigation.
 - [Draft Roadmap](./DRAFT_ROADMAP.md) - advanced profiles, candidate adapters, migration, identity, network, deployment, themes, and demo conversations.
 - [Human Manual](./HUMAN_MANUAL.md) - operator journey, safety decisions, and verification.
 - [Machine Manual](./MACHINE_MANUAL.md) - exact reusable commands, fields, scopes, and runbook inputs.

@@ -45,9 +45,9 @@ Full should still present the independent DiscussionBridge credit when the
 adapter's credit option is enabled. It may also present the forum's ordinary
 Discourse branding according to forum policy.
 
-## fullInteractive
+## Interactive (`interactive`)
 
-fullInteractive is the Bridge-backed, comments-only Discourse application
+Interactive is the Bridge-backed, comments-only Discourse application
 surface. The Bridge attests the exact record/topic mapping and omits the
 companion first post from the iframe so the host article is not duplicated.
 Discourse owns sign-in, session, composer, replies, quotes, likes, editing,
@@ -60,6 +60,11 @@ signed-out behavior, cross-origin cookies, focus, and internal scrolling.
 
 If readiness fails, show an honest bounded diagnostic or fallback. Do not
 silently load another forum, topic, or presentation mode.
+
+During the compatibility window, adapters also accept the historical
+`fullInteractive` input and normalize it to `interactive`. New configuration,
+examples, interfaces, and generated output must use `interactive`. The legacy
+input will be removed only at a separately announced breaking boundary.
 
 ## From Discourse Content Plus Discussion
 

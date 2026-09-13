@@ -39,7 +39,7 @@ large unsorted log.
 - DiscussionBridge product and version: receiving plugin, platform adapter or addon, demo/site package, or documentation.
 - Publishing profile: The Bridge, Astro, Ghost, Hugo, WordPress, Statamic Flat, Statamic DB, Statamic SSG, or Discourse as Publisher.
 - Publishing-platform, framework, runtime, and Discourse versions when known.
-- Direction and presentation involved: publishing through The Bridge, From The Bridge, Simple, Full, or fullInteractive.
+- Direction and presentation involved: publishing through The Bridge, From The Bridge, Simple, Full, or Interactive.
 - The affected connection, lane, page, canonical URL, topic, or Bridge Record using only non-secret identifiers and public URLs.
 - The exact action or command that produced the result.
 - What was expected and what happened instead.

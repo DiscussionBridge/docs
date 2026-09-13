@@ -10,7 +10,7 @@ site-specific rollback runbook.
 Astro + Starlight. [Source and installation](https://github.com/DiscussionBridge/astro-discussion-bridge).
 
 The package supports publishing to The Bridge, retrieving authorized From
-Discourse records, and Simple, Full, and fullInteractive presentation. An
+Discourse records, and Simple, Full, and Interactive presentation. An
 operator may begin with plugin-free comments and later adopt the same canonical
 topic into The Bridge when Discourse Core independently attests that identity.
 
@@ -22,7 +22,7 @@ hard-coded to one demo forum, origin, topic, author, or receiver credential.
 
 The Astro product is useful without The Bridge for plugin-free Simple and Full
 comments. The same package enables Bridge-backed publishing, retrieval,
-fullInteractive presentation, durable identity, retry, and reconciliation when
+Interactive presentation, durable identity, retry, and reconciliation when
 an operator later adds The Bridge.
 
 ## Ghost
@@ -56,7 +56,7 @@ state file preserves stable identity, attempt, result, and abandoned-build
 recovery. The secret exists only in the protected build environment.
 
 Simple pages contain a sanitized static fallback and refresh public comments
-in the browser. Full and fullInteractive use credential-free Discourse
+in the browser. Full and Interactive use credential-free Discourse
 presentation. Native From Discourse materialization requires explicit authority
 and writes an ordinary Hugo content record without placing a receiver secret
 in source or output.
@@ -95,7 +95,7 @@ php please ssg:generate
 Do not deploy when preparation fails. The generated public site contains no
 PHP runtime, queue worker, connection secret, or protected adapter endpoint.
 Simple includes a generated fallback and can refresh public comments in the
-browser; Full and fullInteractive retain credential-free Discourse surfaces.
+browser; Full and Interactive retain credential-free Discourse surfaces.
 The protected authoring application and the static deployment are separate
 recovery and evidence boundaries.
 

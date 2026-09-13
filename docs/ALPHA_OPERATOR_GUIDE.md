@@ -96,7 +96,7 @@ Configure and verify:
 - a non-system default visible author;
 - default category, tags, and visibility;
 - optional lane policy;
-- comments-only fullInteractive support;
+- comments-only Interactive support;
 - the ordinary Discourse embedding and CORS settings required by the selected
   presentation modes.
 

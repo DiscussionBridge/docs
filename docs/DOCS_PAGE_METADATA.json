@@ -3,24 +3,24 @@
   "appliesTo": "DiscussionBridge Alpha",
   "pages": {
     "README.md": {
-      "lastUpdated": "2026-09-05",
-      "sourceSha256": "553991196d88b54361e9d3a790d75bf46749574263da9448dc732ca814777e4a"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "8651c37bfd92f39b5b7fa6c49d8dbf11edaa5619de866f92bf5564c717aa7b50"
     },
     "VERSIONS_AND_LIVE_STATUS.md": {
-      "lastUpdated": "2026-09-05",
-      "sourceSha256": "eea1912a8cd2e46569d052213e89ca472203e237e5d1cfa8e9ff5460d3a1525e"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "3d5967d90676577d12e383aec16f8487c243bd1a47843b1c7af2503c4a7648ac"
     },
     "ALPHA_OPERATOR_GUIDE.md": {
-      "lastUpdated": "2026-09-05",
-      "sourceSha256": "47bef689b7f311b9e23925e40213a603a0bb6495fec2b3967c961b6d3cf5239d"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "d5e9b1c862a7c4dc13627f30d3547584cc6d10ecd21c215b2f0cfe0d6bdf72d4"
     },
     "PLATFORM_PROFILES.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "e97fe89a5b014d496881421cfdcfbe3911c706228cdb50837b7812573fb5145b"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "98fe63059a3f705fa927eaa402663dbc7656a9e90886fc9865c41ddb4a3ab3c1"
     },
     "PRESENTATION_MODES.md": {
-      "lastUpdated": "2026-09-03",
-      "sourceSha256": "735d65aadfee80dedeefbd53421a8bb22a501a64d75f15719a415b9407de55c4"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "d8ad62f000efa99407e73f8d1d10e6df18f6aa25eca7b7ba3ec27508304f89fd"
     },
     "DRAFT_ROADMAP.md": {
       "lastUpdated": "2026-09-03",
@@ -35,12 +35,12 @@
       "sourceSha256": "1b75a2180d5dcdbd3ec2f602d7389ff0ca31143376efedeb1798387ef21e7bfe"
     },
     "SITE_RUNBOOK_HUMAN_TEMPLATE.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "25ace9e624a61b7cb310666b099459f155ac0620fb04f8cf9f6cb9166f098981"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "fc8913ef9690bc0035b83f2d04e42ed735b09f4a54fef112cbe2bec8e49b2cbd"
     },
     "SITE_RUNBOOK_MACHINE_TEMPLATE.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "4f25cdc84930e66dd5551d1277d8ddb2d8bb0b75d408c2dad6d017f0fc51abac"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "18b0a5032708d9781ecc82d4672d7075deff59e66a05912881e0317f8dca8556"
     },
     "ALPHA_SETUP.md": {
       "lastUpdated": "2026-09-04",
@@ -51,8 +51,8 @@
       "sourceSha256": "5260ab456026862ed8b167721c340fefa031d0f71a2ba812ed0b13e68abdf0e4"
     },
     "COMMENTS_DISPLAY.md": {
-      "lastUpdated": "2026-09-03",
-      "sourceSha256": "56ec320f6bf0e45dc1bb38360669fbe6b3cd232fead8f9161fd4526d27059cd6"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "f6eb4659f82e3bb0636e4530779833d316a79ed47c7597ee25b2c3fc563c77a1"
     },
     "CONTENT_LANES.md": {
       "lastUpdated": "2026-09-04",
@@ -67,12 +67,12 @@
       "sourceSha256": "51ca04a54712c1ecd6bca6d3424ea11e83f8373898e86948e1c8bfdbc276b56d"
     },
     "TROUBLESHOOTING.md": {
-      "lastUpdated": "2026-09-04",
-      "sourceSha256": "15fbcce680d4f4ae0c8403607129d9f532ae6a64d8281095b9f19d1fb92473d0"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "d446f2e17397ef5037b8845dbdb305d7fdcf59d3bb84a3178819334884c57234"
     },
     "SUPPORT_AND_FEEDBACK.md": {
-      "lastUpdated": "2026-09-02",
-      "sourceSha256": "ab7c20dca3e6b500afa546064c83c75c175f6ee4c48fcd9067e11ac51bd93d1e"
+      "lastUpdated": "2026-09-13",
+      "sourceSha256": "78c95f949e5e84d066f5305a2e23cc1ef560e4aacc0ed0b9945a61524b42a28b"
     },
     "KNOWN_ISSUES.md": {
       "lastUpdated": "2026-09-03",

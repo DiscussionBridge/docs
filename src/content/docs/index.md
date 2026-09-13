@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Public Docs"
-lastUpdated: 2026-09-05
+lastUpdated: 2026-09-13
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
@@ -57,7 +57,7 @@ Keep commercial strategy, pricing, services positioning, and private brand plann
 - [Versions And Live Status](/versions-and-live-status/) - exact package versions, source identities, live profiles, and environment roles.
 - [Alpha Installation and Operator Guide](/alpha-operator-guide/) - current product-family installation, configuration, testing, disable/re-enable, removal, and rollback sequence.
 - [Platform Profiles](/platform-profiles/) - Astro, Ghost, Hugo, Statamic Flat/DB/SSG, WordPress, and Discourse-as-Publisher boundaries.
-- [Presentation Modes](/presentation-modes/) - Simple, Full, fullInteractive, rich content, branding, authorship, and navigation.
+- [Presentation Modes](/presentation-modes/) - Simple, Full, Interactive, rich content, branding, authorship, and navigation.
 - [Draft Roadmap](/draft-roadmap/) - advanced profiles, candidate adapters, migration, identity, network, deployment, themes, and demo conversations.
 - [Human Manual](/human-manual/) - operator journey, safety decisions, and verification.
 - [Machine Manual](/machine-manual/) - exact reusable commands, fields, scopes, and runbook inputs.

@@ -1,6 +1,6 @@
 ---
 title: "Versions And Live Status"
-lastUpdated: 2026-09-05
+lastUpdated: 2026-09-13
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/VERSIONS_AND_LIVE_STATUS.md"
 ---
@@ -154,7 +154,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>Plain Astro <code>7.1.1</code>; Astro <code>7.2.4</code> + Starlight <code>0.41.2</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>Astro adapter <code>0.1.0-alpha.20260903.7</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive.</p>
     <p class="db-profile-links"><a href="https://astrostarlight.demo.discussionbridge.dev/">Astro + Starlight →</a><a href="https://astro.demo.discussionbridge.dev/">Plain Astro →</a></p>
   </article>
   <article class="db-profile-card">
@@ -163,7 +163,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>Ghost <code>6.59.0</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>Ghost adapter <code>0.1.0-alpha.38</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive through a Ghost integration plus hosting-layer service.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive through a Ghost integration plus hosting-layer service.</p>
     <p class="db-profile-links"><a href="https://ghost.demo.discussionbridge.dev/">Open Ghost demo →</a></p>
   </article>
   <article class="db-profile-card">
@@ -172,7 +172,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>Hugo <code>0.165.0</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>Hugo adapter <code>0.1.0-alpha.17</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive.</p>
     <p class="db-profile-links"><a href="https://hugo.demo.discussionbridge.dev/">Open Hugo demo →</a></p>
   </article>
   <article class="db-profile-card">
@@ -181,7 +181,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>Statamic <code>6.28.0</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>Statamic addon <code>0.1.0-alpha.25</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive with file-backed Statamic content.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive with file-backed Statamic content.</p>
     <p class="db-profile-links"><a href="https://statamic-flat.demo.discussionbridge.dev/">Open Flat demo →</a></p>
   </article>
   <article class="db-profile-card">
@@ -190,7 +190,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>Statamic <code>6.28.0</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>Statamic addon <code>0.1.0-alpha.25</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive with database-backed Statamic content.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive with database-backed Statamic content.</p>
     <p class="db-profile-links"><a href="https://statamic-db.demo.discussionbridge.dev/">Open DB demo →</a></p>
   </article>
   <article class="db-profile-card">
@@ -208,7 +208,7 @@ release acceptance.
       <div><dt>Platform</dt><dd>WordPress <code>7.1</code></dd></div>
       <div><dt>DiscussionBridge</dt><dd>WordPress plugin <code>0.1.0-alpha.17</code></dd></div>
     </dl>
-    <p>To/From The Bridge; Simple, Full, and fullInteractive through a native WordPress plugin.</p>
+    <p>To/From The Bridge; Simple, Full, and Interactive through a native WordPress plugin.</p>
     <p class="db-profile-links"><a href="https://wordpress.demo.discussionbridge.dev/">Open WordPress demo →</a></p>
   </article>
 </div>

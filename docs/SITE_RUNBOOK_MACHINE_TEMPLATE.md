@@ -39,7 +39,7 @@ credentials:
 
 discussion:
   active_target: "{target name or empty}"
-  default_comments_display: "{simple | full | fullInteractive}"
+  default_comments_display: "{simple | full | interactive | fullInteractive}"
 
 lanes:
   - name: "{lane name}"
@@ -50,10 +50,14 @@ lanes:
     tags: ["{tag}"]
     listed: {true | false}
     managing_page_rule: "{exactly one managing Astro page per topic}"
-    comments_display: "{simple | full | fullInteractive}"
+    comments_display: "{simple | full | interactive | fullInteractive}"
     verification_url: "{public lane URL}"
     recovery_owner: "{person/team/lane}"
 ```
+
+Use `interactive` for every new runbook. The historical `fullInteractive` value
+is accepted only during the compatibility window and must be recorded as
+deprecated when an existing estate still supplies it.
 
 Reject generation when site URL, forum URL, lane directory, route base, source
 mode, category, managing-page rule, or recovery owner is unknown.
@@ -103,7 +107,7 @@ discussionBridge({
   discourseUrl: "{https://forum.example.com}",
   siteUrl: "{https://site.example.com}",
   comments: {
-    display: "{simple | full | fullInteractive}",
+    display: "{simple | full | interactive | fullInteractive}",
   },
   replies: {
     refreshOnPageLoad: true,
@@ -262,7 +266,7 @@ npx astro-discussion-bridge import-existing {DOCS_DIR} \
   {--target TARGET} \
   --discourse-url {DISCOURSE_URL} \
   --site-url {SITE_URL} \
-  --comments-display {simple|full|fullInteractive} \
+  --comments-display {simple|full|interactive|fullInteractive} \
   --dry-run
 ```
 

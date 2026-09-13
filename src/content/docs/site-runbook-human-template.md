@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Site Runbook: {Site Name}"
-lastUpdated: 2026-09-04
+lastUpdated: 2026-09-13
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_HUMAN_TEMPLATE.md"
 ---
@@ -43,7 +43,7 @@ Discourse, and what a successful connection gives readers and operators.}`
 | Discourse forum | `{https://forum.example.com}` |
 | Repository | `{repository name or safe URL}` |
 | Deployment target | `{Cloudflare Pages or other target}` |
-| Default comments mode | `{simple | full | fullInteractive}` |
+| Default comments mode | `{simple | full | interactive | fullInteractive (deprecated)}` |
 | Active discussion target | `{optional target name or none}` |
 
 ### Content lanes
@@ -152,7 +152,7 @@ Do not use `--overwrite` unless replacement is intentional and recoverable.
 
 ## 7. Comments Experience
 
-Selected mode: `{simple | full | fullInteractive}`
+Selected mode: `{simple | full | interactive | fullInteractive (deprecated)}`
 
 `{Explain why this mode fits the site and what readers should experience.}`
 

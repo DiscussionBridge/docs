@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting Guide"
-lastUpdated: 2026-09-04
+lastUpdated: 2026-09-13
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/TROUBLESHOOTING.md"
 ---
@@ -225,7 +225,8 @@ For `simple` mode:
 - remember that Discourse controls the rendered output
 - visible like counts may not appear
 
-For `fullInteractive` mode:
+For `interactive` mode (the deprecated `fullInteractive` input is normalized to
+this mode during the compatibility window):
 
 - confirm `Embed full app` is enabled
 - confirm `Embed full app signin flow` is configured appropriately
@@ -253,7 +254,7 @@ Fix:
 
 - confirm embedding host settings
 - confirm the Astro domain exactly matches the allowed host
-- confirm `Embed full app` settings if using `fullInteractive`
+- confirm `Embed full app` settings if using `interactive`
 - confirm HTTPS and certificate status
 - check browser console for frame or CSP errors
 
@@ -263,7 +264,7 @@ Publish/sync commands should fail clearly. Do not treat a successful Astro build
 
 For pages:
 
-- `simple` and `fullInteractive` should leave the Astro page shell intact
+- `simple` and `interactive` should leave the Astro page shell intact
 - `full` should show a temporary unavailable state when it cannot fetch replies
 - the full discussion link should remain available when the topic URL is known
 

@@ -1,6 +1,6 @@
 ---
 title: "Alpha Installation and Operator Guide"
-lastUpdated: 2026-09-05
+lastUpdated: 2026-09-13
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_OPERATOR_GUIDE.md"
 ---
@@ -101,7 +101,7 @@ Configure and verify:
 - a non-system default visible author;
 - default category, tags, and visibility;
 - optional lane policy;
-- comments-only fullInteractive support;
+- comments-only Interactive support;
 - the ordinary Discourse embedding and CORS settings required by the selected
   presentation modes.
 
