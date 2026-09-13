@@ -15,8 +15,8 @@ boundary, and compare the three choices in
 [Demo chooser](https://demo.discussionbridge.dev/) or open
 [The Bridge](https://bridge.demo.discussionbridge.dev/).
 
-The current public release candidate is **DiscussionBridge 0.2.0-alpha.19**.
-Its six product repositories are available through ordinary GitHub clone URLs:
+The current public release candidate is **DiscussionBridge 0.2.0-alpha.20**.
+Its seven release-member repositories are available through ordinary GitHub clone URLs:
 
 - [The Bridge — DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
 - [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
@@ -26,7 +26,7 @@ Its six product repositories are available through ordinary GitHub clone URLs:
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
 - [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
 
-Each repository's `v0.2.0-alpha.19` tag and GitHub prerelease identify the
+Each repository's `v0.2.0-alpha.20` tag and GitHub prerelease identify the
 immutable sandbox candidate. The `main` branches are the ongoing public source;
 exact commits and artifact hashes remain visible for support and compatibility
 reporting.
