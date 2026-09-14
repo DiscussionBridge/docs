@@ -141,7 +141,7 @@ Configure the installed component with:
 
 - The Bridge HTTPS origin;
 - the `dbc_…` connection ID;
-- the protected connection-secret file;
+- the platform's protected connection-secret store;
 - the exact publishing-site origin;
 - the allowed lane;
 - the platform's durable state location;
@@ -149,6 +149,18 @@ Configure the installed component with:
 
 See [Platform Profiles](./PLATFORM_PROFILES.md) for each platform's native
 installation and execution boundary.
+
+For WordPress installations without server-file access, paste the one-time
+secret under **Settings → DiscussionBridge**. The plugin encrypts it with the
+installation's authentication salts, stores only a non-autoloaded ciphertext,
+and never redisplays it. Protected server configuration remains the preferred
+override when available.
+
+> **Allow time for delivery.** WordPress schedules DiscussionBridge delivery in
+> the background. Depending on WordPress Cron and network timing, a post may
+> remain **Queued** or **Delivering** briefly. Refresh the DiscussionBridge
+> settings page after a short wait. Do not select **Retry** while either status
+> is shown. Retry only after the delivery reports **Attention** or **Failed**.
 
 ## 7. Test The Workflow
 

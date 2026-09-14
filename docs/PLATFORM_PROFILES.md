@@ -110,10 +110,17 @@ shortcode, native materialization, source-author reporting, and all three
 comments modes. It publishes only explicitly eligible content and must not run
 network delivery from ordinary public page rendering.
 
-Store the connection secret outside the webroot and WordPress database. WP
-Discourse is a separate product. If it is fully configured or otherwise able
+Prefer a protected server constant or secret file outside the webroot. Where
+server-file access is unavailable, WordPress administrators may paste the
+one-time secret in the plugin settings; it is encrypted with the installation
+authentication salts, stored as a non-autoloaded option, and never redisplayed.
+WP Discourse is a separate product. If it is fully configured or otherwise able
 to publish the same post, DiscussionBridge must fail closed unless an
 independently enforced coexistence rule prevents duplicate publication.
+
+To Discourse delivery runs through WordPress Cron. **Queued** and
+**Delivering** are active states, not failures; refresh after a short wait and
+use **Retry** only when a delivery reports **Attention** or **Failed**.
 
 ## The Bridge — Discourse As Publisher
 
