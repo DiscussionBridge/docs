@@ -39,10 +39,30 @@ The theme uses an explicit `[data-discussionbridge-comments-host]` or
 resource placeholder; it must not borrow Ghost Members' `.gh-comments`
 container.
 
+When DiscussionBridge owns the article discussion surface, set Ghost Admin
+**Settings → Membership → Who can comment on posts?** to **Nobody**. Ghost's
+native Members comments are a separate identity and reply system; leaving them
+enabled produces a second comment section beneath the DiscussionBridge frame
+and can falsely imply that Ghost membership is synchronized with Discourse.
+
 Ghost Admin alone cannot install the execution component. Self-hosted
 operators need server access. A managed Ghost provider must agree to install
 and operate the service, protected credentials, state, systemd unit, proxy
 routes, and theme integration.
+
+The hosting-layer service also provides a separately authenticated operator
+page. It shows the last durable synchronization result, Ghost-to-Discourse
+mappings, Discourse-to-Ghost publications, attention states and bounded failure
+reasons, and offers an exact-origin **Synchronize publications** action. Its
+credential is distinct from the Ghost Admin key, webhook secret and Bridge
+connection secret. The same page can move with the companion service when a
+remote-hosted Ghost adapter profile is introduced in secondary Alpha.
+
+Ghost 6.59 permits a custom-integration token to read Code Injection but may
+deny writes. In that case the installer reports `manual_required: true` and
+supplies the exact versioned bootstrap for **Ghost Admin → Settings → Advanced
+→ Code injection → Site Footer**. Operators should not broaden the Admin key or
+modify an upgrade-owned stock theme to bypass that Ghost boundary.
 
 ## Hugo
 
