@@ -1,6 +1,6 @@
 ---
 title: "DiscussionBridge Public Docs"
-lastUpdated: 2026-09-13
+lastUpdated: 2026-09-16
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
@@ -20,8 +20,12 @@ boundary, and compare the three choices in
 [Demo chooser](https://demo.discussionbridge.dev/) or open
 [The Bridge](https://bridge.demo.discussionbridge.dev/).
 
-The current public release candidate is **DiscussionBridge 0.2.0-alpha.20**.
-Its seven release-member repositories are available through ordinary GitHub clone URLs:
+DiscussionBridge is in **Alpha**, with human-operated sandbox installation and
+testing under way. The components no longer all share one current Alpha number:
+each repository has its own exact release and installed identity. See
+[Versions And Live Status](/versions-and-live-status/) before installing or
+comparing environments. The six implementation repositories and the shared
+protocol are available through ordinary GitHub clone URLs:
 
 - [The Bridge — DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
 - [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
@@ -31,10 +35,11 @@ Its seven release-member repositories are available through ordinary GitHub clon
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
 - [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
 
-Each repository's `v0.2.0-alpha.20` tag and GitHub prerelease identify the
-immutable sandbox candidate. The `main` branches are the ongoing public source;
-exact commits and artifact hashes remain visible for support and compatibility
-reporting.
+Use the exact release tag and installation method for the chosen component.
+The `main` branches are ongoing public source, not an immutable deployment
+identity. A sandbox installation, a live demo, and a development/preproduction
+installation may run different component versions; none alone establishes
+final Alpha acceptance.
 
 This repository contains the public product and operator documentation.
 

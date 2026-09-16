@@ -68,13 +68,15 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone --branch v0.2.0-alpha.20 --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
+          - git clone --branch v0.2.0-alpha.32 --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
 ```
 
-That single ordinary clone is the operator installation entry. The current
-family tag and exact commit are recorded on
-[Versions And Live Status](/versions-and-live-status/) for evidence and
-support; they are not a second command the operator must add to `app.yml`.
+That is one clone command; no separate `git checkout` is needed. The tag is
+The Bridge's **September 16 Alpha.32 release**, not a claim that every adapter
+has reached Alpha.32. Before a later install or rebuild, check
+[Versions And Live Status](/versions-and-live-status/) for the intended exact
+The Bridge release and update the tag deliberately. Cloning a moving `main`
+branch is suitable for source work, not a reproducible operator install.
 
 ```bash
 cd /var/discourse

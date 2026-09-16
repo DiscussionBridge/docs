@@ -1,13 +1,12 @@
 ---
 title: "Versions And Live Status"
-lastUpdated: 2026-09-13
+lastUpdated: 2026-09-16
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/VERSIONS_AND_LIVE_STATUS.md"
 ---
 
-- **Last verified:** September 13, 2026
+- **Last updated:** September 16, 2026
 - **Release channel:** Alpha
-- **Product-family release candidate:** DiscussionBridge `0.2.0-alpha.20`
 - **Compatibility line:** The Bridge `0.2`
 
 This page is the current public inventory of the DiscussionBridge product
@@ -28,20 +27,45 @@ without turning the product into a generic control plane.
 - [DiscussionBridge on GitHub](https://github.com/DiscussionBridge) for all seven
   release-member repositories, including the DiscussionBridge Adapter Protocol.
 
-The current source and release candidate are public. An ordinary clone of a
-repository's `main` branch obtains its current Alpha source. The shared
-`v0.2.0-alpha.20` tag identifies the coordinated candidate across all seven
-release-member repositories. Each `main` branch may later
-include non-release maintenance; the tag and packaged GitHub release asset are
-the immutable installation identities for this gate.
+The source and component releases are public. An ordinary clone of `main`
+obtains moving Alpha source, **not** an immutable installation identity. Use
+the exact release tag and package for the component you install. The earlier
+coordinated Alpha.20 baseline remains a dated release record below; current
+components have advanced independently on the same Bridge `0.2` compatibility
+line.
 
-## Current Product Packages
+## Current Alpha Components
 
-The current public Alpha baseline contains six implementation packages plus
-the shared Adapter Protocol. Statamic uses one addon in three independently
-configured profiles.
+These are the latest GitHub releases checked September 16, 2026. The sandbox
+column is a separate installation observation, not a claim about the live
+demos or development/preproduction. WordPress Alpha.30 is installed, but its
+one-post publication-URL migration test currently fails closed on a canonical
+URL mismatch; final human acceptance is not claimed. The Adapter Protocol is
+shared contract material, not a deployed seventh adapter.
 
-| Product package | Component version | Public repository | Current public `main` |
+| Component | Latest GitHub release | Sandbox installation |
+| --- | --- | --- |
+| [The Bridge — DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge) | [`v0.2.0-alpha.32`](https://github.com/DiscussionBridge/discourse-discussion-bridge/releases/tag/v0.2.0-alpha.32) | `0.2.0.alpha.32` on `sandbox-forum` |
+| [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge) | [`v0.2.0-alpha.21`](https://github.com/DiscussionBridge/astro-discussion-bridge/releases/tag/v0.2.0-alpha.21) | Alpha.21 Astro sandbox |
+| [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.2.0-alpha.24`](https://github.com/DiscussionBridge/ghost-discussion-bridge/releases/tag/v0.2.0-alpha.24) | Alpha.24 Ghost sandbox |
+| [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/hugo-discussion-bridge/releases/tag/v0.2.0-alpha.20) | Alpha.20 Hugo sandbox |
+| [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge) | [`v0.2.0-alpha.29`](https://github.com/DiscussionBridge/statamic-discussion-bridge/releases/tag/v0.2.0-alpha.29) | Alpha.29 in separate Flat, DB, and SSG sandboxes |
+| [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.2.0-alpha.30`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/releases/tag/v0.2.0-alpha.30) | Alpha.30 WordPress sandbox; URL pilot open |
+| [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/releases/tag/v0.2.0-alpha.20) | Contract/fixtures; no runtime installation |
+
+The human sandbox exercises have produced working two-direction examples, but
+the WordPress URL pilot, Statamic SSG Cloudflare replay, development/preproduction
+promotion, and remaining release gates are still separate work. Do not infer
+that the older public demo installations run the latest sandbox packages.
+
+## Archived Alpha.20 Package Baseline — September 13, 2026
+
+The following exact commit table documents the coordinated Alpha.20 source
+baseline. It is preserved for provenance and **does not describe the current
+installed or latest released versions**. Statamic uses one addon in three
+independently configured profiles.
+
+| Product package | Alpha.20 version | Public repository | Alpha.20 source commit |
 | --- | --- | --- | --- |
 | The Bridge — DiscussionBridge for Discourse | `0.2.0.alpha.20` | [GitHub](https://github.com/DiscussionBridge/discourse-discussion-bridge) | `606774f6535d9c9ef15710cb9683072f7306051a` |
 | DiscussionBridge for Astro | `0.2.0-alpha.20` | [GitHub](https://github.com/DiscussionBridge/astro-discussion-bridge) | `f0610945beedc4cca54c11440d4794ce92b17ff5` |
@@ -67,18 +91,17 @@ configured profiles.
 - **WordPress** is a native plugin for publishing, retrieval, retry, and
   comments presentation.
 
-Every implementation repository also contains `discussionbridge-release.json`, which
-records the shared family release, component name and version, Bridge
-compatibility line, and canonical repository URL. The five adapter/addon
-packages use the family version directly; the Discourse plugin uses the
-equivalent Ruby metadata form `0.2.0.alpha.20`. Exact commits
-and artifact hashes still distinguish the independently built packages.
+Each implementation repository contains `discussionbridge-release.json`, which
+records its component identity, family release line, Bridge compatibility, and
+canonical repository. The archived Alpha.20 Discourse plugin used the Ruby
+metadata form `0.2.0.alpha.20`; exact commits and artifact hashes distinguish
+the independently built packages.
 
 ## Built in Public
 
 **Last measured:** September 3, 2026
 
-Project Census measured the six current implementation repositories from their
+Project Census measured the six implementation repositories from their
 exact Git-tracked files. The separate categories keep generated or packaged
 output from being presented as work written by the product team.
 
@@ -94,7 +117,7 @@ The census excludes dependencies, generated browser bundles and site output,
 lockfiles, vendored code, archives, source maps, and binary assets. It records
 exact repository commits and refuses to create a release census from a dirty
 package. These September 3 figures describe the Alpha.18 predecessor baseline;
-they are not silently relabeled as an Alpha.20 measurement.
+they are not silently relabeled as an Alpha.20 or current measurement.
 
 ## Versioning Convention
 
@@ -107,20 +130,20 @@ DiscussionBridge needs to communicate three different identities:
 3. **Component build:** the exact commit and artifact hash for the plugin,
    adapter, addon, or consumer installed or deployed.
 
-The family and component identities are now machine-readable in every public
-repository. Support reports should include the family version, Bridge
-compatibility line, component name, and exact artifact identity, for example:
-**DiscussionBridge 0.2.0-alpha.20; The Bridge 0.2; Ghost adapter; artifact
-SHA-256 66e3cec6…**.
+The family and component identities are machine-readable in the public
+implementation repositories. Support reports should include the exact
+component release, Bridge compatibility line, package name, installed version,
+and artifact identity. Do not describe independently advancing Alpha builds as
+one newly coordinated release merely because they share a `0.2` contract.
 
-## Platform Compatibility And Test Targets
+## Alpha.20 Compatibility Evidence — historical
 
 Package compatibility and observed installation evidence are different claims.
-The ranges below are what each Alpha.20 package currently declares. The exact
-targets are the platform versions exercised by its present test or sandbox
-evidence; they do not imply testing of every version inside a declared range.
+The ranges below record what the Alpha.20 packages declared on September 13.
+The exact targets were exercised then; they do not imply testing of every
+version inside a range or supersede newer package READMEs.
 
-| DiscussionBridge package | Declared platform/runtime compatibility | Exact current Alpha.20 test or sandbox target |
+| DiscussionBridge package | Alpha.20 declared compatibility | Alpha.20 test or sandbox target |
 | --- | --- | --- |
 | The Bridge — DiscussionBridge for Discourse | Discourse `3.3.0` or newer | Alpha.20 CI lint, backend RSpec, annotations, and Ember build passed against pinned Discourse Core `36698aae084678151dffa875d49c8d59216d2733`. The official Core system-test job stopped at its MinIO installation step before plugin system tests ran; Alpha.20 human sandbox installation remains pending. |
 | DiscussionBridge for Astro | Astro `6.x` or `7.x`; optional Starlight `0.35.0` or newer | Package tests use Astro `7.2.4` and Starlight `0.41.7`; clean sandbox baselines use Astro `7.3.1` and Starlight `0.42.0`. |
@@ -134,11 +157,12 @@ Their packages declare the execution runtime they require, but do not yet make
 an unsupported broad CMS/generator compatibility promise. Broader ranges should
 be published only after a deliberate version matrix is tested.
 
-## Live Profiles
+## Live Demo Profiles — September 13, 2026 snapshot
 
-All links below are public demonstrations. A `Live` label means the profile is
-deployed and reachable; it is not a promise of production support or final
-release acceptance.
+All links below are public demonstrations. The version values are the earlier
+published demo snapshot, **not** the September 16 sandbox release table above.
+A `Live` label means the profile was deployed at that snapshot; it is not a
+promise of production support or final release acceptance.
 
 <div class="db-profile-grid">
   <article class="db-profile-card">
@@ -230,11 +254,11 @@ As verified on **September 4, 2026**, the public Bridge runs:
 The runtime was installed from the exact Alpha.18 candidate artifact. Installed
 plugin files matched that artifact at verification time.
 
-## Exact Alpha.20 Candidate Artifacts
+## Archived Exact Alpha.20 Candidate Artifacts
 
-These immutable assets are published on each repository's GitHub prerelease.
-They are ready for human sandbox installation and configuration testing; they
-are not yet claims of development/pre-production or live-demo promotion.
+These immutable assets were published for the coordinated Alpha.20 candidate.
+Their hashes remain useful for historical verification; use the current release
+links above for new installation decisions.
 
 | Package | Artifact | SHA-256 |
 | --- | --- | --- |
@@ -246,10 +270,10 @@ are not yet claims of development/pre-production or live-demo promotion.
 | WordPress | `wordpress-discussion-bridge-0.2.0-alpha.20.zip` | `2fcede298e816be3c99d194668ee295bade95202b3caaf90b667103c0d8088f6` |
 | Adapter Protocol | `discussionbridge-adapter-contract-0.2.0-alpha.20.zip` | `8f56c67fd0fffdd55c9515be86c5d7dbda7d85d53257ddcfbfe4169ad71bf53f` |
 
-## Public Deployment Identities
+## Demo Deployment Identities — September 13, 2026 snapshot
 
-Static consumers are independently versioned from their adapters. The latest
-verified source/deployment bindings are:
+Static consumers are independently versioned from their adapters. The
+source/deployment bindings in that earlier published snapshot were:
 
 | Consumer | Source commit | Cloudflare Worker deployment |
 | --- | --- | --- |
@@ -274,15 +298,14 @@ protected operational identifiers are intentionally not published here.
 - `forum.discussionbridge.dev` is the community and support forum, not the
   public publishing demo.
 
-## Current Acceptance State
+## Current Acceptance Boundary
 
-Public source and immutable Alpha.20 prerelease assets are now established, but
-publication is not final Alpha release acceptance. Human sandbox installation
-and configuration, unchanged promotion through development/pre-production, and
-the remaining release gates are tracked separately. The public live profiles
-above continue to report their installed Alpha.18 identities until that
-promotion occurs. This page does not claim provider recovery, production, or
-product-risk acceptance.
+Public source and immutable component releases exist. Human sandbox installation
+has progressed beyond the archived Alpha.20 baseline, but the current URL
+migration pilot and other gates remain open. The public demo identities above
+are separately dated; they are not silently promoted to the latest sandbox
+packages. Development/preproduction promotion, provider recovery, production,
+and final product-risk acceptance are not claimed here.
 
 For help, use [Alpha Support](/support-and-feedback/). For the complete public
 demonstration, use the [Demo chooser](https://demo.discussionbridge.dev/).
