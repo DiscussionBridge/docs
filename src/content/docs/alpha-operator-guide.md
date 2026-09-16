@@ -1,6 +1,6 @@
 ---
 title: "Alpha Installation and Operator Guide"
-lastUpdated: 2026-09-14
+lastUpdated: 2026-09-16
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_OPERATOR_GUIDE.md"
 ---
@@ -105,6 +105,13 @@ Configure and verify:
 - the ordinary Discourse embedding and CORS settings required by the selected
   presentation modes.
 
+Before testing an embedded discussion, add the publishing site's exact public
+HTTPS origin in Discourse's **Embeddable Hosts**. Keep **Embed any origin**
+disabled unless the forum operator has deliberately chosen that broader policy.
+For Interactive mode, also enable **Embed full app** and its sign-in flow. A
+Content Connection's allowed origin authorizes Bridge requests; it does not
+itself create a Discourse Embeddable Host.
+
 The operating identity and visible author are deliberately separate. Choosing
 a visible author does not grant that user service authority.
 
@@ -120,6 +127,11 @@ installation. Set:
 - fixed-author or mapped-source-author policy;
 - optional **Generate topic table of contents** behavior;
 - enabled state.
+
+After saving, inspect the origin's readiness label in **Connections**.
+**Embed host ready** means Discourse Core allows that exact origin;
+**Embeddable Host missing** means embedding is not ready even if the adapter
+credential verifies. Correct the host rule before the first iframe test.
 
 The new secret is shown once. Transfer it directly to the adapter's protected
 server-side store. Never put it in page content, browser JavaScript, a public

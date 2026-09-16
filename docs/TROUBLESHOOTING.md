@@ -247,8 +247,13 @@ embedded reply.
 
 Fix:
 
-- confirm embedding host settings
-- confirm the Astro domain exactly matches the allowed host
+- inspect the connection's **Embed host ready** or **Embeddable Host missing**
+  label in The Bridge; a verified Content Connection does not add an
+  Embeddable Host automatically
+- add the exact public HTTPS publishing origin to Discourse's **Embeddable
+  Hosts** and check any path restriction against the actual page URL
+- confirm the page's hostname matches that rule, whether the platform is
+  Astro, Ghost, Hugo, Statamic, or WordPress
 - confirm `Embed full app` settings if using `interactive`
 - confirm HTTPS and certificate status
 - check browser console for frame or CSP errors
