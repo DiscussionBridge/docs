@@ -38,9 +38,10 @@ line.
 
 These are the latest GitHub releases checked September 16, 2026. The sandbox
 column is a separate installation observation, not a claim about the live
-demos or development/preproduction. WordPress Alpha.30 is installed, but its
-one-post publication-URL migration test currently fails closed on a canonical
-URL mismatch; final human acceptance is not claimed. The Adapter Protocol is
+demos or development/preproduction. WordPress Alpha.31 is installed; its
+one-post publication-URL migration test passed an update-in-place and an
+unchanged retry without creating another post or topic. Broader platform
+migration acceptance is not claimed. The Adapter Protocol is
 shared contract material, not a deployed seventh adapter.
 
 | Component | Latest GitHub release | Sandbox installation |
@@ -50,12 +51,13 @@ shared contract material, not a deployed seventh adapter.
 | [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.2.0-alpha.24`](https://github.com/DiscussionBridge/ghost-discussion-bridge/releases/tag/v0.2.0-alpha.24) | Alpha.24 Ghost sandbox |
 | [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/hugo-discussion-bridge/releases/tag/v0.2.0-alpha.20) | Alpha.20 Hugo sandbox |
 | [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge) | [`v0.2.0-alpha.29`](https://github.com/DiscussionBridge/statamic-discussion-bridge/releases/tag/v0.2.0-alpha.29) | Alpha.29 in separate Flat, DB, and SSG sandboxes |
-| [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.2.0-alpha.30`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/releases/tag/v0.2.0-alpha.30) | Alpha.30 WordPress sandbox; URL pilot open |
+| [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.2.0-alpha.31`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/releases/tag/v0.2.0-alpha.31) | Alpha.31 WordPress sandbox; one-post URL pilot passed |
 | [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/releases/tag/v0.2.0-alpha.20) | Contract/fixtures; no runtime installation |
 
-The human sandbox exercises have produced working two-direction examples, but
-the WordPress URL pilot, Statamic SSG Cloudflare replay, development/preproduction
-promotion, and remaining release gates are still separate work. Do not infer
+The human sandbox exercises have produced working two-direction examples and a
+one-post WordPress URL cutover. The broader URL migration matrix, Statamic SSG
+Cloudflare replay, development/preproduction promotion, and remaining release
+gates are still separate work. Do not infer
 that the older public demo installations run the latest sandbox packages.
 
 ## Archived Alpha.20 Package Baseline — September 13, 2026
@@ -310,8 +312,9 @@ protected operational identifiers are intentionally not published here.
 ## Current Acceptance Boundary
 
 Public source and immutable component releases exist. Human sandbox installation
-has progressed beyond the archived Alpha.20 baseline, but the current URL
-migration pilot and other gates remain open. The public demo identities above
+has progressed beyond the archived Alpha.20 baseline, and the one-post
+WordPress URL pilot passed. Broader URL migration and other gates remain open.
+The public demo identities above
 are separately dated; they are not silently promoted to the latest sandbox
 packages. Development/preproduction promotion, provider recovery, production,
 and final product-risk acceptance are not claimed here.
