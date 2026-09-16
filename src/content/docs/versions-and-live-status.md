@@ -99,7 +99,7 @@ the independently built packages.
 
 ## Built in Public
 
-**Last measured:** September 3, 2026
+**Last measured:** September 16, 2026
 
 Project Census measured the six implementation repositories from their
 exact Git-tracked files. The separate categories keep generated or packaged
@@ -107,17 +107,26 @@ output from being presented as work written by the product team.
 
 | Category | Files | Physical lines | Nonblank lines |
 | --- | ---: | ---: | ---: |
-| First-party product source | 157 | 15,073 | 13,554 |
-| Tests | 49 | 6,877 | 6,168 |
-| Product documentation | 28 | 2,455 | 1,984 |
-| Configuration | 15 | 589 | 584 |
-| Other counted text | 20 | 222 | 203 |
+| First-party product source | 181 | 18,673 | 16,867 |
+| Tests | 57 | 8,384 | 7,523 |
+| Product documentation | 33 | 3,177 | 2,532 |
+| Configuration | 21 | 739 | 734 |
+| Other counted text | 23 | 285 | 254 |
 
 The census excludes dependencies, generated browser bundles and site output,
 lockfiles, vendored code, archives, source maps, and binary assets. It records
 exact repository commits and refuses to create a release census from a dirty
-package. These September 3 figures describe the Alpha.18 predecessor baseline;
-they are not silently relabeled as an Alpha.20 or current measurement.
+package. This is a source census, not a claim that all six packages have the
+same release version or are installed at these commits. The measured commits are:
+
+| Package | Measured commit |
+| --- | --- |
+| The Bridge | `d06169ec96f071ad66bde94aabbb862c7606840d` |
+| Astro | `6ebf90931ef06257d24b0b612320770819c3082a` |
+| Ghost | `9fed6a98d3cb7faeb3989479255cbd8d30574b91` |
+| Hugo | `67dca628528a5a6bc4ed5eb1296c6aeaf152bf49` |
+| Statamic | `f58f385b96ec98b90e0d4269a72f16aae5b47fb6` |
+| WordPress | `de80865d94a2277f4a5d1479c4bd2793c7a71bbc` |
 
 ## Versioning Convention
 
