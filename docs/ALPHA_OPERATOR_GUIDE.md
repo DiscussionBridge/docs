@@ -176,6 +176,37 @@ override when available.
 > settings page after a short wait. Do not select **Retry** while either status
 > is shown. Retry only after the delivery reports **Attention** or **Failed**.
 
+### Establish destination structure before forum-scale publication
+
+Install the destination's native navigation and content structure before the
+first preview or backfill. Create the intended section routes, collections,
+categories, tags, or indexes and verify that every public route works while it
+is still empty. This gives operators stable URLs and understandable navigation
+before synchronized content arrives.
+
+The initial state must be truthful:
+
+- an empty index says that no synchronized publications exist yet;
+- navigation may link to an empty native route, but must not invent entries,
+  counts, authors, or synchronization status;
+- do not copy forum posts manually merely to make a destination look populated;
+- do not replace the forum-scale preview and backfill with topic-by-topic
+  authorization.
+
+After the structure is verified, configure the connection's category and tag
+selection plus its destination mappings. The preview shows which eligible
+forum topics will populate each native destination. The resumable backfill then
+creates those entries, and later synchronization updates the same durable
+identities without duplicates.
+
+An empty but working native section is readiness evidence, not a failed
+publication. Record its route and rollback boundary before starting the
+backfill. Platform-specific empty states differ: a WordPress category can exist
+without posts, while a Ghost integration may need an explicit route until its
+first tagged publication exists. Use the native mechanism documented in
+[Platform Profiles](./PLATFORM_PROFILES.md); do not fabricate placeholder
+content to hide the distinction.
+
 ## 7. Test The Workflow
 
 Use newly created demo content so existing content cannot hide an identity or
