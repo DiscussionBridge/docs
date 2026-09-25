@@ -1,6 +1,8 @@
 ---
 title: "Alpha Installation and Operator Guide"
-lastUpdated: 2026-09-20
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ALPHA_OPERATOR_GUIDE.md"
 ---
@@ -10,10 +12,10 @@ then use the platform-specific notes in [Platform Profiles](/platform-profiles/)
 and the exact deployed identities in
 [Versions And Live Status](/versions-and-live-status/).
 
-DiscussionBridge is a family of focused tools. **The Bridge** is the unified
-Discourse plugin and flagship. A platform adapter or addon connects one
-publishing installation to The Bridge; it does not become a second control
-plane.
+DiscussionBridge is a family of focused tools. **DiscussionBridge for
+Discourse** is the unified receiver plugin. A platform adapter or addon
+connects one publishing installation to that receiver; it does not become a
+second control plane. **The Bridge** is reserved for the dedicated public demo.
 
 ## 1. Choose The Systems And Job
 
@@ -56,11 +58,14 @@ Record paths, byte counts, hashes, ownership/modes, and the restore sequence.
 Secrets may be referenced by protected location; never copy their values into
 the runbook.
 
-## 3. Install The Bridge
+## 3. Install DiscussionBridge For Discourse
 
-Install The Bridge from its public GitHub repository in the intended Discourse
-container. For the standard `app` layout, add the repository to `app.yml` and
-rebuild only that container:
+Install DiscussionBridge for Discourse from its public GitHub repository in the
+intended Discourse container. Copy the exact published tag from
+[Versions And Live Status](/versions-and-live-status/) and confirm it against
+the component's release notes. Stop if those sources disagree. For the standard
+`app` layout, add one pinned clone command to `app.yml` and rebuild only that
+container:
 
 ```yaml
 hooks:
@@ -68,15 +73,13 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone --branch v0.2.0-alpha.32 --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
+          - git clone --branch <exact-release-tag> --depth 1 https://github.com/DiscussionBridge/discourse-discussion-bridge.git
 ```
 
-That is one clone command; no separate `git checkout` is needed. The tag is
-The Bridge's **September 16 Alpha.32 release**, not a claim that every adapter
-has reached Alpha.32. Before a later install or rebuild, check
-[Versions And Live Status](/versions-and-live-status/) for the intended exact
-The Bridge release and update the tag deliberately. Cloning a moving `main`
-branch is suitable for source work, not a reproducible operator install.
+Replace the placeholder with the exact tag; do not paste it literally. This is
+one clone command and needs no separate checkout. Record the installed tag,
+commit, and artifact in the site runbook. A moving `main` checkout is not an
+immutable deployment identity.
 
 ```bash
 cd /var/discourse
@@ -106,6 +109,17 @@ Configure and verify:
 - comments-only Interactive support;
 - the ordinary Discourse embedding and CORS settings required by the selected
   presentation modes.
+
+Choose who may see per-topic publication badges and controls: administrators,
+staff, or a dedicated DiscussionBridge Editors group. Use the narrower group
+for paid or delegated publishing work instead of granting general staff access.
+The optional **DiscussionBridge Operator service** capability and the
+**Request Operator service** action are separate steps: enabling local
+capability does not submit a service request or activate a paid service.
+An enrolled operator identity is narrowly bound to DiscussionBridge inspection
+and approved publication mutations. It does not receive connection-secret,
+global-setting, user-management, credential, or general forum-administration
+authority.
 
 Before testing an embedded discussion, add the publishing site's exact public
 HTTPS origin in Discourse's **Embeddable Hosts**. Keep **Embed any origin**
@@ -158,7 +172,7 @@ component's installation instructions, and bind it to:
 
 Configure the installed component with:
 
-- The Bridge HTTPS origin;
+- the DiscussionBridge for Discourse HTTPS origin;
 - the `dbc_…` connection ID;
 - the platform's protected connection-secret store;
 - the exact publishing-site origin;
@@ -167,7 +181,10 @@ Configure the installed component with:
 - the intended content types, collections, tags, or opt-in fields.
 
 See [Platform Profiles](/platform-profiles/) for each platform's native
-installation and execution boundary.
+installation and execution boundary. See
+[Adapter Operating Models](/adapter-operating-models/) for each adapter's
+native object, initial-backfill and steady-state behavior, claim limit, lease,
+acknowledgement, and recovery boundary.
 
 For WordPress installations without server-file access, paste the one-time
 secret under **Settings → DiscussionBridge**. The plugin encrypts it with the
@@ -204,6 +221,13 @@ forum topics will populate each native destination. The resumable backfill then
 creates those entries, and later synchronization updates the same durable
 identities without duplicates.
 
+Before starting the full backfill, publish one representative topic as a
+canary. Verify its native identity, public URL, content, authorship, source
+credit, discussion link, update-in-place behavior, and rollback path. Then use
+the adapter-specific bounded batch and unattended worker described in
+[Adapter Operating Models](/adapter-operating-models/); do not convert a
+successful one-topic canary into an unbounded loop.
+
 An empty but working native section is readiness evidence, not a failed
 publication. Record its route and rollback boundary before starting the
 backfill. Platform-specific empty states differ: a WordPress category can exist
@@ -231,17 +255,33 @@ For **To Discourse**:
 
 For **From Discourse**:
 
-1. select the source topic in The Bridge;
-2. create a From Discourse record for one connection and exact destination;
-3. choose presentation-only or explicitly authorize native materialization;
-4. run the adapter retrieval/materialization path;
-5. verify the source first post appears once, source attribution is clear, and
+1. make the topic eligible through the connection's category/tag policy or an
+   explicit per-topic decision;
+2. open the topic wrench menu and choose **DiscussionBridge Status**;
+3. review each connection independently and choose its default, include, or
+   exclude state plus the exact mapped destination;
+4. preview the eligible population and destination mappings before starting a
+   forum-scale backfill;
+5. choose presentation-only or explicitly authorize native materialization;
+6. run the bounded adapter retrieval/materialization or backfill path;
+7. confirm the Publishing queue moves through Queued/Delivering to Current and
+   that no terminal attention condition is hidden by record-health filters;
+8. verify the source first post appears once, source attribution is clear, and
    replies/comments remain attached to the same topic;
-6. retry unchanged, then test one authorized source revision update.
+9. retry one genuinely recoverable item unchanged, then test one authorized
+   source revision update.
+
+Do not use generic Retry for terminal identity drift, ownership conflicts, or
+known over-limit content. Diagnose and correct the cause first; a blind retry
+does not change the unsafe input.
 
 For either direction, verify reconciliation is clean and a credential never
 appears in HTML, JSON intended for browsers, logs, URLs, screenshots, or error
 messages.
+
+The current native From Discourse source-body boundary is 256 KiB. Content
+above the admitted adapter limit must become a truthful operator-attention item;
+it must not be silently truncated into a misleading publication.
 
 ## 8. Verify Presentation
 

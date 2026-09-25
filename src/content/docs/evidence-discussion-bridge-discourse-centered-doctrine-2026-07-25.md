@@ -1,15 +1,29 @@
 ---
-title: "DiscussionBridge Discourse-Centered Product Doctrine"
-lastUpdated: 2026-07-27
-appliesTo: "DiscussionBridge Alpha"
+title: "Historical Source Evidence: Discourse-Centered Product Doctrine"
+lastUpdated: 2026-09-25
+status: "Historical record — not current operating guidance"
+audience: "Maintainers and product-history readers"
+appliesTo: "Dated DiscussionBridge Alpha development record"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md"
 ---
 
-Date recorded: 2026-07-25  
-Source: Phil through Bridge Boss  
-Status: Settled product and architecture decision
+- **Recorded:** July 25, 2026
+- **Source provenance:** Phil through the task then named Bridge Boss
+- **Status:** historical source evidence for a settled product direction
 
-The following source statement is preserved intact:
+This page preserves the original statement that informed the product model. It
+is not current installation guidance, release evidence, or an assertion that
+every described boundary was implemented on the recorded date. Historical task
+names identify provenance only; they are not current owners or routing
+destinations.
+
+For the current interpretation and implementation boundary, use
+[Product Concepts And Terminology](../PRODUCT_NOTES.md),
+[Core/Adapter Architecture](../CORE_ADAPTER_ARCHITECTURE.md),
+[Adapter Operating Models](../ADAPTER_OPERATING_MODELS.md), and
+[Versions And Live Status](../VERSIONS_AND_LIVE_STATUS.md).
+
+## Preserved Source Statement
 
 > Bridge Boss / Phil settled product doctrine:
 >
@@ -30,8 +44,5 @@ The following source statement is preserved intact:
 >
 > This is now a deliberate product and architecture decision discovered through the work—the WebSynergetics way. Please route it into the appropriate durable product doctrine, architecture, manuals, roadmap, and other Boss lanes.
 
-This record preserves the decision source. Canonical interpretation and
-implementation status live in Product Notes, the paired manuals, Content
-Lanes, and the build/launch checklist. Current Product styling is
-`DiscussionBridge`; the preserved quotation above retains its historical
-wording.
+The quotation retains its historical `Discussion Bridge` wording. Current
+product styling is `DiscussionBridge`.

@@ -1,32 +1,38 @@
-# Presets And Placement
+# Astro And Starlight Placement
 
-> This page is an Astro placement reference. For the current product-family
-> boundary and all platform profiles, start with
-> [Platform Profiles](./PLATFORM_PROFILES.md).
+DiscussionBridge for Astro is one package for plain Astro and Astro +
+Starlight. The current 0.2 integration has no `preset` option. The site chooses
+its natural content hook and places the discussion explicitly after the article
+body.
 
-DiscussionBridge for Astro has one package and two primary preset stories:
+## Configure The Integration
 
 ```js
-discussionBridge({
-  preset: "starlight",
-});
+import { defineConfig } from "astro/config";
+import discussionBridge from "astro-discussion-bridge";
 
-discussionBridge({
-  preset: "astro",
+export default defineConfig({
+  integrations: [
+    discussionBridge({
+      discourseUrl: "https://forum.example.com",
+      siteUrl: "https://docs.example.com",
+      comments: {
+        display: "full",
+      },
+    }),
+  ],
 });
 ```
 
-The preset should choose sensible defaults. The site still chooses where the discussion appears.
+Supported public modes are `simple`, `full`, and `interactive`. The historical
+`fullInteractive` value is an input-only compatibility alias; new
+configuration uses `interactive`.
 
-## Starlight Preset
+## Starlight
 
-Use `preset: "starlight"` for Starlight documentation sites.
-
-Starlight owns its own page model, routes, content schema, and component slots. For Starlight docs pages, the recommended placement is a Starlight `MarkdownContent` override that renders DiscussionBridge after the page body and before Starlight's real footer.
-
-That keeps the discussion attached to the content, while the footer remains responsible for footer things such as pagination, edit links, and metadata.
-
-Example:
+Starlight owns its page model, routes, schema, and component slots. For a docs
+page, use a `MarkdownContent` override so the discussion follows the page body
+but remains above Starlight's real footer:
 
 ```astro
 ---
@@ -34,25 +40,26 @@ import DefaultMarkdownContent from "@astrojs/starlight/components/MarkdownConten
 import Discussion from "astro-discussion-bridge/Discussion.astro";
 
 const entry = Astro.locals.starlightRoute.entry;
-const topicId = entry.data.discourseTopicId;
-const topicUrl = entry.data.discussionUrl ?? entry.data.discourseTopicUrl;
 ---
 
 <DefaultMarkdownContent>
   <slot />
 </DefaultMarkdownContent>
-{topicUrl && <Discussion topicId={topicId} topicUrl={topicUrl} />}
+<Discussion frontmatter={entry.data} />
 ```
 
-Do not use Starlight's `Footer` override as the main comments hook. It works as a quick prototype, but it makes discussion rendering feel like global page chrome instead of page content.
+Do not use Starlight's `Footer` override as the primary comments hook. The
+discussion belongs to page content; pagination, edit links, and metadata remain
+footer responsibilities.
 
-## Astro Preset
+If the site's Starlight version exposes route data differently, adapt only the
+frontmatter handoff. Do not invent adapter options to compensate for a
+site-template difference.
 
-Use `preset: "astro"` for normal Astro sites and content collections.
+## Plain Astro
 
-Astro core does not provide Starlight's `MarkdownContent` component. A plain Astro site should place `<Discussion />` in the page layout or route template that renders the content collection entry.
-
-Example:
+Astro core does not provide Starlight's `MarkdownContent` component. Place the
+same component in the layout or route template that renders the content entry:
 
 ```astro
 ---
@@ -62,34 +69,22 @@ import Discussion from "astro-discussion-bridge/Discussion.astro";
 <article>
   <slot />
 </article>
-<Discussion
-  display={Astro.props.commentsDisplay}
-  embedUrl={Astro.props.embedUrl}
-  heading="Discussion"
-  topicId={Astro.props.topicId}
-  topicUrl={Astro.props.topicUrl}
-/>
+<Discussion frontmatter={Astro.props.frontmatter} />
 ```
 
-This is the same product model as Starlight: the article owns the reading experience, and the discussion appears after the content rather than inside global footer chrome.
+The component also accepts the current explicit props `display`, `heading`,
+`sourceUrl`, `topicId`, and `topicUrl`. It does not accept the historical
+`embedUrl` prop.
 
-## Content Lanes
+## Custom Content Types
 
-Custom lanes such as blog, news, releases, or comments-mode demos can use ordinary Astro layouts even inside a Starlight site.
+Blog, news, release, or other custom routes can use ordinary Astro layouts even
+inside a Starlight site. The placement rule stays the same: render the article
+once, then render DiscussionBridge, then continue with page navigation and site
+chrome.
 
-The demo uses:
-
-- `MarkdownContent.astro` for Starlight docs pages.
-- `LaneLayout.astro` for custom blog, news, releases, and comments pages.
-- `BlogPost.astro` in the plain Astro demo.
-
-This keeps the publishing model consistent while allowing each site framework or template to use its natural rendering hook.
-
-## Alpha Rule
-
-For Alpha, keep the rule simple:
-
-- `preset: "starlight"` means Starlight-aware defaults and docs.
-- `preset: "astro"` means Astro-core defaults and docs.
-- Placement is explicit and belongs to the site template.
-- Publishing and syncing remain CLI/config driven across both presets.
+Publishing configuration and visual placement are separate. `publishOnBuild`
+selects the protected content root, route base, lane, and durable state file;
+the template decides where readers see the comments surface. See
+[Content Lanes](./CONTENT_LANES.md) and
+[Presentation Modes](./PRESENTATION_MODES.md).

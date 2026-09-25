@@ -28,8 +28,10 @@ test("the metadata ledger covers and matches every synchronized docs source", as
     path.join(repoRoot, "scripts", "sync-docs-site-content.mjs"),
     "utf8",
   );
+  const docsArray = syncScript.match(/const docs = \[([\s\S]*?)\n\];/);
+  assert.ok(docsArray, "sync script must declare the synchronized docs list");
   const listedFiles = [
-    ...syncScript.matchAll(/^\s{2}"([^"]+\.md)",$/gm),
+    ...docsArray[1].matchAll(/^\s+"([^"]+\.md)",$/gm),
   ].map((match) => match[1]);
 
   assert.doesNotMatch(syncScript, /\bgit\s+log\b|execFile/);

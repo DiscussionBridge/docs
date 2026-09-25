@@ -1,444 +1,260 @@
 ---
 title: "DiscussionBridge Site Machine Runbook: {Site Name}"
-lastUpdated: 2026-09-13
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md"
 ---
 
-> **Astro-era machine template.** It is not a generic copy/paste installer.
-> Reconcile every field with the current exact package README, immutable
-> artifact, [Alpha Installation and Operator Guide](/alpha-operator-guide/), and
-> [Platform Profiles](/platform-profiles/).
+Status: `{draft | review | approved | current}`
 
-Status: `{draft | review | approved | current}`  
-Environment: `{development | staging | production}`  
-Release/version: `{package version or release candidate}`  
-Last verified: `{YYYY-MM-DD}`  
+Environment: `{development | sandbox | preproduction | production}`
+
+Last verified: `{YYYY-MM-DD}`
+
 Companion: [Human Runbook](/site-runbook-human-template/)
 
-This template is the exact execution and generation record for one site. Replace
-every brace-delimited placeholder. Never store real passwords, API keys, tokens,
-private account values, or production secrets here.
+Replace every placeholder. Resolve commands from the exact installed release.
+Never store a credential value in this file.
 
-## 1. Runbook Inputs
-
-```yaml
-site:
-  name: "{site name}"
-  repository: "{repository name or safe URL}"
-  project_root: "{absolute or operator-relative path}"
-  environment: "{development | staging | production}"
-  framework_preset: "{astro | starlight}"
-  site_url: "{https://site.example.com}"
-  discourse_url: "{https://forum.example.com}"
-  deployment_target: "{Cloudflare Pages or other target}"
-  verification_urls:
-    - "{public lane URL}"
-    - "{companion topic URL after creation/linking}"
-
-credentials:
-  post_as: "{preferred request actor username; not secret}"
-  legacy_api_username: "{compatibility fallback, if still used; not secret}"
-  publishing_key_reference: "{private vault reference; never value}"
-  diagnostics_key_reference: "{private vault reference; never value}"
-
-discussion:
-  active_target: "{target name or empty}"
-  default_comments_display: "{simple | full | interactive | fullInteractive}"
-
-lanes:
-  - name: "{lane name}"
-    docs_dir: "{src/content/docs}"
-    route_base: "{empty | blog | releases | other}"
-    source_mode: "{astro-managed | discourse-managed | discourse-imported}"
-    category_id: {integer}
-    tags: ["{tag}"]
-    listed: {true | false}
-    managing_page_rule: "{exactly one managing Astro page per topic}"
-    comments_display: "{simple | full | interactive | fullInteractive}"
-    verification_url: "{public lane URL}"
-    recovery_owner: "{person/team/lane}"
-```
-
-Use `interactive` for every new runbook. The historical `fullInteractive` value
-is accepted only during the compatibility window and must be recorded as
-deprecated when an existing estate still supplies it.
-
-Reject generation when site URL, forum URL, lane directory, route base, source
-mode, category, managing-page rule, or recovery owner is unknown.
-
-## 2. Key Contract
-
-Publishing key environment:
-
-```text
-DISCOURSE_POST_AS={request actor username}
-# Legacy fallback only: DISCOURSE_API_USERNAME={bot username}
-DISCOURSE_API_KEY={secret value supplied privately at runtime}
-```
-
-Diagnostics key environment:
-
-```text
-DISCOURSE_DIAGNOSTICS_API_KEY={secret value supplied privately at runtime}
-```
-
-Exact publishing scopes:
-
-```text
-categories:list
-categories:show
-posts:edit
-posts:list
-search:show
-tags:list
-topics:write
-topics:update
-topics:read
-topics:status
-```
-
-The diagnostics key is the current global/admin-capable setup fallback. Keep it
-out of routine publishing and deployment paths.
-
-## 3. Site Configuration
-
-File: `{project_root}/astro.config.mjs`
-
-```js
-discussionBridge({
-  provider: "discourse",
-  preset: "{astro | starlight}",
-  discourseUrl: "{https://forum.example.com}",
-  siteUrl: "{https://site.example.com}",
-  comments: {
-    display: "{simple | full | interactive | fullInteractive}",
-  },
-  replies: {
-    refreshOnPageLoad: true,
-    refreshEndpoint: "{/api/discourse/topics/{topicId}.json | omit for direct CORS}",
-  },
-  publishOnBuild: {
-    enabled: false,
-  },
-});
-```
-
-Keep build publishing disabled until every lane has passed explicit diagnostics,
-dry-run review, a controlled live write, and verification.
-
-## 4. Source-Mode Enforcement
+## 1. Installation
 
 ```yaml
-astro-managed:
-  discussionSync: true_or_omitted
-  writeback: allowed_after_preview
-
-discourse-managed:
-  discussionSync: false
-  writeback: prohibited
-
-discourse-imported:
-  discussionSync: false
-  writeback: prohibited_until_explicit_promotion
+installation:
+  name: "{stable name}"
+  environment: "{environment}"
+  owner: "{operator or team}"
+  recovery_owner: "{operator or team}"
+  receiver_origin: "{https://forum.example.com}"
+  publishing_origin: "{https://site.example.com}"
+  platform: "{astro | ghost | hugo | statamic-flat | statamic-db | statamic-ssg | wordpress}"
+  directions: ["{to-discourse | from-discourse}"]
 ```
 
-Current implementation limitation: source-mode names are operating metadata,
-not CLI-enforced fields. `discussionSync: false` is the enforced guard, and
-`import-existing` does not add it automatically.
-
-Pre-write check:
-
-```text
-For every file in the command directory:
-- identify source mode;
-- confirm Discourse-managed/imported files contain discussionSync: false;
-- confirm one managing Astro page per topic;
-- reject unexplained duplicate topic IDs or page URLs.
-```
-
-## 5. Environment Contract
-
-```text
-DISCOURSE_URL={https://forum.example.com}
-SITE_URL={https://site.example.com}
-DISCOURSE_POST_AS={request actor username}
-# Legacy fallback only: DISCOURSE_API_USERNAME={bot username}
-DISCOURSE_API_KEY={private runtime secret}
-DISCOURSE_DIAGNOSTICS_API_KEY={private runtime secret; setup only}
-DISCOURSE_CATEGORY_ID={integer}
-DISCOURSE_TAGS={comma-separated tags}
-DISCUSSION_TARGET={optional target name}
-DISCUSSION_PAGE_URL={optional reconciliation URL}
-DISCOURSE_NOTIFY_RECIPIENTS={optional comma-separated usernames}
-DISCOURSE_TITLE_MIN_LENGTH={optional integer}
-DISCOURSE_MAX_TOPIC_TITLE_LENGTH={optional integer}
-DISCOURSE_MAX_POST_LENGTH={optional integer}
-DISCOURSE_MAX_TAGS_PER_TOPIC={optional integer}
-DISCOURSE_MAX_TAG_LENGTH={optional integer}
-```
-
-Store values in the approved shell session, vault-backed CI secret, or hosting
-secret store. Do not put secret values in this file or command history.
-
-## 6. Lane Command Blocks
-
-Create one completed subsection per lane.
-
-### Lane: `{lane name}`
-
-Resolved inputs:
+## 2. Exact Components
 
 ```yaml
-docs_dir: "{path}"
-route_base: "{path or empty}"
-site_url: "{URL}"
-discourse_url: "{URL}"
-category_id: {integer}
-tags: ["{tag}"]
-target: "{name or empty}"
-source_mode: "{mode}"
-listed: {true | false}
+receiver:
+  package: "discussionbridge-for-discourse"
+  tag: "{exact tag}"
+  commit: "{full commit}"
+  artifact: "{name}"
+  sha256: "{sha256}"
+  topology: "{app | split-data-web | documented custom}"
+  application_container: "{name}"
+  installed_path: "{path}"
+
+adapter:
+  package: "{exact component}"
+  tag: "{exact tag}"
+  commit: "{full commit}"
+  artifact: "{name}"
+  sha256: "{sha256}"
+  installed_path: "{path}"
+  dependency_binding: "{lock or package-manager evidence}"
+  runtime: "{runtime and version}"
+  native_object: "{exact type}"
 ```
 
-Diagnostics:
-
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url {DISCOURSE_URL} \
-  --category-id {CATEGORY_ID} \
-  --tags {TAG_1,TAG_2} \
-  --page-url {PUBLIC_PAGE_URL}
-```
-
-Expected diagnostics:
-
-```text
-category: {expected ID/name}
-requested tags: {expected inventory}
-setup issues: none
-setup warnings: {none or explicitly accepted warning}
-owning topic: {expected ID or unknown before creation}
-```
-
-Publish-new preview/live:
-
-```sh
-npx astro-discussion-bridge publish-new {DOCS_DIR} \
-  {--route-base ROUTE_BASE} \
-  {--target TARGET} \
-  --discourse-url {DISCOURSE_URL} \
-  --site-url {SITE_URL} \
-  --category-id {CATEGORY_ID} \
-  --tags {TAG_1,TAG_2} \
-  --dry-run --details
-```
-
-Remove only `--dry-run` for the approved live command.
-
-Sync-existing preview/live:
-
-```sh
-npx astro-discussion-bridge sync-existing {DOCS_DIR} \
-  {--route-base ROUTE_BASE} \
-  {--target TARGET} \
-  --discourse-url {DISCOURSE_URL} \
-  --site-url {SITE_URL} \
-  --category-id {CATEGORY_ID} \
-  --tags {TAG_1,TAG_2} \
-  --dry-run --details
-```
-
-Publish-and-sync preview/live:
-
-```sh
-npx astro-discussion-bridge publish-and-sync {DOCS_DIR} \
-  {--route-base ROUTE_BASE} \
-  {--target TARGET} \
-  --discourse-url {DISCOURSE_URL} \
-  --site-url {SITE_URL} \
-  --category-id {CATEGORY_ID} \
-  --tags {TAG_1,TAG_2} \
-  --dry-run --details
-```
-
-Import preview/live:
-
-```sh
-npx astro-discussion-bridge import-existing {DOCS_DIR} \
-  --topic {TOPIC_URL_OR_ID} \
-  {--route-base ROUTE_BASE} \
-  {--target TARGET} \
-  --discourse-url {DISCOURSE_URL} \
-  --site-url {SITE_URL} \
-  --comments-display {simple|full|interactive|fullInteractive} \
-  --dry-run
-```
-
-After live import, add `discussionSync: false` before any directory-wide sync.
-
-## 7. Expected Frontmatter
-
-Astro-managed:
+## 3. Connection And Policy
 
 ```yaml
-title: "{page title}"
-discussionTarget: "{optional target}"
-discourseTopicId: {integer}
-discourseTopicUrl: "{topic URL}"
-discussionSourceHash: "{sha256}"
-discussionLastSyncedAt: "{ISO-8601}"
+connection:
+  id: "{dbc_... nonsecret ID}"
+  secret_reference: "{protected reference; never value}"
+  allowed_origin: "{publishing origin}"
+  enabled: false
+  lanes: ["{lane}"]
+  source_categories: ["{identifier}"]
+  source_tags: ["{tag}"]
+  mappings:
+    - source: "{source policy}"
+      destination: "{native destination}"
+  visible_author_policy: "{fixed | mapped}"
+  materialization: "{presentation-only | native}"
+
+presentation:
+  mode: "{simple | full | interactive}"
+  embed_host: "{exact hostname or not-applicable}"
+  index_back_route: "{URL}"
 ```
 
-Discourse-imported/display-only:
+The historical `fullInteractive` value is compatibility input only. New
+runbooks use `interactive`.
+
+## 4. Worker Contract
 
 ```yaml
-title: "{page title}"
-discussionTarget: "{optional target}"
-discourseTopicId: {integer}
-discourseTopicUrl: "{topic URL}"
-discussionSourceHash: "{sha256}"
-discussionImportedAt: "{ISO-8601}"
-discussionCommentsDisplay: "{mode}"
-discussionSync: false
+worker:
+  kind: "{dynamic | static}"
+  initial_command: "{exact command from installed release}"
+  steady_state_command: "{exact command from installed release}"
+  status_command: "{exact command or UI path}"
+  service: "{identity or not-applicable}"
+  timer: "{identity or not-applicable}"
+  cadence: "{exact schedule}"
+  claim_limit: {integer}
+  lease_duration: "{duration}"
+  state_path: "{protected nonsecret path}"
+  journal_path: "{protected path or not-applicable}"
+  concurrency_control: "{lock/exclusion mechanism}"
+  normal_empty_result: "{expected output}"
 ```
 
-## 8. Deployment Contract
+Reject generation if the command was copied from another adapter or release.
+The legacy Astro `publish-new`, `sync-existing`, `publish-and-sync`,
+`import-existing`, and `check-discourse` commands are prohibited here.
+
+## 5. Deployment And Public Verification
 
 ```yaml
-provider: "{Cloudflare Pages or other}"
-repository: "{canonical repository}"
-production_branch: "main"
-root_directory: "{project root}"
-build_command: "npm run build"
-output_directory: "{dist or site-specific value}"
-custom_domain: "{hostname}"
-astro_site_url: "{URL}"
-discussion_bridge_site_url: "{URL}"
-discourse_embed_host: "{hostname}"
+deployment:
+  kind: "{dynamic | static}"
+  provider: "{provider or self-hosted}"
+  project: "{safe identity}"
+  build_command: "{command or not-applicable}"
+  output_path: "{path or not-applicable}"
+  current_deployment: "{exact identity or not-applicable}"
+  public_resource_marker: "{marker and procedure}"
+  public_revision_marker: "{marker and procedure}"
+  analytics_binding: "{governed nonsecret reference or disabled}"
+  crawler_policy: "{public-demo | sandbox-noindex | explicit custom}"
 ```
 
-Required equality:
-
-```text
-Astro site URL == DiscussionBridge siteUrl == CLI SITE_URL == public origin
-Discourse embed host == public hostname
-```
-
-## 9. Verification Record
+## 6. Backup And Recovery
 
 ```yaml
-verification:
-  release_candidate: "{version/commit}"
-  diagnostics:
-    status: "{pass | fail}"
-    evidence: "{sanitized output reference}"
-  dry_run:
-    status: "{pass | fail}"
-    expected_counts: "{created/updated/skipped/unchanged}"
-  live_operation:
-    status: "{pass | fail | not applicable}"
-    actual_counts: "{counts}"
-  discourse:
-    status: "{pass | fail}"
-    topic_ids: [{IDs}]
-  astro_build:
-    status: "{pass | fail}"
-  deployment:
-    status: "{pass | fail}"
-    commit: "{commit}"
-  comments:
-    status: "{pass | fail}"
-    modes_tested: ["{mode}"]
-  secret_review:
-    status: "{pass | fail}"
+recovery:
+  backup_reference: "{protected location}"
+  checksum_ledger_sha256: "{sha256 or not-applicable}"
+  prior_receiver: "{exact identity}"
+  prior_adapter: "{exact identity}"
+  prior_native_state: "{reference}"
+  prior_deployment: "{exact identity or not-applicable}"
+  restore_procedure: "{exact runbook section}"
+  credential_recovery_owner: "{owner}"
 ```
 
-## 10. Known Failures And Recovery Overrides
+For static profiles, prior native state and prior public deployment are both
+required.
+
+## 7. Preflight
 
 ```yaml
-site_specific_failures:
-  - symptom: "{symptom}"
-    detection: "{check/output}"
-    recovery: "{explicit safe steps}"
-    escalation_owner: "{owner/lane}"
-    auto_recreate_allowed: false
+preflight:
+  exact_components: "{pass | fail}"
+  backups_verified: "{pass | fail}"
+  ordinary_forum_health: "{pass | fail}"
+  ordinary_platform_health: "{pass | fail}"
+  connection_disabled_during_setup: "{pass | fail}"
+  origin_direction_policy: "{pass | fail}"
+  catalog_and_mappings: "{pass | fail}"
+  protected_secret_read: "{pass | fail}"
+  credential_output_scan: "{pass | fail}"
+  unresolved_lease_or_journal: "{none | exact state}"
 ```
 
-Use the general Machine Manual recovery table unless the site has a confirmed
-override. Never infer recovery for a deleted topic or first post.
-
-## 11. Release Evidence And Decisions
+## 8. Canary
 
 ```yaml
-release_evidence:
-  release_candidate: "{version/commit}"
-  code_boss_review:
-    result: "{pass | fail}"
-    blocking_edits_complete: {true | false}
-    re_review_complete: {true | false | not_required}
-    evidence: "{safe reference}"
-  bridge_boss_technical_verification:
-    result: "{pass | fail}"
-    evidence: "{safe reference}"
-  manual_boss_quality_review:
-    result: "{pass | fail}"
-    evidence: "{safe reference}"
-  manuals_ready:
-    result: "{pass | fail}"
-    human_runbook_version: "{version/hash}"
-    machine_runbook_version: "{version/hash}"
-  product_boss_documentation_sign_off:
-    result: "{approved | not_approved}"
-    date: "{YYYY-MM-DD}"
-    evidence: "{safe reference}"
-  product_boss_release_approval:
-    result: "{approved | not_approved}"
-    date: "{YYYY-MM-DD}"
-    evidence: "{safe reference}"
+canary:
+  source_identity: "{exact ID}"
+  bridge_resource: "{exact ID}"
+  destination_identity: "{exact ID and URL}"
+  create: "{pass | fail}"
+  unchanged_retry: "{pass | fail}"
+  update: "{pass | fail}"
+  withdrawal: "{pass | fail}"
+  interrupted_recovery: "{pass | fail}"
+  receiver_native_agreement: "{pass | fail}"
 ```
 
-Reject release approval when any prerequisite is failed, unresolved, missing,
-or tied to a different release candidate.
+Reject backfill when any applicable canary result fails.
 
-## 12. Generation Output Contract
-
-Generate the paired site runbooks together:
+## 9. Backfill And Steady State
 
 ```yaml
-outputs:
-  human_runbook:
-    template: docs/SITE_RUNBOOK_HUMAN_TEMPLATE.md
-    required_content:
-      - plain-language purpose and ownership
-      - site/lane map
-      - do-this / you-should-see-this steps
-      - stop-if warnings
-      - comments and deployment verification
-      - recovery and support routing
-      - complete text-only verification plus optional reviewed visual evidence
-      - release sign-off checklist
-  machine_runbook:
-    template: docs/SITE_RUNBOOK_MACHINE_TEMPLATE.md
-    required_content:
-      - exact resolved inputs
-      - commands and expected output
-      - environment variable names and private secret references
-      - source-mode guards
-      - frontmatter and deployment contracts
-      - verification evidence
-      - known failures and recovery overrides
-      - release evidence and decisions
+backfill:
+  preview_population: {integer}
+  start_identity: "{high-water or equivalent}"
+  started_at: "{ISO-8601}"
+  completed_at: "{ISO-8601 or null}"
+
+census:
+  measured_at: "{ISO-8601}"
+  queued: {integer}
+  active: {integer}
+  current: {integer}
+  retrying: {integer}
+  held_or_unpublished: {integer}
+  needs_attention: {integer}
+  error_groups: ["{bounded sanitized group}"]
+```
+
+Dynamic success requires a verified native write and exact lease
+acknowledgement. Static success additionally requires build, deployment, and
+public revision verification.
+
+## 10. Static Transaction Record
+
+Complete only for Astro, Hugo, or Statamic SSG.
+
+```yaml
+static_transaction:
+  transaction_id: "{ID or none}"
+  phase: "{none | prepared | building | deployed | finalizing | aborting}"
+  claimed_items: {integer}
+  lease_expires_at: "{ISO-8601 or null}"
+  prior_state_reference: "{path or null}"
+  candidate_deployment: "{identity or null}"
+  public_markers_verified: "{true | false | not-attempted}"
+  recovery_decision: "{finalize-existing | abort-undeployed | none}"
+```
+
+Never delete or hand-edit a transaction journal. Never claim another batch over
+an unresolved transaction.
+
+## 11. Attention Decision
+
+```yaml
+attention:
+  item: "{source/resource/destination IDs}"
+  error: "{sanitized bounded reason}"
+  evidence_preserved: "{reference}"
+  retryable: "{yes | no | unknown}"
+  diagnosis: "{cause}"
+  authorized_action: "{retry-same-identity | finalize | abort | correct-policy | escalate}"
+  owner: "{owner}"
+```
+
+`unknown` is a stop condition. Do not use Retry for identity drift, ownership
+conflict, collision, over-limit content, authentication uncertainty, or an
+unresolved static transaction.
+
+## 12. Acceptance
+
+```yaml
+acceptance:
+  exact_components: "{pass | fail}"
+  canary: "{pass | fail}"
+  backfill_or_steady_state: "{pass | fail | not-applicable}"
+  public_revision: "{pass | fail | not-applicable}"
+  presentation: "{pass | fail}"
+  analytics_and_crawler_policy: "{pass | fail | disabled}"
+  secret_review: "{pass | fail}"
+  disable_reenable: "{pass | fail}"
+  rollback: "{pass | fail}"
+  unresolved_items: []
+  accepted_by: "{authority}"
+  accepted_at: "{ISO-8601}"
 ```
 
 ## Template Completion Check
 
-- [ ] No brace-delimited placeholder remains unintentionally.
-- [ ] No real secret value is present.
-- [ ] Every Human Runbook value agrees with this Machine Runbook.
-- [ ] Commands use the exact intended lane paths, routes, target, category, and
-      tags.
-- [ ] Every non-Astro-managed page is guarded.
-- [ ] Verification evidence is tied to the exact release candidate.
-- [ ] Code Boss, Bridge Boss, Manual Boss, and both Product Boss decisions are
-      recorded separately.
+- [ ] No placeholder remains unintentionally.
+- [ ] No secret value is present.
+- [ ] Exact commands come from the installed release.
+- [ ] Human and Machine Runbooks agree.
+- [ ] Claim, lease, state, journal, backup, and recovery are explicit.
+- [ ] Every manual Retry has a diagnosis and owner.

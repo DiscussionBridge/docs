@@ -1,164 +1,118 @@
 ---
-title: "Discussion-Safe Markdown Guide"
-lastUpdated: 2026-07-19
-appliesTo: "DiscussionBridge Alpha"
+title: "Preparing Astro Content For Discussion"
+lastUpdated: 2026-09-25
+status: "Astro-specific Alpha reference"
+audience: "Astro and Starlight operators"
+appliesTo: "DiscussionBridge for Astro Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/DISCUSSION_SAFE_MARKDOWN.md"
 ---
 
-DiscussionBridge syncs companion content to Discourse. Astro remains the rich publishing surface; Discourse receives Markdown that should invite conversation, survive quoting, render in email digests, and stay useful over time.
+DiscussionBridge for Astro publishes the rendered article body, not a second hand-written summary. Astro remains authoritative for the article. The adapter sanitizes and bounds the rendered HTML; the Discourse plugin validates and translates it, creates or updates the managed first post, and relies on Discourse's normal cooking and sanitization before appending the source attribution.
 
-Use discussion-safe Markdown when an Astro page should be mirrored into the managed first post. Use `discussionSummary` when the Astro page uses features that should not be sent to Discourse as-is.
+The current adapter does not support a `discussionSummary` frontmatter field. It also does not provide the retired `publish-new` or preflight commands described by older prototypes.
 
-## Works Well By Default
+## Content That Travels Well
 
-These are good candidates for direct sync:
+These Markdown features are good defaults for an article that will also be discussed in Discourse:
 
-- headings
-- paragraphs
-- emphasis
-- links
+- headings and paragraphs
+- emphasis and links
 - blockquotes
 - ordered and unordered lists
-- inline code
-- fenced code blocks
-- basic Markdown tables when the target Discourse site supports tables
-- public absolute image URLs
-- plain video links when Discourse Onebox supports the host
+- inline code and fenced code blocks
+- small tables
+- public images with absolute HTTPS URLs
 
-Example:
+For example:
 
 ```md
 ## Release Notes
 
-This release improves publishing diagnostics and live sync behavior.
+This release improves publication diagnostics and discussion behavior.
 
-- Adds `check-discourse`
-- Improves duplicate embed URL reconciliation
-- Keeps Astro as the source of truth
+- Adds an explicit publication lifecycle.
+- Keeps Astro authoritative for article content.
+- Preserves the source-to-topic identity after publication.
 
 See the [setup guide](https://docs.example.com/setup/) for details.
 ```
 
-## Use `discussionSummary` For Rich Astro Pages
+## Content That Needs Deliberate Treatment
 
-Use a curated summary when the Astro page includes:
+Astro components, MDX JSX, imported assets, interactive widgets, client-side charts, iframes, and page-local scripts are application features rather than portable discussion content. They may build and render on the source site without producing useful standalone HTML for a forum post.
 
-- Starlight directives
-- Astro components
-- MDX JSX
-- imported local assets
-- image components
-- custom cards, tabs, accordions, or callouts
-- client-side charts
-- interactive widgets
-- Mermaid diagrams
-- LaTeX or math notation
-- embedded media or iframes
-- page-local styles or scripts
+Do not assume the adapter will invent a summary when an MDX component cannot render. Unsupported MDX or missing component inputs should fail the Astro build and be repaired at the source.
 
-Example:
+For a rich page:
 
-```yaml
-title: Understanding the Impact Model
-discussionSummary: |
-  This page explains the impact model and links to the published source page for charts, tables, and interactive details.
+1. Put the essential argument and conclusions in ordinary Markdown.
+2. Add concise text around diagrams, equations, tables, or widgets.
+3. Link to the authoritative source page when interaction or source-site styling matters.
+4. Verify the cooked Discourse post as well as the source-site page.
 
-  Key discussion points:
+## Images And Media
 
-  - whether the assumptions are clear
-  - where the examples need more detail
-  - which follow-up pages would help
-```
-
-`discussionSummary` should be reader-facing. Avoid implementation labels like `Source content:` or `This is a companion discussion topic for:`.
-
-## Images
-
-Prefer public absolute URLs in companion content.
-
-Good:
+Prefer public, absolute HTTPS URLs:
 
 ```md
 ![Architecture diagram](https://docs.example.com/images/bridge-flow.png)
 ```
 
-Risky:
+Relative paths, local Astro image imports, and image components are not automatically uploaded to Discourse. A plain video URL may be expanded by Discourse Onebox when that host is supported; arbitrary iframe markup is not portable.
 
-```md
-![Architecture diagram](../../assets/bridge-flow.png)
-```
+## Mermaid And Math
 
-Local Astro image imports and optimized image components do not automatically become Discourse uploads. For Alpha, either use public absolute image URLs or summarize the visual in `discussionSummary`.
+A fenced Mermaid block can be transported as content, but destination rendering depends on the deployed platform and forum configuration. Always include enough prose to understand the point without the rendered diagram.
 
-## Videos and Embeds
-
-Use plain links when Discourse Onebox supports the host:
-
-```md
-https://www.youtube.com/watch?v=example
-```
-
-Avoid assuming arbitrary iframe embeds will render in Discourse. They depend on Discourse settings, allowed hosts, and site plugins.
-
-## Mermaid and Math
-
-Mermaid and math can work when the target Discourse site has matching support enabled. Do not assume they will work on every forum.
-
-For portable companion content:
-
-- include a short text summary
-- link back to the Astro page for the full rendered diagram or equation
-- use `discussionSummary` when the diagram is central and Discourse support is uncertain
+Treat math support the same way: qualify it with a real source fixture and the cooked destination result. The current OBBBA evidence does not yet prove math parity across the platform estate.
 
 ## Tables
 
-Tables are useful for policy, release, and technical pages, but long or wide tables can be unpleasant in forum posts and email digests.
-
-For small tables, direct sync can work:
+Small tables can work well in both the article and discussion:
 
 ```md
 | Setting | Recommended |
 |---|---|
-| Embed full app | yes |
-| Embed any origin | no |
+| Interactive discussion | when the forum is intended to be used in-page |
+| Arbitrary embed origins | no |
 ```
 
-For large tables, use `discussionSummary` with a short explanation and link to the Astro page.
+For wide or complex tables, precede the table with the conclusion in prose and verify the mobile and email-digest result.
 
-## Links Back to Astro
+## Current Limits
 
-DiscussionBridge adds a source article link near the bottom of the managed first post. Page content can still include links when they are useful, but avoid repeating the page title and source URL at the top of every companion topic.
+The current To Discourse contract accepts:
 
-The Discourse topic title already carries the page title. The first post should start with useful content.
+- a UTF-8 title of at most 1,024 bytes
+- sanitized article HTML of at most 49,152 bytes
 
-## Preflight Limits
+The adapter and plugin fail closed when those bounds are exceeded. Test the production build with `publishOnBuild` set explicitly, then inspect the publication result and the cooked first post. Do not use removed command names or prototype environment variables as a substitute for current validation.
 
-Discourse authoring limits vary by site. Use local preflight settings to catch common failures before a live write:
+## Frontmatter Example
 
-```sh
-npx astro-discussion-bridge publish-new src/content/docs \
-  --title-min-length 15 \
-  --max-topic-title-length 255 \
-  --max-post-length 32000 \
-  --max-tags-per-topic 5 \
-  --max-tag-length 20 \
-  --dry-run \
-  --details
+```yaml
+title: Understanding the Impact Model
+description: A plain-language guide to the model and its assumptions.
+authors:
+  - name: Jane Example
+discussionCommentsDisplay: interactive
+discussionSync: true
 ```
 
-Equivalent environment variables:
+Use `discussionCommentsDisplay: interactive` for the public mode name. The legacy `fullInteractive` value is accepted only as an input compatibility alias and should not appear in new content.
 
-- `DISCOURSE_TITLE_MIN_LENGTH`
-- `DISCOURSE_MAX_TOPIC_TITLE_LENGTH`
-- `DISCOURSE_MAX_POST_LENGTH`
-- `DISCOURSE_MAX_TAGS_PER_TOPIC`
-- `DISCOURSE_MAX_TAG_LENGTH`
+DiscussionBridge appends the source article attribution to the managed first post, so do not repeat a generic source-link boilerplate at the top of every article. Add links in the body only when they help the reader.
 
-## Practical Rule
+## Publication Check
 
-If the Astro page is mostly Markdown, direct sync is usually fine.
+Before releasing a page, verify all of the following:
 
-If the Astro page is a designed experience, sync a curated `discussionSummary`.
+- the Astro production build succeeds
+- the source URL is final and public
+- images and linked assets resolve without local build context
+- title and sanitized HTML are within the contract limits
+- the forum post preserves the essential meaning
+- diagrams, math, tables, and media have useful text fallbacks
+- the managed topic points back to the correct source URL
 
-The goal is not to flatten Astro into Discourse. The goal is to give Discourse enough clear, useful context to host the conversation.
-
+That keeps the source page rich without making the companion discussion depend on source-only behavior.

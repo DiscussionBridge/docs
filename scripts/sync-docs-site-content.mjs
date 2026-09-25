@@ -28,6 +28,7 @@ const docs = [
   "VERSIONS_AND_LIVE_STATUS.md",
   "ALPHA_OPERATOR_GUIDE.md",
   "PLATFORM_PROFILES.md",
+  "ADAPTER_OPERATING_MODELS.md",
   "PRESENTATION_MODES.md",
   "DRAFT_ROADMAP.md",
   "HUMAN_MANUAL.md",
@@ -54,6 +55,57 @@ const docs = [
   "evidence/DISCUSSION_BRIDGE_PRODUCT_FAMILY_DOCTRINE_2026-07-25.md",
   "evidence/DISCUSSION_BRIDGE_MISSION_2026-07-25.md",
 ];
+
+const astroReferenceDocs = new Set([
+  "COMMENTS_DISPLAY.md",
+  "CONTENT_LANES.md",
+  "PRESETS_AND_PLACEMENT.md",
+  "DISCUSSION_SAFE_MARKDOWN.md",
+]);
+
+const archiveDocs = new Set([
+  "CORE_ADAPTER_IMPLEMENTATION_ROADMAP.md",
+  "DISCOURSE_FIELD_NOTES.md",
+  "evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md",
+  "evidence/DISCUSSION_BRIDGE_PRODUCT_FAMILY_DOCTRINE_2026-07-25.md",
+  "evidence/DISCUSSION_BRIDGE_MISSION_2026-07-25.md",
+]);
+
+function classification(file) {
+  if (archiveDocs.has(file)) {
+    return {
+      status: "Historical record — not current operating guidance",
+      audience: "Maintainers and product-history readers",
+      appliesTo: "Dated DiscussionBridge Alpha development record",
+    };
+  }
+  if (file === "ALPHA_SETUP.md") {
+    return {
+      status: "Legacy Astro 0.1 migration notice",
+      audience: "Operators maintaining a 0.1 Astro estate",
+      appliesTo: "DiscussionBridge for Astro 0.1 to 0.2 migration",
+    };
+  }
+  if (astroReferenceDocs.has(file)) {
+    return {
+      status: "Astro-specific Alpha reference",
+      audience: "Astro and Starlight operators",
+      appliesTo: "DiscussionBridge for Astro Alpha",
+    };
+  }
+  if (file === "DRAFT_ROADMAP.md") {
+    return {
+      status: "Current planning direction — not a delivery schedule",
+      audience: "Evaluators and contributors",
+      appliesTo: metadata.appliesTo,
+    };
+  }
+  return {
+    status: "Current Alpha guidance",
+    audience: "Operators and evaluators",
+    appliesTo: metadata.appliesTo,
+  };
+}
 
 const slugByFile = new Map(
   docs.map((file) => [
@@ -178,6 +230,7 @@ function renderPage({ file, markdown, lastUpdated }) {
   const body = rewriteLinks(stripFirstHeading(markdown).trimStart(), file);
   const slug = slugByFile.get(file);
   const editUrl = `https://github.com/DiscussionBridge/docs/edit/main/docs/${file}`;
+  const pageClassification = classification(file);
 
   return {
     file: `${slug}.md`,
@@ -185,7 +238,9 @@ function renderPage({ file, markdown, lastUpdated }) {
       "---",
       `title: ${JSON.stringify(title)}`,
       `lastUpdated: ${lastUpdated}`,
-      `appliesTo: ${JSON.stringify(metadata.appliesTo)}`,
+      `status: ${JSON.stringify(pageClassification.status)}`,
+      `audience: ${JSON.stringify(pageClassification.audience)}`,
+      `appliesTo: ${JSON.stringify(pageClassification.appliesTo)}`,
       `editUrl: ${JSON.stringify(editUrl)}`,
       "---",
       "",

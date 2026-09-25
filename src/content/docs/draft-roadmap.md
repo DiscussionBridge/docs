@@ -1,119 +1,107 @@
 ---
 title: "Draft Roadmap"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-25
+status: "Current planning direction — not a delivery schedule"
+audience: "Evaluators and contributors"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/DRAFT_ROADMAP.md"
 ---
 
-This is an interest-led product roadmap, not a promise or release schedule.
-DiscussionBridge will publish and discuss candidate work before investing in
-features that operators do not need.
+This roadmap describes possible product direction, not a promise, release
+schedule, or statement that an item has been accepted for implementation.
+Current releases, installed demonstrations, and acceptance boundaries live in
+[Versions And Live Status](/versions-and-live-status/).
 
-## Current Alpha Family
+DiscussionBridge will prefer work grounded in operator demand, field evidence,
+and a clear recovery model. A roadmap item becomes current product behavior only
+after its owning component documents and releases it.
 
-- **The Bridge** — the unified Discourse plugin and flagship.
-- **DiscussionBridge for Astro** — plain Astro and Astro + Starlight.
-- **DiscussionBridge for Ghost** — native integration plus hosting-layer
-  adapter service.
-- **DiscussionBridge for Hugo** — trusted-build adapter.
-- **DiscussionBridge for Statamic** — one addon used with Flat, DB, and SSG.
-- **DiscussionBridge for WordPress** — native WordPress plugin.
-- **The Bridge — Discourse as Publisher** — the same Bridge plugin publishes
-  selected forum content through multiple platform connections.
+## Now
 
-The Alpha release threshold is a working Bridge plugin, all current adapters,
-and live demos that test both directions and the claimed presentation
-modes. Documentation, human installation/configuration testing, pre-production
-mirroring, Guided Demo Conversations, and release packaging remain separate
-gates.
+The current Alpha work is about proving and strengthening the existing product
+family rather than adding another platform:
 
-## Advanced Profiles
+- complete the current installation, upgrade, rollback, and recovery evidence;
+- finish the OBBBA demonstration rollout and record each platform's exact
+  installed identity;
+- keep To Discourse and From Discourse behavior explicit, single-writer, and
+  recoverable;
+- improve operator guidance, known-issue reporting, support intake, and demo
+  navigation; and
+- publish the next coherent Adapter Protocol candidate and keep every adapter
+  aligned with its declared compatibility line.
 
-These extend existing adapters rather than automatically becoming new product
-families:
+## Next
+
+These are the strongest candidate improvements after the current Alpha gates:
+
+### Advanced Profiles
 
 - Statamic Multi-Site;
-- Statamic SSG and additional static deployment arrangements;
-- WordPress Multisite;
-- multi-origin and multi-site connection operations where policy remains
-  explicit and fail-closed.
+- additional static deployment arrangements;
+- WordPress Multisite; and
+- multi-origin or multi-site operation where authority and failure handling
+  remain explicit.
 
-## Next Platform Adapters
+### Migration Tools
 
-Hugo moved into the Alpha family. Candidate additions after the current Alpha
-include:
+Focused migration workflows may support:
 
-- Drupal and Drupal CMS;
-- Next.js;
-- other publishing systems proposed by operators and validated through real
-  demand.
+- adopting an existing companion topic without creating a duplicate;
+- moving a publishing system or canonical origin while preserving discussion
+  identity;
+- importing existing comments with explicit authorship, timestamps,
+  moderation, attachment, privacy, and rollback rules; and
+- producing auditable previews and reconciliation reports.
 
-## Migration Capability
+Migration is not ordinary publishing. It requires dedicated authority,
+collision, provenance, privacy, and recovery controls.
 
-DiscussionBridge's stable records, bindings, provenance and single-writer rules
-already provide a foundation for migrations. Future focused tools may include:
+### Deployment Helpers
 
-- adopting an existing plugin-free Discourse companion topic without creating
-  a duplicate;
-- moving a publishing system or canonical origin while preserving the same
-  discussion identity;
-- migrating existing non-Discourse comments into Discourse with explicit
-  authorship, timestamps, moderation, attachment and rollback rules;
-- producing auditable migration plans and reconciliation reports.
+Deployment helpers may package existing adapters for Cloudflare Workers,
+managed CMS hosting, static build systems, and conventional servers. A helper
+remains deployment tooling; it must not become a second receiver or policy
+control plane.
 
-Migration is not ordinary publishing. It requires its own preview, authority,
-collision, provenance and recovery controls.
+## Later
 
-## Identity Capability
+### Additional Platform Adapters
 
-Future login, user and profile synchronization should be separate focused
-addons rather than an ever-growing switch inside The Bridge. Platform-to-
-Discourse identity has different trust, lifecycle and privacy requirements from
-Discourse-to-Discourse identity. Current source-author mapping is publication
-authorship, not login or user synchronization.
+Candidate platforms include Drupal/Drupal CMS and Next.js. An adapter should be
+added only when real demand justifies its installation, lifecycle, security,
+documentation, and support cost.
 
-## DiscussionBridge Network
+### Identity Addons
 
-A future Discourse-to-Discourse family could support one organization with many
-brands, chapters or communities without forcing every boundary into categories
-on one forum. Read-only presentation or controlled mirroring should come before
-writable cross-forum comment relay.
+Login, user, and profile synchronization should be separate focused addons.
+Publication authorship is not login synchronization, and platform-to-Discourse
+identity has different privacy and lifecycle requirements from
+Discourse-to-Discourse identity.
 
-Writable relay is deferred because it introduces identity mapping, moderation
-authority, edits, deletion, flags, whispers, private categories, rate limits,
-conflicts and failure recovery. It should be a focused Discourse-to-Discourse
-product, not hidden complexity in every platform adapter.
+### DiscussionBridge Network
 
-## Deployment Capabilities
+A future Discourse-to-Discourse product could support organizations with many
+brands, chapters, or communities. Read-only presentation or controlled
+promotion should precede writable relay. Writable relay remains later work
+because it must define identity mapping, moderation authority, edits, deletion,
+flags, whispers, private content, rate limits, conflicts, and recovery.
 
-Deployment helpers may package adapters for environments such as Cloudflare
-Workers, managed CMS hosting, static build systems and conventional servers.
-They are deployment capabilities, not new content platforms. A helper must not
-become a second Bridge control plane.
+## Exploring
 
-## Themes And Starter Kits
+- platform-native starter kits and restrained showcase themes;
+- a polished temporary-site mode for operators building a final experience;
+- guided demo conversations written by clearly identified demo participants;
+  and
+- other platform or deployment proposals supported by operator evidence.
 
-Stock demos prove native compatibility. Separate showcase profiles can use a
-distinctive DiscussionBridge theme or starter kit for Astro, Ghost, Hugo and
-Statamic. A full-featured placeholder mode can let operators publish a polished
-temporary site while building the final experience. WordPress theming is not a
-current commitment. A future special theme for The Bridge may showcase the
-family without changing the plugin's platform-neutral contract.
-
-## Guided Demo Conversations
-
-Before Alpha release, selected demo topics can be reset and repopulated with
-short, useful conversations from clearly identified demo participants. These
-conversations should explain features through realistic questions and replies,
-remain readable as product guidance, and never masquerade as independent user
-testimonials.
+Exploration does not create a compatibility or delivery commitment.
 
 ## Product Principle
 
-**Your discussions deserve freedom.** Discussions should be platform-agnostic
-by design and connectable by choice. The forum, publishing platform, adapter,
-hosting model and presentation may change without treating a proprietary CMS
-database or accidental URL as the only possible home of the discussion.
+**Your discussions deserve freedom.** The publishing platform, forum, adapter,
+hosting model, and presentation may change without making an accidental URL or
+proprietary CMS database the only possible home of the discussion.
 
 Share priorities and use cases through
 [Support And Feedback](/support-and-feedback/) or the

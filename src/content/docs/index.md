@@ -1,33 +1,49 @@
 ---
-title: "DiscussionBridge Public Docs"
-lastUpdated: 2026-09-16
+title: "DiscussionBridge Documentation"
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
 
-DiscussionBridge is a family of focused tools built around **The Bridge**, its
-Discourse-powered flagship. The current Alpha connects Astro, Ghost, Hugo,
-Statamic, and WordPress through one Bridge contract and demonstrates Discourse
-as a publishing source across those platforms.
+DiscussionBridge connects publishing systems with Discourse while preserving
+the publishing platform's native content, URLs, presentation, and operating
+model. DiscussionBridge for Discourse owns Content Connections, Bridge Records,
+publication policy, and the cross-platform work queue. Focused adapters connect
+Astro, Ghost, Hugo, Statamic, and WordPress through the shared Adapter Protocol.
 
-Start with the [Versions And Live Status](/versions-and-live-status/) page
-for the exact packages, live profiles, demo destinations, and current acceptance
-boundary. Follow the [Alpha Installation and Operator Guide](/alpha-operator-guide/) for the
-current end-to-end install/configure/test/rollback sequence, use
-[Platform Profiles](/platform-profiles/) for each adapter's real execution
-boundary, and compare the three choices in
-[Presentation Modes](/presentation-modes/). Explore the working product at the
-[Demo chooser](https://demo.discussionbridge.dev/) or open
-[The Bridge](https://bridge.demo.discussionbridge.dev/).
+DiscussionBridge is currently **Alpha software**. Use an exact tagged component
+release, preserve a rollback path, and verify both the publishing site and the
+forum after every installation or upgrade. A moving `main` branch is source
+code, not an immutable deployment identity.
 
-DiscussionBridge is in **Alpha**, with human-operated sandbox installation and
-testing under way. The components no longer all share one current Alpha number:
-each repository has its own exact release and installed identity. See
-[Versions And Live Status](/versions-and-live-status/) before installing or
-comparing environments. The six implementation repositories and the shared
-protocol are available through ordinary GitHub clone URLs:
+## Choose Your Path
 
-- [The Bridge — DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
+- **Installing or operating the product family:** start with the
+  [Alpha Installation and Operator Guide](/alpha-operator-guide/), then choose
+  a [Platform Profile](/platform-profiles/).
+- **Understanding what an adapter creates and how it recovers:** read
+  [Adapter Operating Models](/adapter-operating-models/).
+- **Choosing the reader experience:** compare
+  [Presentation Modes](/presentation-modes/).
+- **Checking releases and demonstrations:** use
+  [Versions and Live Status](/versions-and-live-status/) and the
+  [Demo Guide](/demo-plan/).
+- **Diagnosing an installation:** begin with
+  [Troubleshooting](/troubleshooting/) and
+  [Known Issues](/known-issues/).
+- **Running a repeatable installation:** use the platform-neutral
+  [Human Operator Manual](/human-manual/),
+  [Machine Operator Manual](/machine-manual/), and runbook templates.
+- **Working specifically with Astro or Starlight:** use the Astro deep-reference
+  placement, comments, content-lane, and authoring guides. Those pages are not
+  the generic setup path for Ghost, Hugo, Statamic, WordPress, or
+  DiscussionBridge for Discourse.
+
+## Product Components
+
+- [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
 - [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
 - [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge)
 - [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge)
@@ -35,55 +51,60 @@ protocol are available through ordinary GitHub clone URLs:
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
 - [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract)
 
-Use the exact release tag and installation method for the chosen component.
-The `main` branches are ongoing public source, not an immutable deployment
-identity. A sandbox installation, a live demo, and a development/preproduction
-installation may run different component versions; none alone establishes
-final Alpha acceptance.
+The family license is **MIT unless a component explicitly says otherwise**.
+DiscussionBridge for Discourse is GPL-2.0-or-later. See
+[Attribution, Ownership, and Licensing](/attribution-ownership-license/) for
+the authoritative component matrix.
 
-This repository contains the public product and operator documentation.
+## Demonstrations
 
-Good fits:
+The [demo chooser](https://demo.discussionbridge.dev/) links the maintained
+public demonstrations. [The Bridge](https://bridge.demo.discussionbridge.dev/)
+is the name of the dedicated DiscussionBridge demo; it is not the generic name
+for the Discourse plugin.
 
-- Demo plans.
-- Architecture notes.
-- Discourse setup notes.
-- Discourse field notes from real integration testing.
-- Cloudflare deployment notes.
-- Product notes that explain the public shape of the integration.
-- Product build/launch checklists that track Alpha readiness and roadmap progress.
-- Contribution and support process docs.
-- Public roadmap items.
+See [Adapter Operating Models](/adapter-operating-models/#platform-presentation-and-analytics-standard)
+for the shared demo navigation, branding, attribution, analytics, and crawler
+standards.
 
-Keep commercial strategy, pricing, services positioning, and private brand planning outside this repo.
+## Documentation Map
 
-## Current Docs
+### Operate
 
-- [Versions And Live Status](/versions-and-live-status/) - exact package versions, source identities, live profiles, and environment roles.
-- [Alpha Installation and Operator Guide](/alpha-operator-guide/) - current product-family installation, configuration, testing, disable/re-enable, removal, and rollback sequence.
-- [Platform Profiles](/platform-profiles/) - Astro, Ghost, Hugo, Statamic Flat/DB/SSG, WordPress, and Discourse-as-Publisher boundaries.
-- [Presentation Modes](/presentation-modes/) - Simple, Full, Interactive, rich content, branding, authorship, and navigation.
-- [Draft Roadmap](/draft-roadmap/) - advanced profiles, candidate adapters, migration, identity, network, deployment, themes, and demo conversations.
-- [Human Manual](/human-manual/) - operator journey, safety decisions, and verification.
-- [Machine Manual](/machine-manual/) - exact reusable commands, fields, scopes, and runbook inputs.
-- [Site Human Runbook Template](/site-runbook-human-template/) - client/operator-specific readable runbook.
-- [Site Machine Runbook Template](/site-runbook-machine-template/) - exact resolved site inputs, commands, checks, and release evidence.
-- [Alpha Setup Guide](/alpha-setup/)
-- [Key Management Guide](/key-management/)
-- [Support And Feedback](/support-and-feedback/)
+- [Alpha Installation and Operator Guide](/alpha-operator-guide/)
+- [Platform Profiles](/platform-profiles/)
+- [Adapter Operating Models](/adapter-operating-models/)
+- [Presentation Modes](/presentation-modes/)
+- [Human Operator Manual](/human-manual/)
+- [Machine Operator Manual](/machine-manual/)
+- [Human Runbook Template](/site-runbook-human-template/)
+- [Machine Runbook Template](/site-runbook-machine-template/)
+- [Key Management](/key-management/)
+- [Troubleshooting](/troubleshooting/)
 - [Known Issues](/known-issues/)
-- [Comments Display Guide](/comments-display/)
-- [Content Lanes Guide](/content-lanes/)
-- [Presets And Placement](/presets-and-placement/)
-- [Discussion-Safe Markdown Guide](/discussion-safe-markdown/)
-- [Troubleshooting Guide](/troubleshooting/)
-- [Attribution, Ownership, And Licensing](/attribution-ownership-license/)
-- [Build/Launch Checklists](/build-launch-checklists/)
+- [Support and Feedback](/support-and-feedback/)
+
+### Astro Deep Reference
+
+- [Legacy Astro 0.1 Migration Notice](/alpha-setup/)
+- [Comments Display](/comments-display/)
+- [Content Lanes](/content-lanes/)
+- [Presets and Placement](/presets-and-placement/)
+- [Discussion-Safe Markdown](/discussion-safe-markdown/)
+
+### Product Reference
+
 - [Core/Adapter Architecture](/core-adapter-architecture/)
+- [Product Concepts and Terminology](/product-notes/)
+- [Product Build and Launch Checklists](/build-launch-checklists/)
+- [Draft Roadmap](/draft-roadmap/)
+- [Attribution, Ownership, and Licensing](/attribution-ownership-license/)
+
+### Historical Records
+
 - [Core/Adapter Implementation Roadmap](/core-adapter-implementation-roadmap/)
-- [Discourse-Centered Doctrine Source Evidence](/evidence-discussion-bridge-discourse-centered-doctrine-2026-07-25/)
-- [Product Family Doctrine Source Evidence](/evidence-discussion-bridge-product-family-doctrine-2026-07-25/)
-- [DiscussionBridge Mission Source Evidence](/evidence-discussion-bridge-mission-2026-07-25/)
-- [Demo Plan](/demo-plan/)
 - [Discourse Field Notes](/discourse-field-notes/)
-- [Product Notes](/product-notes/)
+
+Historical records explain how decisions were reached. They do not supersede
+the current operator guide, component README, tagged release notes, or the
+authoritative `LICENSE` file in each repository.

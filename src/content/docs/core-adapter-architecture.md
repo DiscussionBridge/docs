@@ -1,195 +1,183 @@
 ---
-title: "DiscussionBridge Core/Adapter Architecture"
-lastUpdated: 2026-09-03
+title: "DiscussionBridge Product And Adapter Architecture"
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CORE_ADAPTER_ARCHITECTURE.md"
 ---
 
-Status: Authoritative product architecture  
-Decision date: 2026-07-25  
-Implementation status: The Bridge and six adapter packages now implement the
-Alpha family across eight live profiles. Later portability and standalone-host
-work remains roadmap scope.
+Status: Current 0.2 Alpha product architecture
+Updated: 2026-09-24
 
-> This document preserves the architectural decision and some earlier migration
-> framing. Use [Platform Profiles](/platform-profiles/) and
-> [Versions And Live Status](/versions-and-live-status/) for current
-> implementation claims.
+DiscussionBridge is a family of focused integrations. DiscussionBridge for
+Discourse is the forum-side plugin and runtime authority. Small
+platform-native adapters translate a publishing system's real lifecycle into a
+shared, bounded wire contract. There is no separate portable-core runtime,
+deployment broker, signed-plan estate, or second orchestration control plane.
 
-## Canonical Definition
+The 2026-07-25 portable-core proposal was not implemented. It is historical
+decision provenance, not current configuration or extension guidance. The
+current package and profile census is in
+[Platform Profiles](/platform-profiles/).
 
-DiscussionBridge is a Discourse-centered, adapter-driven content and
-discussion orchestration system whose portable core connects Discourse with one
-or more external publishing systems while preserving authority, provenance,
-policy, and auditability.
+## Product Boundary
 
-Discourse is the present operational home and control plane. The human outcome
-of preserving a portable core and an architectural path to independence is
-autonomy: authorized people can operate, understand, govern, connect, and move
-their system without being trapped by a CMS adapter or an accidental
-implementation boundary.
+The Alpha family has six implementation packages exercised as eight profiles:
 
-The intact decision statement is preserved as source evidence in
+1. DiscussionBridge for Discourse, including the Discourse-as-Publisher
+   profile;
+2. DiscussionBridge for Astro, used by plain Astro and Astro + Starlight;
+3. DiscussionBridge for Ghost;
+4. DiscussionBridge for Hugo;
+5. DiscussionBridge for Statamic, installed independently for Flat, DB, and
+   SSG; and
+6. DiscussionBridge for WordPress.
+
+The same Discourse plugin receives platform-authored publications and exposes
+forum-authored publications. There is no separate Publisher plugin. Statamic
+SSG is a distinct protected build/deployment profile, not a second addon.
+
+## DiscussionBridge For Discourse Owns
+
+The plugin owns forum-side product behavior:
+
+- independently scoped Content Connections, one-time secrets, allowed origins,
+  directions, lanes, adapter identity, and enabled state;
+- durable Bridge Records, topic identity, active and historical bindings, and
+  URL-migration history;
+- authenticated create-or-resolve for authoritatively published external
+  content;
+- forum-owned category, tag, visibility, author, and publication policy;
+- From Discourse records, destination mappings, the publication-work queue,
+  bounded leases, retry/attention state, and audit evidence;
+- native Discourse administration, reconciliation, and topic-level publication
+  controls; and
+- exact record/topic attestation for Interactive presentation.
+
+Discourse Core remains authoritative for users, sessions, authorization,
+topics, posts, moderation, composer behavior, replies, likes, mail, backups,
+and ordinary embed behavior.
+
+The plugin does not install adapters, push into a CMS, deploy a site, or infer
+authority from a public URL. Adapters pull only work visible to their own
+connection and acknowledge only after their platform lifecycle has succeeded.
+
+## The Adapter Protocol
+
+The Adapter Protocol is a small, platform-neutral wire contract and conformance
+fixture set. It is not a shared runtime or control plane.
+
+Every authenticated adapter request uses one Content Connection:
+
+```text
+X-DiscussionBridge-Connection: dbc_...
+X-DiscussionBridge-Secret: ...
+```
+
+The current contract covers:
+
+- To Discourse create-or-resolve with a stable platform external ID, exact
+  canonical URL, bounded published-content snapshot, adapter identity, and
+  optional lane and source-author data;
+- connection-scoped From Discourse record retrieval;
+- destination-catalog and forum-publication feeds;
+- bounded publication-work claim, lease, failure, and acknowledgement; and
+- exact source or presentation URL migration proof where supported.
+
+The connection secret is server-only. It must not enter browser JavaScript,
+public HTML, URLs, content metadata, logs, exceptions, or support output.
+Current adapters do not publish with user-created Discourse API keys.
+
+## Publishing Adapters Own
+
+Each adapter owns its platform boundary:
+
+- the platform's authoritative publish event and stable native content ID;
+- platform credentials, hooks, installation, and operator UI;
+- canonical public URL and platform-native destination validation;
+- bounded source-author and published-content translation;
+- durable local identity, attempt, retry, lease, and reconciliation state;
+- platform-native creation, update, withdrawal, cache invalidation, build, and
+  deployment behavior;
+- Simple, Full, and Interactive presentation where that profile supports them;
+  and
+- truthful platform-local status and recovery controls.
+
+The adapters are deliberately native. WordPress ships as a WordPress plugin.
+Statamic ships as one Composer addon. Ghost uses a custom integration plus a
+loopback-only companion service. Astro and Hugo operate at trusted build
+boundaries. None becomes a second forum policy authority.
+
+## Direction, Identity, And Publication
+
+Direction belongs to each Bridge Record:
+
+- **To Discourse** begins only after the publishing platform establishes an
+  authoritative published item. The adapter sends the same stable external ID
+  on every retry. The plugin creates or resolves one durable topic and returns
+  the same resource/topic tuple.
+- **From Discourse** begins with an existing topic and an explicit forum-owned
+  record or publication rule. The adapter creates, updates, or withdraws the
+  mapped platform-native item and preserves its topic, resource, destination,
+  source revision, and publication revision.
+
+One topic may be published through several independent platform connections.
+Each connection retains its own credentials, binding, platform state, retry
+history, and native destination. Reply streams are not merged.
+
+Initial backfill and steady-state work are separate. A backfill discovers the
+eligible corpus. Later workers claim only changed or withdrawn topics from the
+durable receiver queue. Dynamic adapters acknowledge after a successful native
+write. Static adapters acknowledge only after build, deployment, and exact
+public-marker verification. See
+[Adapter Operating Models](/adapter-operating-models/).
+
+## Presentation Boundary
+
+Content direction and comments presentation are independent:
+
+- **Simple** is a bounded native-platform rendering of public replies.
+- **Full** is Discourse Core's plugin-free standard comments embed.
+- **Interactive** is the plugin-attested comments-only full application frame.
+
+Interactive does not move authentication, moderation, composer, reply, edit,
+like, or session authority into an adapter. The historical
+`fullInteractive` input is accepted only as a compatibility alias and is
+normalized to `interactive`; new configuration and output use `interactive`.
+See [Presentation Modes](/presentation-modes/).
+
+## Explicit Exclusions
+
+The current product does not include:
+
+- the rejected v1 portable-core/control-plane architecture, signed plans,
+  receipt chains, or deployment brokerage;
+- a second policy engine inside Astro, Ghost, Hugo, Statamic, or WordPress;
+- direct Discourse Core topic-creation fallback by an adapter;
+- automatic generic platform deployment or provider administration;
+- cross-forum writable comment relay, user synchronization, login federation,
+  account provisioning, or CMS migration; or
+- future SaaS, standalone-host, or DiscussionBridge Network behavior merely
+  because current identities could support later migration.
+
+## Licensing And Site Presentation
+
+The family rule is MIT unless a component explicitly states otherwise. The
+five publishing-platform adapter repositories publish MIT licenses.
+DiscussionBridge for Discourse publishes GPL-2.0-or-later. The Adapter
+Protocol is intended to be MIT, but its public license claim remains gated
+until the reviewed `LICENSE` file is present in that public repository. Each
+repository's published `LICENSE` file is authoritative.
+
+Analytics, demo naming, branded navigation, and footer ownership belong to the
+publishing site and its deployment runbook; they are not injected by the
+Adapter Protocol. See [Attribution, Ownership, And Licensing](/attribution-ownership-license/)
+and [Adapter Operating Models](/adapter-operating-models/).
+
+## Historical Decision Record
+
+The original proposal remains available as provenance in
 [`docs/evidence/DISCUSSION_BRIDGE_DISCOURSE_CENTERED_DOCTRINE_2026-07-25.md`](/evidence-discussion-bridge-discourse-centered-doctrine-2026-07-25/).
-
-## System Boundaries
-
-### DiscussionBridge Core
-
-The portable core owns domain behavior that must remain consistent across every
-host and publishing system:
-
-- connections, external-system identities, and capabilities;
-- source/target mappings, direction, and single-writer rules;
-- content and discussion policies;
-- deterministic plans, comparisons, and approval requirements;
-- job state, retries, idempotency, recovery, and rollback intent;
-- provenance, evidence, and audit records;
-- portable adapter contracts and version negotiation.
-
-Core objects must not require a Discourse model, Rails callback, Astro
-frontmatter shape, or Statamic collection shape to be understood or tested.
-Host- and adapter-specific representations translate to and from portable core
-contracts.
-
-### DiscussionBridge for Discourse
-
-The Discourse plugin hosts and operates the core. It is the natural control
-plane and primary operating surface for almost all Bridge work:
-
-- authorized users, groups, permissions, and user-created Discourse API keys;
-- durable connection and identity records;
-- job creation, scheduling, queues, progress, cancellation, and recovery;
-- review and approval surfaces;
-- operational inventory, health, diagnostics, notices, and audit access;
-- Discourse categories, tags, topics, posts, webhooks, APIs, and plugin UI;
-- concurrent connections to multiple external publishing systems.
-
-Discourse supplies the operational machinery; it does not redefine portable
-domain rules. Host integration belongs behind explicit core interfaces so the
-same core can be hosted elsewhere later without being reinvented.
-
-### Publishing-System Adapters
-
-Astro, Statamic, and future adapters are well-featured integrations, not
-control planes. Each adapter owns the translation between the portable contract
-and its publishing system:
-
-- content discovery and content-format translation;
-- local identifiers, paths, routes, collections, and metadata projection;
-- rendering and discussion presentation;
-- navigation, build, cache, and deployment hooks;
-- adapter-specific diagnostics and capability reporting;
-- authenticated endpoints or agents needed for safe host-to-adapter work.
-
-One Discourse plugin may coordinate multiple adapters and multiple instances of
-the same adapter simultaneously.
-
-### Tier 1 API-Only Compatibility
-
-API-only operation remains supported as a useful compatibility and self-serve
-capability. It uses the same portable contracts and policies wherever
-practical. It must not become a second orchestration authority or force every
-adapter to reproduce the control plane.
-
-## Authority And Identity
-
-Every Bridge operation involving Discourse is authorized by a user-created
-Discourse API key. Durable Bridge identities are operating records around those
-keys; they are not alternate authority.
-
-The plugin must make scope, actor, connection, requested action, approval,
-execution result, and audit evidence visible. Key rotation and revocation are
-normal lifecycle controls when appropriate, not per-run rituals. Exceptional
-exposure remediation must not become routine product doctrine.
-
-External adapters may have their own platform credentials. Those credentials
-authorize the adapter side only and must be scoped, stored, referenced, and
-audited through the connection contract.
-
-## Required Portable Contracts
-
-The first stable contract set comprises:
-
-1. `Connection` — Discourse endpoint, adapter endpoint, capabilities,
-   identities, credential references, and lifecycle state.
-2. `ResourceIdentity` — stable identities and mappings for topics, posts,
-   pages, sections, assets, and related content.
-3. `DirectionPolicy` — source authority, permitted reads/writes, single-writer
-   boundary, and no-writeback rules.
-4. `ChangeSet` — normalized proposed operations with source hashes,
-   provenance, and deterministic ordering.
-5. `Comparison` — presentation and substantive differences without silently
-   normalizing meaningful content.
-6. `Approval` — actor, scope, frozen input hashes, decision, and expiry.
-7. `Job` — plan, preflight, execution, progress, retry, cancellation, and
-   terminal state.
-8. `Evidence` — zero-write claims, requests, results, hashes, warnings,
-   failures, and audit references.
-9. `AdapterCapabilities` — supported operations, limits, versions, and
-   compatibility requirements.
-
-Contracts must be serializable, versioned, deterministic where required, and
-testable with fake credentials and fixtures.
-
-## Non-Negotiable Invariants
-
-- A connection declares source authority and permitted direction.
-- Protected sources are never written back without an explicit policy change
-  and reviewed approval.
-- Planning and comparison remain distinguishable from execution.
-- Zero-write operations make no target writes and report that fact.
-- Every write is attributable to an authorized identity and frozen input.
-- Retries are bounded and idempotent; ambiguous outcomes enter recovery.
-- Redirects and authority drift fail closed for credentialed operations.
-- Secrets do not enter arguments, reports, logs, exceptions, or audit payloads.
-- Adapters do not acquire independent policy or orchestration authority.
-- Current working Astro/API-only workflows remain operable during migration.
-
-## Ownership And Collaboration
-
-- **Bridge Boss** owns DiscussionBridge behavior, core/adapter implementation,
-  integration choices, acceptance evidence, and coordinated gates.
-- **Discourse Boss** is the close platform partner for plugin architecture,
-  Discourse conventions and internals, compatibility, installation, operations,
-  and upstream boundaries.
-- **Product Boss** owns product interpretation and product-document support.
-- **Code Boss** reviews correctness, security, maintainability, tests, and
-  migration risk.
-- **Manual Boss** owns documentation and manual quality.
-- **Boss** owns cross-project routing, continuity, priority, and unresolved
-  ownership decisions.
-
-General Discourse core/plugin work remains with Discourse Boss unless it is
-specifically DiscussionBridge product behavior. Bridge-specific plugin work is
-led by Bridge Boss with close Discourse Boss support.
-
-## Portability Rule
-
-Discourse is a deliberate host, not an accidental prison. Use its mature
-facilities fully, but keep portable domain behavior behind host-neutral
-interfaces whenever practical. A future standalone host should replace the
-host layer—not require a rewrite of connection, policy, planning, comparison,
-approval, or audit semantics.
-
-## One Product Family
-
-Everything remains under the DiscussionBridge tent:
-
-- DiscussionBridge for Discourse is the free, fully featured plugin and local
-  host.
-- DiscussionBridge for Astro is the free, fully featured Astro adapter.
-- DiscussionBridge SaaS is the paid, managed standalone host for multi-CMS,
-  multi-site, and multi-community orchestration.
-- DiscussionBridge Services provides paid implementation, migration,
-  customization, training, operations, and extensive support.
-- DiscussionBridge Community provides public documentation and community
-  support, with team participation as capacity permits.
-
-These are deployment and service models over one product architecture, not
-separate products with diverging cores. The free products must remain genuinely
-capable. SaaS value comes from managed operation, scale, governance,
-convenience, and operational relief rather than artificial limitations.
-
-The intact product-family decision is preserved in
-[`docs/evidence/DISCUSSION_BRIDGE_PRODUCT_FAMILY_DOCTRINE_2026-07-25.md`](/evidence-discussion-bridge-product-family-doctrine-2026-07-25/).
+Where that proposal conflicts with this page, current package behavior and the
+current Alpha product-family contract control.

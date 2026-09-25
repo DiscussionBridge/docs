@@ -1,175 +1,179 @@
 ---
 title: "Attribution, Ownership, And Licensing"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/ATTRIBUTION_OWNERSHIP_LICENSE.md"
 ---
 
-This document records the public Alpha attribution, ownership, and licensing
-posture for The Bridge and the DiscussionBridge adapters/addons for Astro,
-Ghost, Hugo, Statamic, and WordPress.
-
-**Why Alpha:** attribution and licensing principles are not temporary, but the
-exact package contents, public surfaces, third-party references, and release
-evidence can still change before a stable release. Naming the current release
-stage keeps this record tied to what has actually been reviewed. Every later
-release candidate must refresh the automated checks and semantic review; the
-stable release will publish the corresponding stable posture.
-
-It adapts the WebSynergetics legal and ownership governance working notes for this public repository. The WebSynergetics-level legal/governance records remain the master operating source; this file is the project-facing public version.
+This page is the public family-level summary for DiscussionBridge ownership,
+attribution, and component licensing. Each component repository's `LICENSE` file
+is the authority for that component and overrides any inconsistent summary.
 
 ## Public Summary
 
-DiscussionBridge is an independent WebSynergetics project.
+DiscussionBridge is an independent product brand owned and operated within the
+WebSynergetics umbrella. It is made by CodeWorksLabs, the WebSynergetics
+maker/studio, and maintained by Phil Henry.
 
-DiscussionBridge for Astro, Ghost, Hugo, Statamic, and WordPress are focused
-integration packages in the DiscussionBridge product family. The Bridge is the
-unified Discourse plugin and flagship.
-
-Package name:
-
-```text
-astro-discussion-bridge
-```
+DiscussionBridge for Discourse is the Discourse plugin and receiver. Focused
+platform components connect Astro, Ghost, Hugo, Statamic, and WordPress through
+the DiscussionBridge Adapter Protocol. **The Bridge** is only the name of the
+dedicated public demonstration at `bridge.demo.discussionbridge.dev`.
 
 Recommended short public attribution:
 
 ```text
-Built by Phil Henry / WebSynergetics with AI-assisted development.
-```
-
-Recommended package/repo attribution:
-
-```text
-Copyright (c) 2026 WebSynergetics
-Maintainer: Phil Henry
-License: MIT
-Development: Human-directed, AI-assisted development using Codex and related tools.
+DiscussionBridge is made by CodeWorksLabs, a WebSynergetics property.
 ```
 
 ## Ownership
 
-WebSynergetics owns and maintains this work unless a later file, agreement, or project record says otherwise.
+WebSynergetics is the current owner and operating umbrella unless a later
+controlling agreement or repository record says otherwise. CodeWorksLabs is the
+maker/studio; that role does not replace the owner or the distinct
+DiscussionBridge product identity.
 
-Phil Henry is the current human maintainer/operator for this project.
+Phil Henry is the current human maintainer/operator. AI tools, including Codex,
+may assist with development and documentation, but they are not listed as
+copyright owners, legal authors, maintainers, or inventors.
 
-AI tools, including Codex, may assist with development and documentation, but they are not listed as copyright owners, legal authors, maintainers, or inventors.
+The human operator and organization remain responsible for review, testing,
+security, licensing, publication, and maintenance.
 
-The human/operator and organization remain responsible for reviewing, testing, securing, licensing, publishing, and maintaining the work.
+## Component Licenses
 
-## License
+DiscussionBridge components use the MIT License except where a component
+explicitly states otherwise. DiscussionBridge for Discourse is the
+GPL-2.0-or-later exception.
 
-The code and documentation in this repository are licensed under the MIT License unless a file says otherwise.
+| Component | License | Authoritative record |
+| --- | --- | --- |
+| DiscussionBridge Adapter Protocol | MIT | The Alpha.21 working candidate contains the license; the public repository `LICENSE` becomes authoritative when that candidate is published |
+| DiscussionBridge for Discourse | GPL-2.0-or-later | [Repository license](https://github.com/DiscussionBridge/discourse-discussion-bridge/blob/main/LICENSE) |
+| DiscussionBridge for Astro | MIT | [Package license](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/packages/astro-discussion-bridge/LICENSE) |
+| DiscussionBridge for Ghost | MIT | [Repository license](https://github.com/DiscussionBridge/ghost-discussion-bridge/blob/main/LICENSE) |
+| DiscussionBridge for Hugo | MIT | [Repository license](https://github.com/DiscussionBridge/hugo-discussion-bridge/blob/main/LICENSE) |
+| DiscussionBridge for Statamic | MIT | [Repository license](https://github.com/DiscussionBridge/statamic-discussion-bridge/blob/main/LICENSE) |
+| DiscussionBridge for WordPress | MIT | [Repository license](https://github.com/DiscussionBridge/wordpress-discussion-bridge/blob/main/LICENSE) |
+| DiscussionBridge documentation | MIT | [Documentation repository license](https://github.com/DiscussionBridge/docs/blob/main/LICENSE) |
 
-See:
+The Adapter Protocol must not be described as a downloadable MIT-licensed
+Alpha.21 release until its coherent tag, artifact, and authoritative public
+`LICENSE` are published.
 
-- [Documentation repository license](https://github.com/DiscussionBridge/docs/blob/main/LICENSE)
-- [Astro adapter package license](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/packages/astro-discussion-bridge/LICENSE)
-- [Third-party provenance](https://github.com/DiscussionBridge/docs/blob/main/docs/THIRD_PARTY_PROVENANCE.json)
-- package metadata: [`packages/astro-discussion-bridge/package.json`](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/packages/astro-discussion-bridge/package.json)
+See also the public [third-party provenance inventory](https://github.com/DiscussionBridge/docs/blob/main/docs/THIRD_PARTY_PROVENANCE.json).
 
-MIT requires preserving the copyright notice and license text in copies or substantial portions of the software. MIT does not require disclosure of which tools were used to create the work; the AI-assisted development note is a WebSynergetics transparency convention.
+## Copyable Attribution Templates
+
+Use the exact component license in repository and package metadata. Do not copy
+a family-wide “MIT except...” statement into a component that should name one
+license precisely.
+
+### MIT Components
+
+```text
+Copyright (c) 2026 WebSynergetics
+License: MIT
+SPDX-License-Identifier: MIT
+Maintainer: Phil Henry
+Development: Human-directed, AI-assisted development using Codex and related tools.
+```
+
+### DiscussionBridge For Discourse
+
+```text
+Copyright (c) 2026 WebSynergetics
+License: GPL-2.0-or-later
+SPDX-License-Identifier: GPL-2.0-or-later
+Maintainer: Phil Henry
+Development: Human-directed, AI-assisted development using Codex and related tools.
+```
+
+These templates supplement rather than replace the complete license text that
+must ship with the component.
+
+## Why MIT Is The Default
+
+MIT is a practical fit for integration components intended to be installed,
+audited, modified, and combined with independently licensed publishing
+platforms. Its enduring conditions are deliberately small: copies or substantial
+portions must retain the copyright notice and permission text, and the software
+is supplied without warranty.
+
+MIT does not transfer ownership of DiscussionBridge, grant rights to its name or
+branding, require publication of modifications, or promise support, fitness,
+security, or compatibility.
+
+## Why DiscussionBridge For Discourse Is GPL
+
+DiscussionBridge for Discourse is distributed under GPL-2.0-or-later, so its
+source and redistribution obligations follow that repository's license. That
+component license does not silently relicense separately distributed adapters or
+the public Adapter Protocol merely because they communicate through the shared
+contract.
+
+DiscussionBridge for WordPress remains MIT. The official
+[WordPress.org Detailed Plugin Guidelines](https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/#1-plugins-must-be-compatible-with-the-gnu-general-public-license)
+require directory-hosted plugins and included material to use a GPL-compatible
+license and strongly recommend GPLv2-or-later. MIT is GPL-compatible. Changing
+the WordPress component to GPL would therefore be a deliberate licensing
+decision, not a correction required for compatibility with that policy. Policy
+wording was checked September 24, 2026; recheck it before a future
+WordPress.org submission.
+
+## Copyright Notice
+
+The current ownership record supports:
+
+```text
+Copyright (c) 2026 WebSynergetics
+```
+
+The name does not by itself assert a particular corporate form. If the legal
+owner name, trade-name form, or ownership agreement changes, update the
+controlling governance record, repository licenses, package metadata, and
+public attribution together.
 
 ## AI-Assisted Development
 
-This project uses human-directed, AI-assisted development.
+DiscussionBridge uses human-directed, AI-assisted development. The public
+transparency convention does not change copyright ownership or license terms.
+Code, documentation, dependencies, generated material, and release artifacts
+still require ordinary human review and verification.
 
-Public posture:
+Never place secrets, credentials, private account values, personal data, or
+protected operational details in public attribution or provenance records.
 
-- human/org owns and maintains the work
-- AI assistance may be disclosed
-- AI is not named as legal author, copyright holder, maintainer, or inventor
-- code and docs should be reviewed before release
-- tests, security checks, dependency review, and license review remain normal release responsibilities
-- do not store secrets, credentials, private account values, or production operational details in public attribution notes
+## Third-Party Names And Non-Affiliation
 
-## Third-Party Names
-
-This project integrates with and documents use of third-party projects and products. Their names belong to their respective owners.
-
-- Astro is a project of its respective owners and contributors.
-- Starlight is an Astro documentation theme/project of its respective owners and contributors.
-- Discourse is a project and product of its respective owners and contributors.
-- Ghost, Hugo, Statamic, and WordPress are projects or products of their
-  respective owners and contributors.
-- Coding Horror is referenced as a public example of a publisher-to-Discourse publishing/discussion pattern.
-- Starlog is referenced as an Astro example pattern for release-note style content.
-
-DiscussionBridge is not affiliated with, sponsored by, endorsed by, or
-officially connected to Astro, Starlight, Discourse, Ghost, Hugo, Statamic,
-WordPress, Coding Horror, or the Astro Starlog example unless a future written
+Astro, Starlight, Discourse, Ghost, Hugo, Statamic, and WordPress belong to their
+respective owners. DiscussionBridge is not affiliated with, sponsored by,
+endorsed by, or officially connected to those projects unless a future written
 agreement says otherwise.
 
-## References And Examples
+When referencing a third-party project or example:
 
-Public examples are used as references for behavior and product shape. They are not copied assets.
+- link to the source;
+- describe it as a reference rather than an endorsement;
+- avoid copying substantial text, imagery, branding, or proprietary material;
+  and
+- prefer original DiscussionBridge examples.
 
-When referencing third-party examples:
+## Demo And Media Provenance
 
-- link to the source
-- describe the example as a reference
-- avoid implying endorsement
-- avoid copying substantial text, images, branding, or proprietary material
-- prefer original DiscussionBridge examples for code and docs
+Demo content is original project material unless its source says otherwise.
+For new examples and media:
 
-## Demo And Example Content
+- do not use customer, private, or personal content;
+- cite specifically adapted public sources;
+- confirm rights before distributing logos, screenshots, fonts, images, data,
+  or other non-code assets;
+- record public, non-sensitive provenance in
+  `docs/THIRD_PARTY_PROVENANCE.json`; and
+- retain any confidential purchase receipt, permission, or legal evidence in
+  the protected governance record referenced by the public inventory.
 
-Demo content in this repository is original project material unless a file says otherwise.
-
-When adding new examples:
-
-- keep example text original
-- cite third-party sources when inspiration is specific
-- avoid using real customer/private content
-- avoid embedding third-party logos or screenshots unless usage rights are clear
-- record media ownership and usage rights outside the public repo when a demo uses non-code media assets
-
-## Release Checklist
-
-Before Alpha release:
-
-- run `npm run check:attribution` from `packages/astro-discussion-bridge`
-- require an explicit Manual Boss `Attribution and Licensing: PASS / FAIL / N/A` result with reviewed paths
-- preserve a sanitized review record for the exact release commit
-- confirm every public docs page has appropriate attribution when it mentions third-party products or examples
-- confirm root and package license files use the intended copyright holder
-- confirm package metadata points to the MIT license
-- confirm README support and attribution language is visible enough for users
-- confirm no private credentials, private operational notes, or unsupported affiliation claims are present
-
-After Alpha, repeat this pass only when ownership, dependencies, copied examples, source material, or public positioning changes.
-
-A package-test or docs-build total is not, by itself, an attribution/licensing result. The automated gate checks objective repository, dependency, package, link, media-inventory, and protected-path conditions. Manual Boss reviews the semantic questions automation cannot settle: ownership, adequacy, source rights, trademark/affiliation wording, copied or adapted material, and public/private boundaries.
-
-## Automated Gate Reporting
-
-The full package suite includes the full attribution gate. A passing
-exact-candidate run therefore proves the objective package checks for that
-candidate: root/package MIT parity and holder, package metadata, production
-dependency licenses against the explicit allowlist or reviewed override
-evidence, required npm package contents, README/non-affiliation and rendered
-links, tracked-media provenance, and protected-path scanning. Record the suite
-total in the candidate-specific evidence rather than treating a template count
-as permanent.
-
-The readable docs build runs only the bounded docs gate. Its required report is:
-
-```text
-Attribution and licensing gate: PASS (docs scope)
-npm package contents: SKIPPED (requires built release candidate)
-```
-
-The synchronized-source and generated-HTML counts prove synchronization and
-rendering plus that bounded docs-scope check. Record their exact values with
-the candidate evidence. They do not prove npm package contents and do not
-substitute for the full package gate.
-
-Neither automated result is Manual Boss approval. Every exact release requires
-a separate Manual Boss result written as `Attribution and Licensing: PASS /
-FAIL / N/A`, the paths reviewed, and a sanitized review record tied to the
-exact release commit. No Manual Boss PASS is recorded until that review occurs.
-
-For the exact candidate through `b09dbce` atop `7127eb1` and `462b3ae`, Manual
-Boss recorded **`Attribution and Licensing: PASS`** with no remaining findings
-or blockers. See the
-[sanitized exact-candidate review record](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/docs/evidence/ATTRIBUTION_LICENSING_REVIEW_B09DBCE_2026-07-23.md).
+The public inventory should identify what ships and its usable provenance
+without exposing private agreements, credentials, or personal data.

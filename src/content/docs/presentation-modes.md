@@ -1,12 +1,14 @@
 ---
 title: "Presentation Modes"
-lastUpdated: 2026-09-13
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/PRESENTATION_MODES.md"
 ---
 
 DiscussionBridge separates content direction from comments presentation. A
-page may originate on a platform or on The Bridge, while its discussion can be
+page may originate on a platform or in Discourse, while its discussion can be
 shown in any mode supported by that adapter.
 
 ## Simple
@@ -16,9 +18,10 @@ accessible, and contains no Discourse application shell or receiver secret.
 
 The first bounded batch is shown immediately. **Show more comments** reveals
 additional bounded batches up to the adapter's hard ceiling, then the reader
-continues on The Bridge. Static profiles may ship a sanitized build-time
-fallback, but the current browser enhancement refreshes public comments so a
-new reply does not require a new site build.
+continues in DiscussionBridge for Discourse. Static profiles may ship a sanitized build-time
+fallback. Depending on the adapter, current replies are refreshed through a
+credential-free browser request or a bounded server-side cache, so the refresh
+path must be documented and tested for that platform.
 
 Simple should show:
 
@@ -44,7 +47,7 @@ retain that default or show all supported embedded comments.
 Full does not require a Bridge Record or receiver credential. It resolves from
 the exact canonical page URL, so allowed embed hosts and canonical identity
 must be correct. It is an important product path for operators who want
-Discourse comments without installing The Bridge.
+Discourse comments without installing DiscussionBridge for Discourse.
 
 Full should still present the independent DiscussionBridge credit when the
 adapter's credit option is enabled. It may also present the forum's ordinary
@@ -53,7 +56,7 @@ Discourse branding according to forum policy.
 ## Interactive (`interactive`)
 
 Interactive is the Bridge-backed, comments-only Discourse application
-surface. The Bridge attests the exact record/topic mapping and omits the
+surface. DiscussionBridge for Discourse attests the exact record/topic mapping and omits the
 companion first post from the iframe so the host article is not duplicated.
 Discourse owns sign-in, session, composer, replies, quotes, likes, editing,
 moderation, accessibility, and application behavior.
@@ -73,7 +76,7 @@ input will be removed only at a separately announced breaking boundary.
 
 ## From Discourse Content Plus Discussion
 
-When The Bridge supplies the article, the adapter renders the sanitized first
+When Discourse supplies the article, the adapter renders the sanitized first
 post once as platform content. The associated discussion then shows replies to
 that same topic. A `Continue/Open discussion` link is useful, but it does not
 replace the comments surface when the profile claims comments.
@@ -89,6 +92,12 @@ Every supported profile should verify headings and table of contents, tables,
 code blocks, links, images, Mermaid diagrams, inline and block math, and
 responsive media in both directions.
 
+Package capability and deployed qualification are separate claims. Do not call
+a renderer supported merely because the adapter ships an asset: the asset must
+be installed by the consumer and the exact deployed profile must pass a real
+fixture. In particular, math support needs an actual mathematical-expression
+fixture rather than a source-code or escaped-text match.
+
 Platform navigation and forum topic navigation are independent. A platform
 adapter may build an **On this page** navigation from rendered `h2`/`h3`
 headings. For To Discourse topics, a connection's **Generate topic table of
@@ -96,7 +105,7 @@ contents** option adds the DiscoTOC marker only when enough source headings
 exist and the official DiscoTOC component is installed. Changing the setting
 does not silently rewrite existing topics.
 
-Mermaid and math need presentation support on both sides. The Bridge uses the
+Mermaid and math need presentation support on both sides. DiscussionBridge for Discourse uses the
 appropriate Discourse components/settings; platform adapters bundle or provide
 their own safe renderer rather than depending on an arbitrary third-party CDN.
 
@@ -105,6 +114,11 @@ their own safe renderer rather than depending on an arbitrary third-party CDN.
 Comments remain Discourse-owned even when rendered natively. The host platform
 owns its article layout. DiscussionBridge owns the declared connection,
 identity, transformation, retry, provenance, and presentation boundary.
+
+Site naming, long-page navigation, footer ownership, crawler policy, and
+analytics are deployment concerns rather than comments modes. Apply the shared
+target in [Adapter Operating Models](/adapter-operating-models/) without
+making presentation-mode code responsible for Matomo, Umami, or site chrome.
 
 This is not user synchronization. A transported source author may be credited
 or mapped to a selected Discourse user, but that mapping does not create shared

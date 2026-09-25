@@ -1,6 +1,6 @@
 # DiscussionBridge Docs Successor Checkpoint
 
-Updated: 2026-09-03
+Updated: 2026-09-24
 
 ## Current publication boundary
 
@@ -192,3 +192,129 @@ Versions page was refreshed to distinguish current `main` from the immutable
 coordinated release tag. Source commit `1f35819` is pushed to `origin/main` and
 deployed as Cloudflare Worker version
 `bd84759e-2eea-491e-b0c8-c76e6676f77e`.
+
+## 2026-09-24 adapter operating models and licensing rationale
+
+The canonical public documentation now includes
+`docs/ADAPTER_OPERATING_MODELS.md`, synchronized to the stable route
+`/adapter-operating-models/` and exposed in the Start sidebar. It explains the
+shared From Discourse queue lifecycle, the difference between initial backfill
+and steady-state work, why claims are bounded, native objects and storage,
+create/update/withdrawal/idempotency behavior, dynamic versus static
+acknowledgement, operator states, recovery paths, and prohibited blind actions
+for Astro/Starlight, Ghost, Hugo, Statamic Flat, Statamic DB, Statamic SSG, and
+WordPress. The Statamic SSG section records the exact eight-topic protected
+transaction, complete site regeneration/deployment, public-revision
+verification, finalize/abort boundary, and current OBBBA ten-minute throughput
+without misrepresenting eight claims as eight generated files.
+
+The overview, Platform Profiles, Alpha Installation and Operator Guide, sync
+manifest, metadata ledger, and Starlight navigation link the new guide. The
+attribution page now records the settled relationship explicitly:
+DiscussionBridge is the product brand, CodeWorksLabs is the maker/studio,
+WebSynergetics is the current owner and operating umbrella, and Phil Henry is
+the human maintainer. It explains why MIT is a practical permissive license for
+an integration product, what MIT does and does not grant, and why the current
+copyright notice names WebSynergetics without asserting an unverified corporate
+form.
+
+Metadata refresh and tests, canonical/generated synchronization, attribution
+and protected-path checks, the 31-page production build, Pagefind, sitemap,
+Wrangler deployment dry run, rendered-content checks, and `git diff --check`
+passed. Nothing was committed, pushed, or deployed. The pre-existing
+line-ending-only modified status on
+`src/content/docs/versions-and-live-status.md` was not treated as part of this
+change.
+
+## 2026-09-24 component licensing correction and platform standard
+
+The earlier licensing rationale has been refined into the settled family rule:
+DiscussionBridge components are MIT unless their repository explicitly states
+otherwise. DiscussionBridge for Discourse is GPL-2.0-or-later; the Adapter
+Protocol, Astro, Ghost, Hugo, Statamic, WordPress, and this documentation are
+MIT. Each repository's `LICENSE` file is authoritative. The previously missing
+Adapter Protocol MIT license has been added locally in its product repository,
+but it must be committed and pushed before this documentation is deployed so
+the new public license link resolves.
+
+`docs/ATTRIBUTION_OWNERSHIP_LICENSE.md` now contains the complete component
+matrix, repository links, the GPL exception explanation, WordPress's current
+MIT posture, and the corrected naming boundary: **The Bridge** refers to the
+dedicated demo, while **DiscussionBridge for Discourse** is the generic plugin
+name. `docs/ADAPTER_OPERATING_MODELS.md` now also records the shared target for
+real demos: platform-visible names, usable return navigation on every detail
+page, restrained Repeal OBBBA styling, DiscussionBridge/CodeWorksLabs/
+WebSynergetics footer attribution, and Matomo plus Umami using one identity per
+apex domain with host/path/title/referrer retained for segmentation. Analytics
+and crawler policy are documented as independent controls.
+
+Metadata refresh/tests, synchronization, attribution/protected-path checks,
+the 31-page Astro/Starlight build, Pagefind, sitemap, and Wrangler dry run pass.
+Nothing was committed, pushed, or deployed. The pre-existing
+line-ending-only `src/content/docs/versions-and-live-status.md` status remains
+outside this change.
+
+The Adapter Protocol worktree is already one commit ahead of public `main` and
+contains additional uncommitted Alpha.21 contract work. Do not publish the
+license through a detached or history-diverging shortcut. Include it in the
+next coherent protocol candidate, publish that candidate first, and deploy the
+documentation afterward.
+
+## 2026-09-24 full documentation review and repair
+
+Phil requested a page-by-page repair after finding that every sampled page
+needed work. Three bounded audit lanes covered operator/runbook material,
+platform/adapter material, and information architecture/current-versus-history
+classification. Their findings were integrated into one local candidate.
+
+The 30 canonical pages now describe the current 0.2 Discourse-centered model:
+Content Connections and connection secrets, receiver-owned publication work,
+bounded claims and leases, dynamic versus static acknowledgement, durable
+identity, safe retry, native platform outcomes, and protected static
+transactions. Current pages no longer instruct operators to use the rejected
+portable-core/control-plane model, direct Discourse API-key publication, or
+removed 0.1 commands. Legacy tokens remain only where a page explicitly says
+they are historical, prohibited, or compatibility aliases.
+
+The platform guides now agree on Simple, Full, and Interactive presentation,
+the exact Statamic SSG prepare/build/deploy/verify/finalize sequence, adapter
+batch and lease boundaries, the 256 KiB attention boundary, and the prohibition
+on blind Retry for identity, ownership, collision, over-limit, or unresolved
+deployment failures. The demo presentation standard records the settled site
+name/product descriptor split, navigation expectations, exact ownership footer,
+provenance separation, restrained Repeal OBBBA treatment, one analytics
+identity per apex domain, cookieless/no-user-ID Matomo policy, CSP and Umami
+host boundaries, provider receipt checks, and crawler-policy independence.
+
+The information architecture now separates current operating guidance, current
+product reference, Astro-specific reference, the legacy Astro 0.1 migration
+notice, and genuine historical records. Human/Machine manuals and both runbook
+templates are platform-neutral current guidance. The Demo Guide, Product
+Concepts and Terminology, and Build/Launch Checklists are current pages rather
+than Archive entries. Every generated page renders Last updated, Status,
+Audience, and Applies to metadata so readers can see its authority boundary.
+
+Licensing now follows the settled family rule: MIT unless the component's
+repository says otherwise, with DiscussionBridge for Discourse explicitly
+GPL-2.0-or-later. The Adapter Protocol MIT decision is documented as reviewed
+but not public-release-complete until the reviewed `LICENSE` ships in the next
+coherent Alpha.21 protocol candidate. Do not deploy public documentation that
+implies the missing public file already exists.
+
+Preventive checks were added for documentation-relative links and balanced
+fenced code blocks. The metadata test was made precise enough to read only the
+canonical synchronization list rather than treating classification lists as
+duplicate pages.
+
+Final local verification passed:
+
+- `npm run refresh-metadata` synchronized all 30 canonical pages;
+- `npm run build` passed metadata, synchronization, attribution, protected-path,
+  Astro/Starlight, 31-page rendering, Pagefind, and sitemap gates;
+- `node --test` passed all 8 tests, including link and fence integrity;
+- `npm run deploy:dry-run` read 122 generated assets successfully;
+- `git diff --check` passed, with only expected Windows line-ending notices.
+
+Nothing was committed, pushed, or deployed. No product source, running OBBBA
+backfill, credentials, provider settings, or live environment was changed by
+this documentation repair.

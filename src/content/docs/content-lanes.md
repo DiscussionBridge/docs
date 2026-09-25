@@ -1,533 +1,194 @@
 ---
-title: "Content Lanes Guide"
-lastUpdated: 2026-09-04
-appliesTo: "DiscussionBridge Alpha"
+title: "Content Lanes"
+lastUpdated: 2026-09-25
+status: "Astro-specific Alpha reference"
+audience: "Astro and Starlight operators"
+appliesTo: "DiscussionBridge for Astro Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/CONTENT_LANES.md"
 ---
 
-> **Historical architecture and field record.** Content Connections and Bridge
-> Records now implement the shared multi-platform boundary. Begin with the
-> [Alpha Installation and Operator Guide](/alpha-operator-guide/) and
-> [Platform Profiles](/platform-profiles/); use this page for provenance and
-> earlier Astro lane detail only.
+A content lane is an optional, connection-scoped route for applying forum-owned
+publication policy to a group of platform content. It can distinguish docs,
+blog posts, releases, or another editorial stream without turning the
+publishing adapter into a second policy authority.
 
-Public Alpha consumers receive lane behavior from the exact package tarball
-attached to an accepted GitHub prerelease. They must verify the release-record
-SHA-256, install that same local file with `--save-exact`, and confirm the
-lockfile resolution/integrity matches the accepted asset. npm registry
-publication is a later, separately authorized gate and is not an Alpha channel.
+This page describes the current 0.2 Astro boundary. Earlier API-key commands,
+source modes, multi-forum target fields, and portable-core lane proposals are
+historical and are not accepted by the current package.
 
-A content lane maps a group of Astro content to Discourse behavior.
+## Authority Boundary
 
-At the product level, a lane is an adapter-neutral connection contract. The
-portable DiscussionBridge Core owns its source and destination identities,
-direction, policy, job state, approvals, retries, provenance, and audit
-evidence. The Astro adapter maps that contract to Astro content roots, routes,
-navigation, rendering, builds, and deployment. Statamic and future adapters
-should map the same contract to their systems rather than creating separate
-control planes.
+For **To Discourse** content:
 
-The DiscussionBridge for Discourse plugin is the present operational home for
-the portable core and may operate lanes for multiple publishing systems from
-one Discourse installation. Tier 1 API-only lanes remain supported
-compatibility behavior. The current Astro implementation is prototype and
-field evidence for this model; migration into the core/host/adapter boundaries
-is not yet complete.
+- the publishing platform owns the authoritative published item, stable native
+  identity, canonical URL, body, and source-author data;
+- the adapter may send one configured `lane` with that item;
+- the Content Connection decides which lanes are allowed; and
+- DiscussionBridge for Discourse owns the resulting category, tags,
+  visibility, forum author, and topic identity.
 
-Attribution travels with lane content. The automated gate checks objective
-license/provenance inventory and protected-path conditions, but a release still
-requires Manual Boss semantic review of source rights, adapted material,
-trademark/affiliation wording, and public/private boundaries. A package 73/73
-or docs 20/21 count is not that human approval.
-For the exact corrected candidate through `b09dbce`, Manual Boss separately
-recorded `Attribution and Licensing: PASS`; future candidates require their own
-review record.
+An Astro page does not select a Discourse category or tags through current
+frontmatter. Old fields such as `discourseCategoryId` and `discussionTags` are
+not current 0.2 configuration.
 
-## Two-Direction Dogfood Lanes
+For **From Discourse** content, the forum's category/tag rules and the
+connection's destination mapping decide which native platform destination is
+eligible. Initial backfill and later queue processing are adapter operations,
+not Astro frontmatter lanes. See
+[Adapter Operating Models](/adapter-operating-models/).
 
-The Alpha dogfood proof uses two separate single-writer lanes:
+## Configure One Astro Lane
 
-- `discussionbridge.dev` Astro-managed blog -> public companion topic on
-  `forum.discussionbridge.dev`;
-- `forum.discussionbridge.dev` community wiki/how-to -> a durable public guide
-  and Astro navigation lane on `discussionbridge.dev`.
-
-The wiki lane is imported with `--source-mode discourse-managed`. The generated
-page preserves `discussionSourceMode: discourse-managed`,
-`discussionSync: false`, source provenance, and topic identity; it imports or
-refreshes deterministically and keeps the source topic as its primary
-discussion. Wiki edits happen in Discourse; the site republishes reviewed
-source. These lanes do not merge reply streams.
-
-Live dogfood verification completed in apex commit `d68ffc4`: the blog route
-`/blog/every-connection-has-a-job/` binds public companion topic `37`, while
-the guide route `/guides/how-to-choose-a-discussion-bridge-source-mode/`
-discloses and renders wiki source topic `36` as its primary fullInteractive
-discussion. A deliberate guide sync dry run skipped under the
-`discourse-managed` no-writeback rule.
-[Sanitized live evidence](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/docs/evidence/DISCUSSIONBRIDGE_DEV_TWO_WAY_DOGFOOD_2026-07-23.md)
-records the HTTP, topic metadata, redirect, build, and known-notice checks.
-
-One Astro or Starlight site may publish several kinds of content:
-
-- docs
-- blog posts
-- news posts
-- release notes
-- comments-mode demos
-
-Each lane can use its own source directory, route base, category, tags, listing behavior, notification settings, and comments display mode.
-
-## Navigation Authority By Lane
-
-Navigation authority follows the content lane; it does not automatically come
-from Discourse. Forum-authored lanes may derive hierarchy and labels from
-reviewed Discourse categories, tags, and index topics. Official-source lanes
-must derive legal scope, hierarchy, order, labels, local routes, and body text
-from the controlling authoritative official source before any optional forum
-metadata is joined.
-
-A local page or organizational group may therefore exist without a Discourse
-topic when it has a local URL or children. When a node claims a forum
-connection, `topicId` and `sourceUrl` are required together and partial bindings
-fail closed. Never invent a synthetic forum topic merely to satisfy navigation.
-Adding another official/local content lane to navigation requires separate
-Product review of its authority and route boundary.
-
-## Why Lanes Matter
-
-Lanes keep one site from becoming one undifferentiated publishing pipe.
-
-For example:
-
-- docs can publish to a support or documentation category
-- blog posts can publish to a general discussion category
-- news posts can publish to announcements
-- release notes can publish to releases
-- demo/test topics can be unlisted while still supporting direct links and embeds
-
-This keeps Astro as the publishing surface and Discourse as the relationship surface, without losing editorial structure.
-
-## CLI Lane Pattern
-
-Run commands from the Astro project root.
-
-Docs lane:
-
-```sh
-npx astro-discussion-bridge publish-new src/content/docs \
-  --discourse-url https://forum.example.com \
-  --site-url https://docs.example.com \
-  --category-id 5 \
-  --tags discussionbridge,docs \
-  --dry-run \
-  --details
-```
-
-Blog lane:
-
-```sh
-npx astro-discussion-bridge sync-existing src/content/blog \
-  --route-base blog \
-  --discourse-url https://forum.example.com \
-  --site-url https://docs.example.com \
-  --category-id 6 \
-  --tags discussionbridge,blog \
-  --dry-run \
-  --details
-```
-
-Release lane:
-
-```sh
-npx astro-discussion-bridge publish-and-sync src/content/releases \
-  --route-base releases \
-  --discourse-url https://forum.example.com \
-  --site-url https://docs.example.com \
-  --category-id 7 \
-  --tags discussionbridge,releases \
-  --dry-run \
-  --details
-```
-
-Remove `--dry-run` only after the preview shows the expected page URLs, titles, tags, category, and topic IDs.
-
-## Build Hook Lanes
-
-Keep build publishing opt-in.
+DiscussionBridge for Astro accepts one content root and optional lane per
+integration configuration:
 
 ```js
-discussionBridge({
-  provider: "discourse",
-  discourseUrl: "https://forum.example.com",
-  siteUrl: "https://docs.example.com",
-  publishOnBuild: {
-    enabled: true,
-    lanes: [
-      {
-        name: "docs",
-        docsDir: "src/content/docs",
-        categoryId: 5,
-        tags: ["discussionbridge", "docs"],
+import { defineConfig } from "astro/config";
+import discussionBridge from "astro-discussion-bridge";
+
+export default defineConfig({
+  integrations: [
+    discussionBridge({
+      discourseUrl: "https://forum.example.com",
+      siteUrl: "https://docs.example.com",
+      comments: {
+        display: "interactive",
       },
-      {
-        name: "blog",
+      publishOnBuild: {
+        enabled: true,
         docsDir: "src/content/blog",
         routeBase: "blog",
-        categoryId: 6,
-        tags: ["discussionbridge", "blog"],
+        lane: "blog",
+        stateFile: ".discussionbridge/astro-publication-state.json",
       },
-      {
-        name: "releases",
-        docsDir: "src/content/releases",
-        routeBase: "releases",
-        categoryId: 7,
-        tags: ["discussionbridge", "releases"],
-      },
-    ],
-  },
+    }),
+  ],
 });
 ```
 
-Use explicit CLI dry runs before enabling build publishing for a lane.
+`publishOnBuild` is default-off. The build environment must supply the exact
+Content Connection ID and secret. The secret is server-only and must not enter
+Astro public configuration, generated content, browser code, URLs, logs, or
+support output.
 
-## Frontmatter Overrides
+The current integration does not accept `provider`, `preset`, or a
+`publishOnBuild.lanes` array. If a site needs several independently configured
+roots, define and verify each actual integration/build boundary rather than
+copying the removed array syntax.
 
-Pages can override lane defaults when needed.
+## Current Page Contract
+
+A new platform-authored page may opt in with current public names:
 
 ```yaml
-title: Content Lanes With Full Comments
-discourseCategoryId: 6
-discussionTags: "discussionbridge, blog"
-discussionCommentsDisplay: full
-discussionSummary: |
-  This page explains how one Astro site can publish multiple content lanes into Discourse.
+title: Content Lanes
+discussionCommentsDisplay: interactive
+discussionSync: true
+authors:
+  - id: astro:editor-42
+    name: Example Editor
+    profileUrl: https://docs.example.com/authors/example-editor/
+primaryAuthor: astro:editor-42
 ```
 
-Use `discussionSummary` when the Astro source contains components, MDX JSX, Starlight directives, local images, charts, Mermaid, math, or other content that should be curated before syncing to Discourse.
+Only exact boolean `discussionSync: true` authorizes To Discourse work.
+`draft: true` or `published: false` prevents it. Interactive publication also
+requires the page to be part of the configured published content root.
 
-Use `discussionSync: false` when a page should display an existing Discourse discussion but should not publish or sync the companion topic first post.
+After resolution, the adapter preserves the complete durable tuple:
 
-## Source Modes
+- `discussionbridgeExternalId`;
+- `discussionbridgeResourceId`;
+- `discourseTopicId`; and
+- `discourseTopicUrl`.
 
-DiscussionBridge should keep the content source of truth explicit.
+Do not delete, regenerate, partially copy, or hand-reassign that tuple. A
+canonical URL move is a separately verified migration that retains the same
+external ID, Bridge Record, topic, and replies.
 
-Source-mode operating vocabulary:
+The historical `fullInteractive` value is accepted only as an input alias.
+New frontmatter and generated output use `interactive`.
 
-- `astro-managed`: Astro owns the page. Publish and sync commands may create or update the Discourse companion topic.
-- `discourse-managed`: Discourse owns the content lifecycle. Astro pulls or renders from Discourse and should not write back to the Discourse first post.
-- `discourse-imported`: Astro contains an imported copy of a Discourse topic. Editors can refine it in Astro or GitCMS, but sync back to Discourse stays off until the page is explicitly promoted.
+## Route Base And Canonical Identity
 
-Safety rule: never write back across a source-of-truth boundary unless the user explicitly changes or promotes the source mode.
+`routeBase` must match the route the site actually publishes. For example,
+`src/content/blog/community.md` with `routeBase: "blog"` is expected to own
+`/blog/community/` under the configured `siteUrl`.
 
-Promotion is a reviewed source change, not a side effect of running sync. Commit
-the imported content first, change `discussionSourceMode` to `astro-managed`,
-set `discussionSync: true`, and explicitly select the writable target with
-`discussionPublishTargets`/`--target` when the page uses named or multiple
-targets. Run `sync-existing --dry-run --details` before the first write. Do not
-remove only the boolean guard while leaving a Discourse-owned source mode.
+The canonical public URL is part of the durable Bridge identity. Review it
+before the first authenticated build. Do not use a different route base merely
+to obtain a desired forum category; category policy belongs to the Content
+Connection.
 
-Current Alpha enforcement: `import-existing` accepts only
-`discourse-imported` or `discourse-managed` through `--source-mode`, defaults to
-`discourse-imported`, and rejects `astro-managed`. It writes the selected
-`discussionSourceMode` plus `discussionSync: false`; sync also enforces
-no-writeback for both Discourse-source modes. Manifest entries may select the
-same contract with `sourceMode`.
+## Existing Full Embed Adoption
 
-For Discourse-to-Astro workflows, support both editorial paths:
+A plugin-free Full page may later upgrade to Interactive without creating a
+replacement topic. If its frontmatter contains an exact
+`discourseTopicId`/`discourseTopicUrl` pair and no Bridge tuple, the adapter may
+ask DiscussionBridge for Discourse to adopt it. Adoption succeeds only when
+Discourse Core already attests that the same canonical page URL owns that
+available unlisted embed topic.
 
-- import clean: prune known boilerplate during import
-- import whole: bring the topic into Astro, then let a human edit it down in GitCMS or another source editor
+A manually selected Simple topic is not automatically adoptable. A connection
+credential is not authority to claim an arbitrary topic.
 
-Both paths should preserve the linked Discourse topic ID and URL so the Astro page can still render the original discussion.
+## From Discourse Native Pages
 
-### Structured Discourse-Managed Pages
+`discussionbridge-astro sync-publications` creates or updates explicitly
+authorized native Astro pages. Generated records use `discussionSync: false`,
+retain the source resource/topic/revision identity, and use Interactive for the
+same topic's replies. They are not converted into writable To Discourse pages
+by changing one boolean.
 
-Some sites need more than companion comments. Advocacy, policy, standards, product governance, and long-form documentation projects may use Discourse as the drafting room and Astro as the public publishing layer.
+After the initial backfill, use the protected two-phase queue commands:
 
-In that model, a Discourse topic can be the source for an Astro page. Wiki topics are especially useful when a community is drafting or refining a section over time. The Astro page should present the polished public version while preserving source topic links, comments, status, and last-edit context.
+```shell
+discussionbridge-astro prepare-publication-work \
+  --docs-dir src/content/docs \
+  --state-file /protected/discussionbridge/astro-publication-work.json \
+  --site-url https://docs.example.com/ \
+  --limit 20
 
-This is a future-facing requirement, but it should guide Tier 1 decisions now:
-
-- keep `discourse-managed` distinct from `astro-managed`
-- preserve topic ID, topic URL, source mode, and route metadata during import
-- avoid writeback unless a human explicitly promotes the source mode
-- allow room for status, revision, and last-edit metadata on rendered pages
-- support prune/import behavior for Discourse-only boilerplate
-
-The first real proof lane is OBBBA: `forum.repealobbba.org` to `onebigbeautifulbill.us`, with `repealobbbaact.us` as the stronger future structured-document candidate.
-
-OBBBA also proves a many-to-one shape: `onebigbeautifulbill.us`, `repealobbba.org`, `repealobbbaact.us`, and possibly `repealobbbapledge.us` can all connect to `forum.repealobbba.org`, while each site or lane may use a different source mode. That is distinct from full many-to-many, but it should keep the bridge from assuming one global forum, one global direction, or one global content lane.
-
-The bounded Alpha topology proof adds two explicit alternate-forum paths from
-selected `onebigbeautifulbill.us` pages. One uses a dedicated
-CitizenActivist.Network Discourse at canonical hostname
-`forum.citizenactivist.network`, publicly described as “A community of
-activists.” The
-other may use `forum.discussionbridge.dev` for clearly labeled demo/credit pages.
-Neither changes the managing forum for production OBBBA content lanes.
-
-Together with the existing many-to-one shape, Alpha requires one-page-to-many-
-forums publishing. Package commit `60e41e1` implements the target model; live
-topology proof remains open. The same selected page uses an explicit ordered list containing
-`forum.repealobbba.org` and `forum.citizenactivist.network`. General many-to-many
-administration remains outside this gate.
-
-The bounded live lane is now proven on the 10101 page. Its protected source is
-Repeal OBBBA topic 434 and its additional Citizen Activist publication is topic
-9. The correct publishing lane is `src/content/docs/title i` with route base
-`title-i` and active target `citizen-activist`. A broader root produced a wrong
-index/route preview and was rejected before any write; always review the
-target-specific dry-run before publication.
-
-Interaction addendum: Citizen Activist topic 9 later accepted public post 2.
-The Astro page correctly continued rendering Repeal OBBBA topic 434 as its
-protected primary discussion; the independent Citizen Activist conversation
-remained reachable through **Additional discussions**. This confirms lane and
-presentation separation without broadening the bounded topology claim.
-
-Required matrix:
-
-```text
-same selected onebigbeautifulbill.us page -> forum.repealobbba.org
-same selected onebigbeautifulbill.us page -> forum.citizenactivist.network
-bounded demo/credit pages              -> forum.discussionbridge.dev
-multiple Astro/public sites            -> forum.repealobbba.org
+# Build and deploy the exact prepared source, then:
+discussionbridge-astro finalize-publication-work \
+  --docs-dir src/content/docs \
+  --state-file /protected/discussionbridge/astro-publication-work.json \
+  --site-url https://docs.example.com/
 ```
 
-The first two edges are bindings of the same page and prove explicit multi-target
-publication. The last edge separately proves many sites converging on one forum.
+Finalization acknowledges only the exact publicly verified revision or verified
+absence. Preserve the protected state file while leases exist.
 
-Each target needs independent binding and operational state. Source-target
-no-writeback protection remains intact, comments presentation identifies a
-primary discussion and additional targets, and partial writes retain successes
-for idempotent target-specific retry.
+## Several Destinations
 
-Use `discussionTargets` for the ordered CSV target list,
-`discussionPublishTargets` for its explicitly writable subset, and
-`discussionSourceTarget` for the protected source. Store independent state in
-the JSON scalar `discussionTargetBindings`. When multiple linked discussions
-exist, set `discussionPrimaryTarget`; it renders normally while additional
-targets appear as accessible named links. `targetLabels` may customize those
-names. The CLI handles one explicit `--target` at a time, while ordered
-`publishOnBuild.lanes` can execute several named targets sequentially.
+One Discourse topic may be published through several independent Content
+Connections. Each destination keeps its own credential, stable platform ID,
+canonical URL, presentation mode, queue state, and retry history. This is not a
+single Astro page writing to an ordered list of forums, and replies from those
+destinations are not merged.
 
-Use `forum.` for literal operational clarity; express the community meaning in
-the forum identity/copy. Cloudflare/account ownership remains an Ops boundary.
+Removed fields such as `discussionTargets`, `discussionPublishTargets`,
+`discussionSourceTarget`, `discussionTargetBindings`, and
+`discussionPrimaryTarget` are not current 0.2 inputs.
 
-## Source Provenance Across Lanes
+## Platform Tags And Discussion Policy
 
-### Every connection has a job
+Astro content tags remain site/template metadata. DiscussionBridge does not
+assume a universal Astro taxonomy or automatically turn those tags into forum
+tags. Forum tags and categories belong to the receiving Content Connection and
+its lane policy.
 
-For each source-to-discussion or publication connection, record an operator-
-readable job and expose it in the link label/call to action. Useful roles include
-public community, chapter/regional discussion, internal review, subject-matter
-feedback, advocacy coordination, and syndication. Do not silently combine reply
-streams from independent edges.
+## Verification Checklist
 
-Public language should explain who the conversation is for and what readers can
-do there, not merely name the destination forum. Configuration vocabulary for
-this model is pending design review and is not yet implemented.
+For each current lane:
 
-CAN may operate in both directions only through separate page/topic pairs:
-Astro-managed pages can publish companion topics, while selected forum topics
-can become Discourse-managed/imported pages. Assign explicit source ownership
-and keep each item single-writer. The same item must never be writable in both
-directions simultaneously.
-
-Render `astro-discussion-bridge/DiscussionSource.astro` near the article start
-for `discourse-imported` and `discourse-managed` lanes. Do not place it at the
-comments boundary. On a multi-target page, resolve provenance from the protected
-`discussionSourceTarget` (or legacy source target), never from an additional
-publication target. This keeps WHEREFROM disclosure distinct from WHERETO
-discussion publication.
-
-The implementation is complete at `a9d2097`. OBBBA adopted it at `aa7846d` and
-verified the protected Repeal OBBBA source disclosure across all five live Title
-I routes. The later bounded Citizen Activist multi-target proof completed at
-`36df91c`; provenance still follows the protected Repeal OBBBA source.
-
-### Chapter and national lanes (future design)
-
-Use **Local ownership. National reach.** as the reader model. A selected local
-chapter topic may be promoted into a mapped national category while retaining
-chapter attribution and a return link; national guidance may flow to selected
-chapter categories for local adaptation. In both directions, declare the source
-owner and one-way first-post update direction. Local and national replies stay
-independent, and public/private eligibility plus moderation ownership are
-enforced at each forum. This governed hub-and-spoke model is not yet implemented
-as general forum-to-forum orchestration.
-
-## Content Tags And Discourse Tags
-
-`discussionTags` are Discourse topic tags. They are explicit bridge metadata.
-
-Astro content tags are site/template metadata. Astro does not require one universal tag system, and Starlight does not provide a public blog-style tag taxonomy by default. A template may define its own `tags`, `contentTags`, or similar field.
-
-For Alpha, keep these layers separate:
-
-- use `discussionTags` or lane `tags` for Discourse topic tags
-- leave ordinary Astro/template tags to the site template
-- keep the Starlight demo close to official Starlight, with DiscussionBridge fields added deliberately
-- use `preset: "starlight"` for Starlight documentation sites and `preset: "astro"` for broader Astro content sites
-
-A future DiscussionBridge feature can optionally map content tags to Discourse tags when configured. That should be opt-in so sites can keep editorial taxonomy separate from forum taxonomy.
-
-Possible future config shape:
-
-```js
-discussionBridge({
-  tags: {
-    fromFrontmatter: "tags",
-    fallback: ["discussionbridge"],
-  },
-});
-```
-
-Use `discussionbridge.dev` or another tag-capable Astro template to prove normal Astro content tags separately from `discussionTags`.
-
-## Route Base
-
-Use `--route-base` when the source directory does not map directly to the site root.
-
-Examples:
-
-- `src/content/blog/content-lanes.md` with `--route-base blog` becomes `/blog/content-lanes/`
-- `src/content/news/content-lanes-live.md` with `--route-base news` becomes `/news/content-lanes-live/`
-- `src/content/releases/2_1.md` with `--route-base releases` becomes `/releases/2_1/`
-
-The page URL is part of the Discourse embed ownership contract. A wrong route base can create or sync the wrong companion topic.
-
-## Companion Ownership
-
-One Discourse companion topic should have one managing Astro source page in a publish or sync run.
-
-This matters when building comparison pages, such as `simple`, `full`, and `fullInteractive` comments-mode demos that intentionally show the same Discourse conversation in different ways. Those pages can render the same discussion, but they should not all manage the same topic first post.
-
-Use one of these patterns:
-
-- choose one Astro page as the managed source and let the other pages display the discussion only
-- split demos into separate lanes and run only the lane that should manage the topic
-- add `discussionSync: false` to pages that should render an existing discussion without managing it
-- remove duplicate `discourseTopicId` frontmatter from pages that should not render or update the topic
-- give each demo page its own Discourse topic when each page should be independently synced
-
-The CLI preflight blocks duplicate managed topic IDs or duplicate page URLs in one run before any Discourse writes happen.
-
-## Tags and Categories
-
-Before a live run:
-
-- confirm the category ID exists
-- confirm requested tags exist or the API user can create tags
-- confirm `max_tags_per_topic`
-- confirm `max_tag_length`
-- confirm the bot user can tag topics
-
-Category ownership follows source direction:
-
-- for Astro-managed topics, a configured lane/page category is authoritative
-  and sync corrects manual category drift;
-- when no category is configured, a manual Discourse category change remains;
-- `discourse-managed` and `discourse-imported` source topics are protected from
-  category writeback;
-- each additional publication target has its own independent target category.
-
-Preview the active target and category before each write. Do not infer one
-forum's category from another target.
-
-Use `check-discourse` to verify what the bridge can read:
-
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url https://forum.example.com \
-  --category-id 6 \
-  --tags discussionbridge,blog
-```
-
-If a granular key cannot read enough setup metadata, use explicit limits or a diagnostics key.
-
-## Official-Source And Related-Content Lanes
-
-Legal and public-record lanes may have both a protected Discourse content
-source and a separately identified official text source:
-
-- Content source points to the protected Discourse source topic. Wiki status is
-  optional metadata, not the source-ownership or no-writeback basis.
-- Official text points to the authoritative document/section and citation.
-
-For OBBBA, the planned lenses are OBBBA Text, Law as Amended, Impact, and
-future Stories. A stable shared `sectionId` should connect related pages across
-these lanes. Reciprocal Related links belong in a generated, adapter-neutral
-relationship/taxonomy manifest, not hand-maintained article bodies.
-
-Law as Amended has a stricter split than a normal Discourse-imported content
-lane. Its inherited implementation was abandoned on 2026-07-27 and is not a
-repair base. The replacement is an empty, OBBBA-specific, official-source-first
-lane: authoritative external sources establish scope and legal state before
-Astro presentation is generated.
-
-Discourse may later add an optional verbatim title, organization
-(tags/category/authored index), legislative-drafting context, topic identity,
-and discussion binding. It is joined only after official scope exists.
-Discourse bodies, OBBBA Text, diagnostics, legacy caches, derivatives, and the
-historical 309-item forum inventory cannot establish legal content, scope, or
-cardinality. No legacy implementation asset, portable Core behavior,
-publication path, or Gate 2 work is authorized by this lane description.
-
-Stories may reference multiple section IDs, and each section may have multiple
-Stories. Adding or removing a Story should require manifest regeneration and
-an Astro rebuild, not source-body reimport or edits to every related page.
-Provenance/authority disclosures remain separate from Related links.
-
-Commit `e775af3` implements the package/demo enrichment and relationship
-contracts: strict `us-public-law`, source-tag provenance, stable `sectionId`,
-reciprocal links, a many-to-many Stories graph, and adapter-neutral virtual
-manifests. One section can list many Stories, and one Story can reference many
-sections.
-Correction `bc8acb5` completes bounded 429 handling; `db1c57a` preserves legal
-case and routes capitalization-only differences through substantive review.
-The current official-source OBBBA Text candidate proves 310 local enacted-text
-routes from GovInfo USLM, followed by 307 optional complete forum bindings,
-while preserving 15 Impact routes. Sections 1, 20009, and 71119 remain local
-without forum topics; Section 70310 is absent, and the forum inventory count of
-309 is not legal cardinality. The bounded Section 10101 comparison remains
-historical evidence for one source pair only. Law as Amended remains a separate
-future clean official-source lane.
-
-## Listing Behavior
-
-Use `--unlist` for demo/test companion topics that should keep direct links and embeds working without appearing in category discovery.
-
-```sh
-npx astro-discussion-bridge sync-existing src/content/blog \
-  --route-base blog \
-  --category-id 6 \
-  --tags discussionbridge,blog \
-  --unlist
-```
-
-Changing listing status can require a moderator or staff-capable Discourse user.
-
-## Starlog-Style Releases
-
-Astro's Starlog example is a good model for release notes:
-
-- source directory: `src/content/releases`
-- route base: `releases`
-- Discourse category: releases or announcements
-- tags: `discussionbridge`, `releases`, version tags when useful
-
-Release notes work well as a lane because they need both a stable published page and an ongoing community/support thread.
-
-## Live Verification Checklist
-
-For each lane:
-
-- run `check-discourse`
-- run `publish-new`, `sync-existing`, or `publish-and-sync` with `--dry-run --details`
-- verify computed page URLs and topic IDs
-- run the live command
-- verify Discourse title, category, tags, and first post
-- verify the Astro page and comments
-- account for CDN cache before treating a result as failed
+1. verify the exact `docsDir`, `routeBase`, `siteUrl`, and canonical page URL;
+2. verify the Content Connection allows the lane and owns the intended forum
+   policy;
+3. run a production build with `publishOnBuild` still default-off first;
+4. protect the connection credential and durable state file;
+5. enable only the intended lane and verify the returned resource/topic tuple;
+6. verify the platform page, source attribution, and selected comments mode;
+7. verify an exact retry is idempotent; and
+8. use the documented URL-migration workflow rather than changing identity
+   fields after a route move.

@@ -1,189 +1,79 @@
 ---
 title: "Known Issues"
-lastUpdated: 2026-09-03
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/KNOWN_ISSUES.md"
 ---
 
-This page records confirmed issues that operators may encounter while using or
-building DiscussionBridge sites. It distinguishes product defects from
-upstream framework behavior and keeps workarounds bounded.
+This page lists operator-facing issues with a bounded affected state and a safe
+workaround. Release-review follow-ups and historical candidate findings belong
+in their exact release records, not in this current operator guide.
 
-## Current Alpha Review Follow-Ups
+Check [Versions And Live Status](/versions-and-live-status/) before relying on
+an affected-version statement. If an issue does not match your component and
+exact version, report it as a new observation rather than assuming the same
+cause.
 
-The Alpha.18 source/artifact candidate completed product-family review without
-P0 or P1 findings. Four nonblocking P2 follow-ups remain:
+## Current Product Issues
 
-1. A signed receiver feed snapshot binds record/binding identity and timestamps
-   but not every mutable first-post field or a stable whole-post revision, so a
-   multi-page read can mix revisions.
-2. Snapshot validation currently performs two full scoped-population scans per
-   page, which adds avoidable cost as a connection grows.
-3. Astro, Hugo, Statamic and WordPress materialize page-by-page before the full
-   feed census is validated. A late-page rejection can leave earlier
-   identity-bound, idempotent materializations in place. Ghost validates the
-   whole candidate population first.
-4. Durable evidence must name the monitored upstream Statamic CMS advisory,
-   affected/fixed ranges, applicability to Flat/DB/SSG, mitigation, and
-   upgrade/retest trigger.
+### Oversized Source Content Requires Operator Attention
 
-These are current evidence and implementation follow-ups, not claims that the
-live demos are unavailable. Any correction changes the candidate identity and
-requires proportionate impact assessment before release.
+- **Last verified:** September 24, 2026
+- **Affected state:** a From Discourse source body exceeds the current 256 KiB
+  receiver boundary, or a destination platform has a lower documented limit
+- **Operator impact:** DiscussionBridge refuses to truncate the source silently;
+  the publication remains visible in **Publishing → Needs attention**
 
-## Astro
+**Workaround:** confirm the recorded size and destination limit, shorten or
+split the source when editorially appropriate, or ship a reviewed adapter and
+platform-limit correction. Use the authenticated Retry action only after the
+recorded cause has been corrected. Repeating Retry against the same oversized
+source cannot make the work publishable.
 
-### Starlight
+### Identity Or Ownership Drift Cannot Be Repaired By Blind Retry
 
-#### 1. Build Logs `Entry docs -> 404 was not found`
+- **Last verified:** September 24, 2026
+- **Affected state:** the native destination identity, managed ownership marker,
+  or expected resource-to-path binding no longer matches the durable Bridge
+  Record
+- **Operator impact:** the adapter fails closed rather than adopting or
+  overwriting an ambiguous native item
 
-**Status:** Confirmed upstream Starlight behavior; GitHub issue prepared but not
-yet filed.
+**Workaround:** preserve the Bridge Record, adapter evidence, and native item;
+diagnose which identity or ownership boundary changed; then use the adapter's
+documented reconciliation or migration path. Do not delete durable state,
+invent a replacement identity, or repeatedly press Retry.
 
-**Impact:** Low. The message adds noise to otherwise successful builds. The
-generated site and fallback 404 page continue to work.
+## Upstream Issues Needing Current Reconfirmation
 
-**Observed message:**
+### Starlight May Log `Entry docs -> 404 was not found`
 
-```text
-Entry docs -> 404 was not found.
-```
+- **Last reproduced:** July 2026
+- **Historical test range:** Astro `^7.0.4`, Starlight `^0.41.2`
+- **Current-version status:** not reconfirmed for the current release line
+- **Impact when reproduced:** low; the build succeeds and Starlight's generated
+  fallback 404 page still works
 
-**Confirmed reproduction:**
+The message was reproduced in the independent stock Starlight control without
+DiscussionBridge integration. `disable404Route: true` removed it. Adding a
+`src/content/docs/404.md` file removed the missing-entry message but introduced a
+route conflict, so that is not a safe generic workaround.
 
-- the independent stock Starlight control repository at
-  `DiscussionBridge/stockstarlight-demo-discussionbridge-dev`
-- Astro `^7.0.4`
-- Starlight `^0.41.2`
-- no DiscussionBridge integration or component wiring required
-- `npm run build` completes successfully and then prints the message
+**Workaround:** if the build succeeds and the generated 404 page is verified,
+treat the message as a warning. Do not add a custom `404.md` solely to silence
+it. Use `disable404Route: true` only when the site supplies and verifies another
+404 implementation.
 
-**Likely source:**
+Before filing or relying on this as a current upstream issue, reproduce it with
+the exact installed Astro and Starlight versions and record those versions in
+the report.
 
-Starlight's generated 404 route checks for an optional user-authored `404`
-entry with `getEntry("docs", "404")`. When `src/content/docs/404.md` does not
-exist, Astro reports the missing entry even though Starlight correctly falls
-back to its generated 404 page.
+## Report A New Issue
 
-**Controls already tested:**
-
-- `disable404Route: true` removes the message, confirming that the injected
-  Starlight 404 route is involved.
-- Adding `src/content/docs/404.md` removes the missing-entry message but causes
-  a route-conflict warning because the docs catch-all also tries to render
-  `/404`. This is not a clean workaround.
-
-**Current operator guidance:**
-
-- If the build succeeds and the generated 404 page works, treat the message as
-  a known warning.
-- Do not add `src/content/docs/404.md` solely to silence it.
-- Use `disable404Route: true` only when the site deliberately supplies and
-  verifies another 404 implementation.
-
-**Possible upstream fix:**
-
-Starlight could probe for the optional custom 404 entry without emitting a
-missing-entry diagnostic for the expected absence, or otherwise suppress that
-expected miss inside its generated 404 route. The fallback behavior should
-remain unchanged.
-
-**Prepared GitHub issue:**
-
-Title:
-
-```text
-Generated 404 route logs "Entry docs -> 404 was not found" when no custom 404 entry exists
-```
-
-Body:
-
-```markdown
-### What happened?
-
-A clean Starlight build succeeds but prints:
-
-`Entry docs -> 404 was not found.`
-
-The site has no `src/content/docs/404.md`, so Starlight should use its generated
-fallback 404 page. The fallback works; the unexpected part is the missing-entry
-diagnostic during an otherwise successful build.
-
-### Reproduction
-
-1. Create a stock Starlight site using Astro `^7.0.4` and Starlight `^0.41.2`.
-2. Do not create `src/content/docs/404.md`.
-3. Run `npm run build`.
-4. Observe that the build succeeds and then logs
-   `Entry docs -> 404 was not found.`
-
-A minimal control is available in
-`DiscussionBridge/stockstarlight-demo-discussionbridge-dev`.
-
-### Additional findings
-
-- `disable404Route: true` removes the message.
-- Adding `src/content/docs/404.md` removes the missing-entry message but creates
-  a route conflict because the docs catch-all also attempts to render `/404`.
-- The likely source is the generated Starlight 404 route probing the optional
-  docs entry with `getEntry("docs", "404")`.
-
-### Expected behavior
-
-The generated fallback 404 route should continue to work without logging a
-missing-entry diagnostic when the optional custom `404` docs entry is absent.
-
-### Possible direction
-
-Probe for the optional entry without emitting a diagnostic for the expected
-absence, or suppress that expected miss inside the generated 404 route.
-```
-
-Before filing, reproduce once against the current Starlight release and replace
-the version ranges above with the exact installed versions.
-
-## Discourse
-
-### Granular API Keys Cannot Read Every Diagnostics Endpoint
-
-**Status:** Confirmed in DiscussionBridge field testing. The upstream question
-about a supported granular scope for these site-level reads remains open.
-DiscussionBridge provides a bounded fallback.
-
-**Impact:** A least-privilege granular publishing key can perform normal
-publishing work but may receive `403 Forbidden` from site-level endpoints used
-by `check-discourse`. One granular key therefore cannot currently provide every
-publishing and setup-diagnostics capability that DiscussionBridge needs.
-
-With the tested granular key configuration, the publishing key could read
-`/categories.json` and `/tags.json`, but could not read all of:
-
-- `/site/settings.json`
-- `/site.json`
-- `/embed/info`
-- exact page-URL reconciliation search
-
-This affects automatic discovery of authoring limits, user-specific tag
-capabilities, and some existing-topic reconciliation checks. It does not mean
-routine publishing must use a global key.
-
-**Current operator guidance:**
-
-- Use a granular publishing key for `publish-new`, `sync-existing`, and
-  `publish-and-sync`.
-- Use a separate global/admin-capable diagnostics key only for
-  `check-discourse` setup checks that require the unavailable reads.
-- Keep the diagnostics key out of ordinary publishing builds and CI unless its
-  use is explicit and protected.
-- When a broader diagnostics key is unavailable, configure known authoring
-  limits explicitly and treat unavailable capability checks as unresolved.
-
-The desired future state is a granular diagnostics/read key that can access the
-required metadata and reconciliation endpoints. Until Discourse exposes or
-confirms those scopes, the documented publishing-key plus diagnostics-key
-model remains the least-privilege operational fallback.
-
-Background and upstream clarification:
-[Confirming API access to authoring-limit site settings](https://meta.discourse.org/t/confirming-api-access-to-authoring-limit-site-settings/407937).
-The thread confirms the public/client endpoint pattern; its granular-scope
-follow-up has not yet received an upstream answer.
+Use [Support And Feedback](/support-and-feedback/) for the current intake
+path. Include the exact DiscussionBridge component release, platform and
+runtime versions, affected direction and presentation mode, expected behavior,
+observed behavior, and sanitized reproduction details. Never post API keys,
+tokens, cookies, private content, personal data, or unredacted logs.

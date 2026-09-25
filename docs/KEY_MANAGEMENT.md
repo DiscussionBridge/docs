@@ -1,509 +1,212 @@
-# Key Management Guide
+# Key And Secret Management Guide
 
-## Current Alpha Credential Model
+DiscussionBridge installations use several credential classes. Keep each class
+separate, least-privileged, attributable to one installation and purpose, and
+recoverable without copying its value into documentation.
 
-Current platform adapters authenticate to The Bridge with one connection-scoped
-ID and one secret created under **Plugins → DiscussionBridge → Connections**:
+## Current Adapter Credential
+
+Platform adapters authenticate to DiscussionBridge for Discourse with one
+connection-scoped ID and one secret:
 
 ```text
 X-DiscussionBridge-Connection: dbc_...
-X-DiscussionBridge-Secret: ...
+X-DiscussionBridge-Secret: value read from protected runtime storage
 ```
 
-The secret is shown once and belongs in the adapter's protected server-side
-secret file or deployment secret store. It must not enter browser JavaScript,
-platform content, public environment variables, URLs, logs, support reports, or
-Git. Rotate it from the selected connection and update only that adapter. Test
-that the old secret is denied before closing rotation.
+The connection ID is not a secret. The secret is shown once and belongs only to
+that publishing installation and environment. Never reuse it for another site,
+adapter profile, or environment.
 
-The Discourse API-key material below documents the earlier Astro API-only and
-diagnostic path. It is not the ordinary credential for current Bridge Records,
-Content Connections, publishing, retrieval, or comments presentation. Keep any
-broader Discourse administrator/recovery key separate from adapter credentials.
+The secret must not enter browser JavaScript, platform content, a public
+environment file, a URL, Git, generated output, logs, screenshots, analytics,
+or support material.
 
-Historical API-only tooling uses Discourse API keys to publish, sync, diagnose,
-and recover companion topics. Treat those keys as operational credentials.
+## Credential Inventory
 
-## Key Roles
+Maintain a private inventory with one record per credential:
 
-Use separate keys when possible:
-
-- publishing key: normal `publish-new`, `sync-existing`, and `publish-and-sync` runs
-- diagnostics key: normal setup checks and routine read-only diagnostics
-- bulk/diagnostics/import key: temporary broader read access for a bounded
-  import, comparison, or migration when the durable diagnostics key cannot read
-  required raw posts or administrative metadata
-- recovery/admin key: rare repair operations that need broader authority
-
-For Alpha, the practical model is:
-
-- use a granular publishing key when it can create topics/posts, read linked topics/posts, update managed first posts, update topic metadata, update tags, and unlist when needed
-- keep routine diagnostics on a durable least-privilege diagnostics key
-- create a broader bulk/diagnostics/import key only when a bounded machine task
-  cannot be completed through the durable diagnostics key; revoke and delete
-  that temporary key after the task and its evidence checks finish
-
-The OBBBA implementation uses the four generic role identities:
-
-```text
-diagnostics key
-read-only diagnostics key
-publishing granular key
-bulk/diagnostics/import key
+```yaml
+credential:
+  role: "connection-secret | deployment-token | database | service | discourse-api | signing"
+  installation: "stable installation name"
+  environment: "environment"
+  owner_identity: "service or operator identity"
+  scope: "exact permitted resources and actions"
+  created_at: "date"
+  storage_reference: "protected reference; never value"
+  consumers: ["exact services or jobs"]
+  rotation_procedure: "private runbook reference"
+  revocation_procedure: "private runbook reference"
+  last_verified: "date"
 ```
 
-The first three are durable identity roles and must not be silently repurposed
-or have their scope changed when another workflow may depend on them. Key
-existence and replacement status must be recorded from explicit operator
-confirmation, not inferred from a proposed storage template. The read-only
-diagnostics key is the preferred identity for GET-only checks and planning. The
-bulk/diagnostics/import key is created when needed and deleted when the bounded
-work is finished. This is exceptional temporary elevation, not routine per-run
-key churn.
-
-### OBBBA Four-Key Metadata
-
-Store the matching block with each protected OBBBA vault record.
-
-Do not conflate the three identifiers:
-
-1. **Discourse API-key description:** names the generic credential role,
-   for example `diagnostics key`.
-2. **Selected Discourse user/request actor:** names the forum identity,
-   `obbba-bot`.
-3. **Vault filename:** names the forum, actor, purpose, and creation date, for
-   example `repealobbba-forum-obbba-bot-diagnostics-key-20260721.txt`.
-
-The description answers **what role this key performs**. The selected user
-answers **which Discourse identity authorizes the request**. The vault filename
-answers **where, for whom, for what, and when the credential record belongs**.
-These values are related but do not use the same naming pattern.
-
-Use these exact vault filenames:
-
-```text
-repealobbba-forum-obbba-bot-publishing-key-20260721.txt
-repealobbba-forum-obbba-bot-diagnostics-key-20260725.txt
-repealobbba-forum-obbba-bot-read-only-diagnostics-key-20260725.txt
-repealobbba-forum-obbba-bot-bulk-diagnostics-import-key-TEMP-YYYYMMDD.txt
-```
-
-Credential filenames follow the established OBBBA pattern:
-`repealobbba-forum-{actor}-{purpose}-YYYYMMDD.txt`. The date is the key creation
-date. Date-only is acceptable because exact creation time is not operationally
-significant here. `TEMP` makes the exceptional lifecycle visible. A
-metadata-only template may exist before the key; replace `YYYYMMDD` with the
-temporary key's actual creation date only when the key is created. The API-key
-descriptions remain the generic role names above; the vault filenames identify
-the Discourse forum and actor.
-
-Operator-confirmed active state on 2026-07-25:
-
-```text
-publishing granular key — Granular — existing
-diagnostics key — Global — newly created
-read-only diagnostics key — Read-only — newly created
-bulk/diagnostics/import key — not created
-```
-
-#### `publishing granular key`
-
-```text
-Purpose: Runtime publishing granular key
-Use: publish-new, sync-existing, publish-and-sync, check-discourse basic limits
-Bot user role: Admin currently; intended future runtime posture is non-admin or least-privilege
-Key scope: Granular
-Operational rule: Use this for normal OBBBA bridge publishing/runtime operations. Do not use it for setup diagnostics, site settings reads, or admin troubleshooting.
-```
-
-#### `diagnostics key`
-
-```text
-Purpose: Diagnostics/setup key
-Use: check-discourse, setup verification, site settings/capability reads, embed/topic reconciliation when the granular publishing key cannot read the required endpoints
-Bot user role: Admin currently; diagnostics key is admin-capable by design
-Key scope: Global
-Operational rule: Keep this key out of runtime/deploy paths. Use only for setup checks, diagnostics, and controlled troubleshooting.
-```
-
-#### `read-only diagnostics key`
-
-```text
-Purpose: Read-only diagnostics/planning key
-Use: GET-only preflight, comparison reports, routine setup verification, site settings/capability reads, and embed/topic checks
-Bot user role: Admin currently; the key can read admin-visible information but cannot make non-GET API requests
-Key scope: Read-only
-Operational rule: Prefer this key for diagnostics, planning, and comparison work. Do not use it for publishing. Keep it out of runtime/deploy paths unless a reviewed read-only process explicitly requires it.
-```
-
-#### `bulk/diagnostics/import key`
-
-```text
-Purpose: Temporary bulk diagnostics/import key
-Use: Bounded bulk comparison, import, migration, raw-source collection, or recovery work that cannot be completed with the durable read-only diagnostics or granular publishing keys
-Bot user role: Admin currently; this temporary key is admin-capable by design
-Key scope: Global
-Operational rule: Create only for an explicitly bounded task. Keep it out of runtime/deploy paths. Use the read-only diagnostics key instead whenever the task requires GET requests only and that key can access every required endpoint. Revoke and delete after the bounded work, output verification, and evidence review are complete.
-```
-
-Established product rule: when documenting or requesting a granular publishing key, provide the exact Discourse scope settings. Do not describe the publishing key as "similar", "roughly", or "mostly" once a product key model has been settled.
-
-Discourse API keys have two independent controls:
-
-- **User Level:** `All Users` or `Single User`;
-- **Scope:** `Global`, `Read-only`, or `Granular`.
+Do not silently repurpose a credential or change its scope when another worker,
+build, deployment, or recovery process may depend on it.
 
-With `All Users`, Discourse allows the request to act on behalf of the username
-sent in `Api-Username`. With `Single User`, the key is bound to the selected
-user. Scope separately controls which endpoints/actions are available. See
-[Discourse Meta: Create and configure an API key](https://meta.discourse.org/t/create-and-configure-an-api-key/230124).
+## Credential Classes
 
-DiscussionBridge now has preferred request-actor controls:
+### Connection secrets
 
-- CLI `--post-as`;
-- environment `DISCOURSE_POST_AS`;
-- `publishOnBuild` lane/default `postAs` or `postAsEnv`.
+Use only for one Content Connection. Store them outside the web root and expose
+them only to the adapter service, trusted build, or native plugin process that
+needs them.
 
-Legacy `--api-username`, `DISCOURSE_API_USERNAME`, `apiUsername`, and
-`apiUsernameEnv` remain compatible fallbacks. Actor precedence is explicit/lane
-`postAs`, named `postAsEnv`, `DISCOURSE_POST_AS`, then legacy API-username
-controls. The selected actor is sent as Discourse `Api-Username`.
+### Deployment tokens
 
-When Discourse supports or confirms granular diagnostics/read scopes for the required endpoints, move to a two-key model:
+Static adapters may need a provider token. Scope it to the existing deployment
+project and ordinary deployment operations. Do not grant DNS, route, account,
+KV, R2, billing, or organization administration unless a separately approved
+operation requires it.
 
-- granular publishing key for runtime sync
-- granular diagnostics/read key for setup checks
+Keep deployment tokens distinct by installation. A Hugo service and a Statamic
+SSG service should not share a broad account token merely because they use the
+same provider.
 
-## Required Publishing Capabilities
+### Database and platform credentials
 
-The publishing key needs enough permission to:
+Ghost, WordPress, Statamic, and Discourse have platform/database credentials
+that are not DiscussionBridge connection secrets. Do not copy them into adapter
+state, service arguments, or support bundles. Backup and rotation must follow
+the platform's recovery procedure.
 
-- create topics and posts in the target category
-- read existing linked topics and posts
-- update the managed first post
-- update topic title/category/tag metadata when enabled
-- apply tags or create tags when the lane requires it
-- unlist topics when `--unlist` is used
+### Signing and entitlement keys
 
-On typical Discourse installs, retitling replied topics and changing listing status can require a staff or moderator-capable user.
+Verification public keys remain server-side configuration. Private signing keys
+must not be installed on a customer forum or publishing adapter. Record key
+identity and version, not private material, in acceptance evidence.
 
-Use this exact granular publishing/runtime key scope set unless a new feature explicitly requires a documented change:
+### Discourse API keys
 
-```text
-categories
-  list
-  show
+The current 0.2 adapter path ordinarily uses the Content Connection credential,
+not a broad Discourse API key. API keys may still exist for legacy Astro 0.1
+API-only estates or bounded forum administration and recovery.
 
-tags
-  list
+Keep any legacy key on its exact historical workflow. Prefer a single-user,
+granular key for routine writes, a least-privilege read-only key for diagnostics,
+and a temporary broader key only when an explicitly bounded task cannot be done
+otherwise. Revoke temporary elevation after output and recovery evidence are
+verified.
 
-topics
-  write
-  update
-  read
-  status
+Do not copy the former `DISCOURSE_API_KEY` model into a current adapter runbook.
 
-posts
-  edit
-  list
+## Protected Storage
 
-search
-  show
-```
+On Linux:
 
-This is the settled runtime publishing key model used for DiscussionBridge-style publishing and sync. Diagnostics/setup work stays on the diagnostics key.
+- store secrets outside the web root and repository;
+- use a dedicated service identity;
+- use mode `0600` for one-owner files or `0640` only when an exact service group
+  requires read access;
+- make the parent directory inaccessible to unrelated users;
+- pass the file or protected environment to the service without placing the
+  value in process arguments; and
+- exclude it from archives, generated output, and public deployment bundles.
 
-Allowed parameters from the Discourse granular key UI:
+On Windows, use a private credential manager or an encrypted record bound to the
+intended operator/service identity. Record the protected location in the
+runbook, not an exportable plaintext value.
 
-```text
-categories show
-  id: any parameter
+In CI or a hosting provider, use its encrypted secret store and restrict access
+to the exact project/environment. Confirm preview or forked builds cannot read
+production credentials.
 
-posts edit
-  id: any parameter
+Adapter operational state, transaction journals, and public source files must
+remain secret-free.
 
-search show
-  q: any parameter
-  page: any parameter
+## Safe Service Configuration
 
-topics write
-  topic_id: any parameter
+Prefer a protected environment file or credential mechanism that the service
+manager reads directly. Do not place a secret in:
 
-topics update
-  topic_id: any parameter
-  category_id: any parameter
+- a unit's public command line;
+- shell history;
+- a world-readable environment file;
+- a process title;
+- a generated static asset;
+- a package-manager configuration committed to Git; or
+- diagnostic output.
 
-topics read
-  topic_id: any parameter
-  external_id: any parameter
-
-topics status
-  topic_id: any parameter
-  category_id: any parameter
-  status: any parameter
-  enabled: any parameter
-```
-
-## Required Diagnostics Capabilities
-
-`check-discourse` and controlled import source reads are read-oriented, but
-useful diagnostics and first-post raw may require endpoints that granular keys
-cannot always read.
-
-It may inspect:
-
-- `/site/settings.json` for client-visible authoring limits
-- `/site.json` for user-specific capabilities such as tag permissions
-- `/categories.json` for category existence
-- `/tags.json` for tag inventory
-- `/posts/{id}.json` when `import-existing` must fall back from topic JSON to
-  retrieve first-post raw
-- `/embed/info?embed_url=...` for existing embedded-topic reconciliation
-- exact URL search as a fallback reconciliation check
-
-If a granular key receives `403` for these endpoints, use one of these fallbacks:
-
-- provide explicit CLI/env limits for title/body/tag preflight
-- run `check-discourse` with a diagnostics key
-- manually verify the Discourse setting and record it in deployment docs
-
-## Environment Variables
-
-Runtime publishing:
-
-```sh
-DISCOURSE_POST_AS=discussbridge-bot
-DISCOURSE_API_USERNAME=discussbridge-bot
-DISCOURSE_API_KEY=publishing-key
-```
-
-Prefer `DISCOURSE_POST_AS`. Keep `DISCOURSE_API_USERNAME` only where a current
-installation still relies on the compatibility fallback.
-
-Optional diagnostics:
-
-```sh
-DISCOURSE_DIAGNOSTICS_API_KEY=diagnostics-key
-```
-
-Optional explicit limits:
-
-```sh
-DISCOURSE_TITLE_MIN_LENGTH=15
-DISCOURSE_MAX_TOPIC_TITLE_LENGTH=255
-DISCOURSE_MAX_POST_LENGTH=32000
-DISCOURSE_MAX_TAGS_PER_TOPIC=5
-DISCOURSE_MAX_TAG_LENGTH=20
-```
-
-## Storage
-
-Do:
-
-- store keys in a protected credential vault
-- store deployment secrets in the hosting provider's encrypted environment settings
-- keep local shell variables session-scoped when testing
-- rotate keys after accidental exposure
-- keep key filenames descriptive enough to identify purpose and date
-
-Do not:
-
-- commit API keys
-- paste real keys into docs, issues, PRs, screenshots, or build logs
-- put production keys in example `.env` files
-- reuse personal admin keys for routine automation
-
-Example filename convention:
-
-```text
-discussionbridge-forum-discussbridge-bot-publishing-granular-key-YYYYMMDD.txt
-discussionbridge-forum-discussbridge-bot-diagnostics-key-YYYYMMDD.txt
-```
-
-## Credential File Templates
-
-Use the same structure for every stored Discourse API key. Keep the human-readable purpose and scope above the key value.
-
-Whenever setup instructions ask an operator to create a key, present the
-matching metadata block together with the key description, user, scope, and
-granular permissions. Copy that metadata into the respective protected
-credential file above the secret value. The manual and setup interaction show
-the placeholder only; they never show or request the real key.
-
-### Publishing Granular Key File
-
-```text
-Purpose: Runtime publishing granular key
-Use: publish-new, sync-existing, publish-and-sync, check-discourse basic limits
-Bot user role: Admin currently; intended future runtime posture is non-admin or least-privilege
-Key user level: Record All Users or Single User; prefer Single User for a fixed runtime actor
-Key scope: Granular
-Operational rule: Use this to validate the minimum permissions needed for normal bridge publishing.
-
-Description
-{site-or-project} publishing granular key
-
-Key selected user
-{bot-username when User Level is Single User; not applicable for All Users}
-
-Request actor
-{resolved postAs / Api-Username}
-
-User Level
-{Single User or All Users; if Single User, record the selected user}
-
-Scope
-Granular
-
-Scopes
-categories:list
-categories:show
-posts:edit
-posts:list
-search:show
-tags:list
-topics:write
-topics:update
-topics:read
-topics:status
-
-Key
-{paste key here}
-```
-
-### Diagnostics Key File
-
-```text
-Purpose: Diagnostics/setup and protected source-read key
-Use: check-discourse; controlled import-existing source reads when granular raw-post access fails
-Bot user role: Admin
-Key user level: Record All Users or Single User and the selected user/actor relationship
-Key scope: Global or admin-read capable
-Operational rule: Do not use in CI/build unless explicitly intended
-
-Description
-{site-or-project} diagnostics key
-
-Key selected user
-{admin-bot-username when User Level is Single User; not applicable for All Users}
-
-Request actor
-{resolved postAs / Api-Username used for diagnostics}
-
-User Level
-{Single User or All Users; if Single User, record the selected user}
-
-Scope
-Global or admin-read capable
-
-Permissions
-read-only diagnostics and controlled import-existing source reads; global or admin-read capability as required
-
-Key
-{paste key here}
-```
-
-## Leak Paths
-
-Keys can leak through:
-
-- committed `.env` files
-- command history copied into issues or chat
-- build logs that print environment variables
-- screenshots of terminal windows or admin pages
-- CI/CD secret misconfiguration
-- shared machines or synced folders with broad access
-- package fixtures or demo repos that accidentally include real credentials
-
-### Discourse launcher output
-
-The standard Discourse `launcher rebuild` process can echo the final Docker
-command with environment values. Depending on the forum configuration, that
-output can include SMTP and database credentials even when the plugin being
-installed does not use those credentials directly.
-
-- Run launcher commands only in a private administrator terminal.
-- Do not stream raw launcher output into CI, automation chat, issues, support
-  systems, or shared transcripts.
-- If automation must retain the raw output, write it only to a root-owned file
-  with restrictive permissions. Sanitize all environment assignments before
-  publishing any excerpt, then dispose of the protected raw copy under the
-  operator's retention policy.
-- Use separate sanitized postflight commands to report container health,
-  installed revision, migrations, and safe site-setting state.
-- Treat an unredacted launcher transcript as credential-bearing. A successful
-  ordinary rebuild does not make its terminal output safe to share.
-
-If a key leaks, revoke it in Discourse, create a replacement, update the deployment secret, and rerun `check-discourse`.
+After installation, inspect the built/deployed artifact and service definition
+for accidental values without printing the values being sought.
 
 ## Rotation
 
-Rotate keys when:
+Before rotating a connection secret, determine whether the exact installed
+receiver release explicitly supports overlapping secrets.
 
-- a user leaves the project
-- a key is pasted into an unsafe place
-- permissions change from global to granular
-- the bot user's role changes
-- moving from Alpha testing to a public release
+If overlap is not documented and verified, treat rotation as bounded
+maintenance:
 
-For rotation:
+1. Preserve nonsecret queue, lease, adapter-state, and rollback evidence.
+2. Pause new adapter claims or builds.
+3. Rotate the secret in DiscussionBridge for Discourse.
+4. Transfer the new value directly to the adapter's protected store.
+5. Run one authenticated canary using the same stable identity.
+6. Resume the worker and confirm queue progress.
+7. Verify the old secret is rejected without displaying it.
+8. Record the date, actors, and credential identity in private operations notes.
 
-1. Create the replacement key.
-2. Update local or hosting secrets.
-3. Run `check-discourse`.
-4. Run a dry-run publish or sync.
-5. Revoke the old key.
-6. Record the rotation date in private ops notes.
+Do not claim zero-downtime rotation unless dual-secret/grace behavior is part of
+the exact installed release and has been exercised. Never delete durable
+publication state during rotation.
 
-## Delegated Posting Investigation
+For provider, database, or API credentials, use the platform's exact staged
+replacement and rollback process. Verify every known consumer before revoking
+the old credential.
 
-`postAs` is now the implemented preferred actor selector. It changes the
-`Api-Username` request actor; it does not transfer ownership of an existing
-topic. Whether that actor may differ from the key's selected user depends on the
-key's **User Level**, while endpoint authority depends on **Scope**.
+## Suspected Exposure
 
-Before a write, record and verify the key User Level, its selected user when
-`Single User`, the resolved `postAs`/`Api-Username` actor, the key
-Scope/granular permissions, and the actor's category/tag/staff permissions.
-Live CLI output should show `Post as: USER`; `check-discourse` reports
-`Request actor`.
+Treat a credential as exposed when it appears in a shared transcript, log,
+screenshot, issue, chat, repository, generated asset, process argument, or
+untrusted terminal history.
 
-### Nonhuman Identity Inventory
+1. Stop further distribution without repeating the value.
+2. Identify every credential class present in the exposed material.
+3. Preserve a restricted incident record and sanitize any retained copy.
+4. Rotate or revoke each exposed credential through its own controlled process.
+5. Update every legitimate consumer.
+6. Verify old credentials are denied and normal operation is restored.
+7. Search public/generated artifacts and logs for related exposure.
 
-Across connected forums, no two nonhuman accounts may have the same—or
-visually ambiguous—username/display-name combination. Encode both role and
-origin system.
+Rotating only the DiscussionBridge secret does not close exposure of SMTP,
+database, storage, geolocation, provider, or other runtime credentials.
 
-| Origin | Candidate username | Candidate public name |
-| --- | --- | --- |
-| DiscussionBridge Forum | `editorbridgeforum` | DiscussionBridge Forum Editor |
-| Citizen Activist Network Forum | `editorcanforum` | CAN Forum Editor |
+## Discourse Launcher Output
 
-Discourse normalizes username case. Check the exact final username against each
-site's length rules and availability before creation. Astro-origin publishing
-accounts should identify the originating site/brand rather than only the
-destination forum. Preserve established `obbba-bot` as the OBBBA source
-identity.
+The standard Discourse launcher can print a Docker command containing runtime
+environment values. Depending on the installation, those values may include
+SMTP, database, object-storage, or other protected credentials unrelated to the
+plugin being installed.
 
-Create a `special-admin` custom group on each forum as the visible inventory
-home for nonhuman admin/service accounts. Group membership is organizational
-only: it does **not** grant Discourse admin status, category permissions, or API
-rights. Assign those separately.
+- Run launcher operations only in a private administrator terminal.
+- Do not stream raw output into chat, CI, issues, or support systems.
+- If raw output must be retained, write it only to a root-owned protected file.
+- Produce a separate sanitized postflight report for container health, installed
+  revision, migrations, and safe settings.
+- Treat an unredacted transcript that leaves the trusted terminal as
+  credential-bearing and rotate every exposed class.
 
-## Build Logs
+A successful rebuild does not make its terminal output safe to share.
 
-The CLI should never print key values. Operators should also avoid commands that echo environment variables near build output.
+## Logging And Support
 
-Safe:
+Logs may include connection ID, correlation ID, source/resource identity,
+sanitized error code, bounded retry count, and component version. They must not
+include secret headers, provider tokens, database URLs, cookies, signed payloads,
+or personal data.
 
-```sh
-npx astro-discussion-bridge check-discourse --discourse-url https://forum.example.com --category-id 5
-```
+Support reports may include public URLs, nonsecret IDs, versions, timestamps,
+queue state, and redacted errors. Follow
+[Support And Feedback](./SUPPORT_AND_FEEDBACK.md).
 
-Unsafe:
+## Verification Checklist
 
-```sh
-echo $DISCOURSE_API_KEY
-```
-
-When reporting support issues, include command, mode, Discourse URL, category ID, tags, page URL, and sanitized error output. Do not include API key values.
+- [ ] Each credential has one role, owner, environment, and scope.
+- [ ] Secret values are absent from Git, public output, logs, and runbooks.
+- [ ] File/service ownership grants only required read access.
+- [ ] Static deployment bundles contain no protected configuration.
+- [ ] Rotation and revocation procedures name every consumer.
+- [ ] Exposure response covers every credential class present.
+- [ ] Current adapters use connection secrets rather than inherited broad API
+      keys.

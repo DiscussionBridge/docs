@@ -1,1416 +1,246 @@
 ---
-title: "DiscussionBridge for Astro Human Manual"
-lastUpdated: 2026-09-04
+title: "DiscussionBridge Human Operator Manual"
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/HUMAN_MANUAL.md"
 ---
 
-> **Historical Astro deep reference.** This manual preserves the earlier Astro
-> operating model and provenance. It is not the current multi-platform setup
-> sequence. Start with the [Alpha Installation and Operator Guide](/alpha-operator-guide/),
-> [Platform Profiles](/platform-profiles/), and
-> [Presentation Modes](/presentation-modes/).
+This manual is the platform-neutral operating path for DiscussionBridge 0.2.
+Use it with the exact component release notes, the selected
+[Platform Profile](/platform-profiles/), and the
+[Adapter Operating Models](/adapter-operating-models/). Do not copy commands
+from an older Astro 0.1/API-only guide into a current installation.
 
-This manual is the operator-facing path for connecting Astro pages to Discourse.
-It explains the decisions, safe sequence, expected results, and points where an
-operator should stop. Use the [Machine Manual](/machine-manual/) beside it
-when exact commands, fields, scopes, or recovery checks matter.
+DiscussionBridge for Discourse is the forum-side receiver and control surface.
+Each publishing installation has its own Content Connection, protected secret,
+destination mappings, native state, worker or build path, and rollback
+boundary. **The Bridge** names only the dedicated public demonstration at
+`bridge.demo.discussionbridge.dev`.
 
-DiscussionBridge keeps each system doing the job it does well:
+## 1. Define The Connection
 
-- Astro or another publishing system owns its fast, structured public pages.
-- Discourse owns identity, replies, moderation, notifications, and community
-  memory and is the present operational home for Bridge orchestration.
-- DiscussionBridge Core maintains the declared relationships, policies,
-  provenance, jobs, recovery state, and audit evidence.
-- Astro, Statamic, and future integrations adapt that portable contract to
-  their publishing systems; they are not independent control planes.
+Record these decisions before installing anything:
 
-The natural product center is the DiscussionBridge for Discourse plugin,
-hosting and operating the portable core through Discourse's users,
-permissions, jobs, UI, database, APIs, and operational machinery. One Discourse
-installation may connect to more than one publishing system at the same time.
-Tier 1 API-only use remains a useful compatibility path, but operators should
-not reproduce separate orchestration policy in every CMS adapter.
-
-Portability is an operator benefit, not merely a code preference. Authorized
-people should be able to understand, govern, operate, and move their Bridge
-relationships without being trapped by an Astro-specific workflow or another
-CMS adapter. The current Astro package proves important domain behavior; the
-transition to the portable core, Discourse host, and adapter boundaries is
-planned work and is not yet complete.
-
-Everything remains under one DiscussionBridge tent. DiscussionBridge for
-Discourse and DiscussionBridge for Astro are fully featured free products.
-Public documentation and community support are free, with team help as
-capacity permits. Implementation, migration, customization, training,
-operations, and extensive hand-holding are paid professional services.
-DiscussionBridge SaaS is the paid, managed standalone control plane for
-multi-CMS, multi-site, and multi-community orchestration.
-
-The SaaS offering sells managed operation, scale, governance, convenience, and
-operational relief. It must not depend on artificial limitations in the free
-products. All deployment and service models share the portable Discussion
-Bridge Core and preserve operator autonomy.
-
-This is Alpha documentation. Preview every write, keep publishing opt-in, and
-verify both systems after a live operation.
-
-## 1. Plan The Connection
-
-Before installing anything, record one row for each content lane:
-
-| Decision | Example |
+| Decision | Required value |
 | --- | --- |
-| Astro site URL | `https://docs.example.com` |
-| Discourse URL | `https://forum.example.com` |
-| Content directory | `src/content/docs` |
-| Route base | empty for docs, `blog` for `/blog/...` |
-| Discourse category ID | `5` |
-| Discourse tags | `product,docs` |
-| Source mode | `astro-managed`, `discourse-managed`, or `discourse-imported` |
-| Comments mode | `simple`, `full`, or `fullInteractive` |
-| Listing behavior | listed or unlisted |
-
-A content lane is one source directory plus its route, category, tags, and
-operating behavior. Docs, blog posts, news, and releases should normally be
-separate lanes.
-
-> **Stop if:** the public page URL, source owner, category, or managing page is
-> unclear. A wrong route base or source mode can attach or write to the wrong
-> discussion.
-
-Write this lane plan down before configuration. The completed row above is a
-text-only worksheet example; copy it once for each lane and replace every value.
-
-## 2. Choose The Source Mode
-
-The source mode is an editorial safety decision.
-
-| Mode | Source of truth | Allowed bridge behavior |
-| --- | --- | --- |
-| `astro-managed` | Astro | May publish a new topic and sync its managed first post. |
-| `discourse-managed` | Discourse | Display or pull from Discourse; do not write back. |
-| `discourse-imported` | Imported Astro copy | Edit locally if desired, but do not write back until explicitly promoted. |
-
-For every `discourse-managed` or `discourse-imported` page, add this frontmatter
-guard:
-
-```yaml
-discussionSync: false
-```
-
-The named source modes express operating policy, and the CLI write guard is
-`discussionSync: false`. The reviewed Alpha import path generates
-`discussionSourceMode: discourse-imported`, boolean `discussionSync: false`, and
-preserves the topic ID and URL. Review those fields after every import before
-running any directory-wide sync command.
-
-Promotion means a human explicitly decides Astro will become the source of
-truth, reviews and commits the page and linked topic, changes
-`discussionSourceMode` to `astro-managed`, and sets `discussionSync: true`.
-Named/multi-target pages must also name the writable target through
-`discussionPublishTargets` and the matching `--target`. Preview the promoted
-page with `sync-existing --dry-run --details` before the first write. Editing an
-imported file or removing only the boolean guard is not promotion.
-
-> **Stop if:** an imported or Discourse-owned page lacks `discussionSync:
-> false`, or promotion was not explicitly approved.
-
-## 3. Prepare Discourse
-
-1. Create a dedicated bot user, such as `discussbridge-bot`.
-2. Create or choose the destination category.
-3. Create the planned tags, or confirm the bot can create them.
-4. Add the exact Astro hostname as an allowed embedding host.
-5. Create a granular publishing key for routine publish and sync operations.
-6. Create a separate diagnostics key for setup checks and controlled import
-   source reads when granular access is insufficient.
-
-For each key, choose **User Level** and **Scope** independently. `All Users`
-allows the request to act for the supplied `Api-Username`; `Single User` binds
-the key to its selected user. Scope separately limits endpoints. Discussion
-Bridge supplies the preferred request actor from `--post-as`,
-`DISCOURSE_POST_AS`, or lane/default `postAs`/`postAsEnv`. Legacy
-`--api-username`, `DISCOURSE_API_USERNAME`, `apiUsername`, and `apiUsernameEnv`
-remain fallbacks. The resolved actor is sent as `Api-Username`. Live operations
-show `Post as: USER`; `check-discourse` shows `Request actor`.
-
-When creating either key, show its complete purpose block with the setup
-instructions and copy that block into the respective protected credential file
-above the secret value.
-
-Publishing key record:
-
-```text
-Purpose: Runtime publishing granular key
-Use: publish-new, sync-existing, publish-and-sync, check-discourse basic limits
-Bot user role: Admin currently; intended future runtime posture is non-admin or least-privilege
-Key user level: Record All Users or Single User; prefer Single User for a fixed runtime actor
-Key selected user: Record when User Level is Single User
-Request actor: Record resolved postAs / Api-Username
-Key scope: Granular
-Operational rule: Use this to validate the minimum permissions needed for normal bridge publishing.
-```
-
-Diagnostics key record:
-
-```text
-Purpose: Diagnostics/setup and protected source-read key
-Use: check-discourse; controlled import-existing source reads when granular raw-post access fails
-Bot user role: Admin
-Key user level: Record All Users or Single User and the selected user/actor relationship
-Key selected user: Record when User Level is Single User
-Request actor: Record resolved postAs / Api-Username used for diagnostics
-Key scope: Global or admin-read capable
-Operational rule: Do not use in CI/build unless explicitly intended
-```
-
-The settled publishing scopes are:
-
-```text
-categories:list
-categories:show
-posts:edit
-posts:list
-search:show
-tags:list
-topics:write
-topics:update
-topics:read
-topics:status
-```
-
-The diagnostics key is currently a global/admin-capable fallback for
-`check-discourse`, controlled troubleshooting, and controlled
-`import-existing` source reads when the granular key cannot read the required
-raw first post. Do not place it in CI, builds, runtime publishing, or deployment
-configuration. Load it only into the controlled operator session, never print
-it, and remove it after the read/import operation.
-
-Store key values only in a credential vault, session environment, or hosting
-provider secret store. Never place them in source files, screenshots, issues,
-chat, or build logs.
-
-See [Key Management](/key-management/) for the complete credential-file
-templates, including description, scope, granular permissions, and the secret
-placeholder.
-
-> **Stop if:** the routine publishing key is broader than intended without a
-> recorded reason, the diagnostics key is configured as the normal publishing
-> key, or a real key appears in a file or screenshot.
-
-Verify the granular-key screen shows only the settled User Level and publishing
-scopes. Record the scope names as sanitized text; never capture or expose the
-key value or private account details. A screenshot is optional and must be
-reviewed for secret safety before retention.
-
-Create a `special-admin` custom group as the visible inventory for nonhuman
-admin/service accounts. Then assign actual admin, category, and API authority
-separately; group membership grants none of those by itself.
-
-For connected forums, prevent actual and visually ambiguous service-account
-collisions. Candidate forum-source editors are `editorbridgeforum` /
-**DiscussionBridge Forum Editor** and `editorcanforum` / **CAN Forum Editor**.
-Verify normalized username length and availability before creation.
-Astro-origin actors should identify the source site or brand; keep established
-`obbba-bot` as the OBBBA source identity.
-
-## 4. Install And Configure Astro
-
-Alpha is distributed through an immutable asset attached to an accepted GitHub
-prerelease. Copy the exact tag, asset filename, SHA-256, and npm integrity from
-that release record. Download the asset, verify it, and install that same local
-file; do not substitute an npm registry version or make npm fetch a second copy.
-
-From the Astro project root:
-
-```sh
-asset="astro-discussion-bridge-<exact-version>.tgz"
-gh release download "<exact-tag>" --repo DiscussionBridge/astro-discussion-bridge --pattern "$asset"
-printf '%s  %s\n' '<expected-sha256>' "$asset" | sha256sum -c -
-npm install --save-exact "./$asset"
-node -e "const p=require('./package-lock.json').packages['node_modules/astro-discussion-bridge']; console.log({resolved:p.resolved,integrity:p.integrity})"
-```
-
-Stop unless the lockfile `resolved` value names the verified local asset and
-its `integrity` equals the npm integrity in the accepted release record.
-
-Configure the integration in `astro.config.mjs`:
-
-```js
-import { defineConfig } from "astro/config";
-import discussionBridge from "astro-discussion-bridge";
-
-export default defineConfig({
-  site: "https://docs.example.com",
-  integrations: [
-    discussionBridge({
-      provider: "discourse",
-      preset: "astro",
-      discourseUrl: "https://forum.example.com",
-      siteUrl: "https://docs.example.com",
-      comments: { display: "simple" },
-      publishOnBuild: { enabled: false },
-    }),
-  ],
-});
-```
-
-Use `preset: "starlight"` for Starlight and `preset: "astro"` for broader
-Astro sites. Keep `publishOnBuild.enabled` false until the lane has passed
-explicit CLI dry runs and a controlled live test.
-
-For Starlight placement and the layout override, follow
-[Alpha Setup](/alpha-setup/). You should see the Astro site build normally
-and the discussion area appear only on pages with linked topic metadata.
-
-## 5. Configure Credentials Without Exposing Them
-
-Set these in the shell running the command or in a protected CI/deployment
-secret store:
-
-```text
-DISCOURSE_URL
-SITE_URL
-DISCOURSE_POST_AS
-DISCOURSE_API_USERNAME
-DISCOURSE_API_KEY
-DISCOURSE_DIAGNOSTICS_API_KEY
-```
-
-`DISCOURSE_DIAGNOSTICS_API_KEY` is optional. When absent,
-`check-discourse` falls back to the publishing key and may report metadata as
-unavailable rather than failing.
-
-All Bridge authorization uses user-created Discourse API keys. A named Bridge
-machine identity is a durable operating record for one of those keys and its
-Discourse actor, scope, owner, storage reference, audit policy, and rotation
-policy. It is not an alternate credential system. Routine operations reuse the
-appropriately scoped key; they do not create or revoke a key per run.
-
-Prefer `DISCOURSE_POST_AS`; retain `DISCOURSE_API_USERNAME` only for backward
-compatibility. `postAs` selects the request actor but does not silently change
-ownership of an existing topic.
-
-You should be able to run a command without printing any key value.
-
-## 6. Use The Safe Operating Loop
-
-Use this loop for every lane:
-
-1. **Diagnose:** run `check-discourse`.
-2. **Preview:** run the intended command with `--dry-run --details`.
-3. **Review:** confirm title, page URL, target, topic ID, category, tags, and
-   skip/update reason.
-4. **Write:** remove `--dry-run` only when the preview is correct.
-5. **Verify:** inspect Discourse, Astro, and deployed behavior.
-6. **Record:** preserve new failures or recovery facts in the manuals.
-
-### Check The Forum
-
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url https://forum.example.com \
-  --category-id 5 \
-  --tags product,docs \
-  --page-url https://docs.example.com/example-page/
-```
-
-You should see discovered limits, tag capabilities, category details, setup
-issues or warnings, and reconciliation details when `--page-url` is present.
-Warnings about unavailable site metadata mean the key could not prove the
-setting; they are not permission to guess.
-
-Page-URL reconciliation and explicit existing-topic linking are different:
-
-- When a page supplies `discourseTopicId`, that topic ID is authoritative for
-  the native/full-app embed. A page-URL embed-info `404` or exact search with no
-  owner does not invalidate a healthy explicit topic.
-- When no topic ID is supplied, the embed uses the page URL and URL ownership
-  must reconcile correctly before release.
-
-Always verify the explicit topic directly as well as recording any independent
-page-URL reconciliation result.
-
-### Publish Missing Topics
-
-Use `publish-new` for `astro-managed` pages that do not yet have a topic ID.
-
-```sh
-npx astro-discussion-bridge publish-new src/content/docs --dry-run --details
-npx astro-discussion-bridge publish-new src/content/docs
-```
-
-The live run should create missing companion topics and write link/sync metadata
-to the Astro frontmatter. Already-linked pages are skipped.
-
-### Sync Linked Topics
-
-Use `sync-existing` when Astro owns already-linked topics.
-
-```sh
-npx astro-discussion-bridge sync-existing src/content/docs --dry-run --details
-npx astro-discussion-bridge sync-existing src/content/docs
-```
-
-Pages without `discourseTopicId` and pages with `discussionSync: false` are
-skipped. Use `--force` only when deliberately rewriting a first post despite an
-unchanged source hash.
-
-Files may use either LF or Windows CRLF line endings. The bridge recognizes both
-frontmatter forms and preserves the existing style when it updates frontmatter.
-If a valid linked page is unexpectedly reported as `not linked`, stop before any
-write and check frontmatter-boundary parsing rather than relinking the topic.
-Both read-side guard recognition and write-side line-ending preservation are
-covered by regression tests.
-
-### Publish And Sync A Mixed Lane
-
-```sh
-npx astro-discussion-bridge publish-and-sync src/content/docs --dry-run --details
-npx astro-discussion-bridge publish-and-sync src/content/docs
-```
-
-This is convenient but has the broadest write surface. Prefer the narrower
-commands when separating creation from maintenance makes review easier.
-
-### Import An Existing Topic
-
-```sh
-npx astro-discussion-bridge import-existing src/content/docs \
-  --topic https://forum.example.com/t/example-topic/123 \
-  --source-mode discourse-managed \
-  --site-url https://docs.example.com \
-  --dry-run
-```
-
-Choose `discourse-managed` when edits continue in the source topic. Omit
-`--source-mode` or use `discourse-imported` for the imported-copy default.
-`astro-managed` is rejected because import is a Discourse-to-Astro operation.
-
-```yaml
-discussionSourceMode: discourse-managed
-discussionSync: false
-```
-
-You should see the selected source mode and `discussionSync: false` generated
-with a Markdown file linked to the original topic. Review the imported body and
-frontmatter before building or editing. Avoid `--overwrite` unless replacement
-is intentional and recoverable. A manifest entry may use `sourceMode` to make
-the same selection per topic.
-
-> **Stop if:** a dry run shows an unexpected page URL, topic ID, target,
-> category, managing page, overwrite, or writeback-eligible imported page.
-
-To place a hero image at the start of an imported page:
-
-```sh
-npx astro-discussion-bridge import-existing src/content/docs \
-  --topic https://forum.example.com/t/example-topic/123 \
-  --hero-image "../../../assets/example hero.png" \
-  --hero-alt "Descriptive alternative text" \
-  --dry-run
-```
-
-`--hero-image` and `--hero-alt` are a required pair. Alt text must contain
-meaningful non-whitespace text. The generated Markdown places one angle-wrapped
-leading image before the unchanged raw topic body; internal path spaces and
-escaped alt text are supported.
-
-> **Stop if:** only one hero option is present, alt text is empty/whitespace, or
-> the hero insertion changes the normalized Discourse body.
-
-To remove the known trailing community call-to-action block during import:
-
-```sh
-npx astro-discussion-bridge import-existing src/content/docs \
-  --topic https://forum.example.com/t/example-topic/123 \
-  --prune-profile community-call-to-action \
-  --dry-run
-```
-
-This opt-in profile removes only a trailing block after a horizontal rule when
-all four markers are present: `Join the Conversation Today`, `/signup`, `Please
-share how`, and `/c/stories/`. Without a verified boundary, import stops before
-writing a file. Unknown, duplicate, bare, or empty profile inputs also fail
-before file I/O.
-
-You should see `discussionImportPolicy: "pruned:community-call-to-action"` only
-after a successful profiled import.
-
-### Build And Preview An Import Queue
-
-Import discovery/queue is required for Alpha. Use either:
-
-- an explicit topic list or manifest for curated imports; preserve the order the
-  operator supplied;
-- “next in category” for queue work. First list/discover available categories,
-  including subcategories, then select by category ID or an unambiguous
-  slug/name. Preview that category's queue and choose the oldest Discourse
-  `created_at`, using topic ID as the stable tie-breaker.
-
-After category selection, optional filters may narrow tags, created-date range,
-open/closed status, and result limit. Operators may request oldest-first or
-newest-first ordering, but both use `created_at`.
-
-For numbered collections whose created dates are unreliable, Alpha may use
-natural topic-title/name ordering (for example, Section 10102 before 10103).
-This never permits ordering by latest activity.
-
-Always preview the candidate list before importing and exclude topics already
-represented by imported Astro pages.
-
-Use the read-only discovery command before import:
-
-```text
-npx astro-discussion-bridge discover-imports src/content/docs \
-  --category TITLE-I \
-  --tags TITLE-I \
-  --order natural-title \
-  --limit 10 \
-  --discourse-url https://forum.example.com
-```
-
-Use `--list-categories` first when you need IDs, exact slugs, names, parent
-relationships, and topic counts. Add `--include-subcategories` only when the
-selected lane should include descendants. Other optional controls are
-`--created-from`, `--created-to`, `--status all|open|closed`, `--order
-oldest|newest|natural-title`, `--limit`, and `--json`.
-
-The command previews only; it never imports. It recursively excludes topic IDs
-found in opening-frontmatter `discourseTopicId` or strictly parsed
-`discussionTargetBindings`; unrelated `topicId` metadata remains eligible.
-Descendant categories are fetched directly and deduplicated. A date-only
-`--created-to` includes that entire UTC day.
-
-Add `--manifest-out FILE` to save the reviewed order as a new strict v1
-manifest; the command refuses to overwrite an existing file. All runtime
-source-mode/comments-display validation finishes before network or local
-scans, and manifest validation finishes before dereference or filesystem work.
-Generated entries default to `discourse-imported`, with optional
-`discourse-managed` source mode and an explicit comments display. Public
-categories need neither a site URL nor credentials.
-
-Final reviewed evidence is Code Boss PASS and 84/84 tests plus a live read-only run
-against the Cloudflare-CDN-backed Repeal OBBBA forum: category 18, `TITLE-I`,
-natural-title order, and limit 10 scanned 320 topics, excluded five already
-imported topics, and previewed topics 754, 755, 756, 757, 758, 759, 761, 762,
-763, and 764. No file was written.
-
-The OBBBA worked example then saved those ten candidates as a tracked strict v1
-manifest, applied a uniform source/comments/tag/hero/alt/prune policy, and ran a
-credentialed read-only manifest dry-run. Expected evidence was 0 imported, 0
-skipped, 10 dry-run, and `generatedPages=0`.
-
-The live gate later passed for those exact ten topics: 10 Astro files imported,
-zero Discourse writes, clean build, corrected deployment, ten live HTTP-200
-routes, and three removed stock routes returning 404. Topic 754 was readable at
-`/t/754.json`, but its first post lacked raw Markdown. Fetching that first post
-by post ID at `/posts/761.json` returned 403 with the granular key; `761` in
-that endpoint is the post ID, not the separate topic 761 in the batch. The
-controlled retry used the protected diagnostics key in memory. Keep
-that key out of CI/build/runtime publishing and deployment configuration.
-
-For deterministic refresh of pages with different policies, use the reviewed
-Alpha import manifest rather than a blanket update-all operation. Its strict
-JSON contains only `version` and ordered `imports`. Each topic entry retains its
-own `commentsDisplay`, `heroImage`/`heroAlt`, and `pruneProfiles`, and caller
-order is preserved. Run `import-existing --manifest ... --overwrite`.
-
-Preview before writing. The bridge rejects duplicate topics and mixing manifest
-mode with direct topic options, revalidates every entry, checks destinations and
-path containment, and stages the whole batch before atomic creation or
-overwrite rollback. A failed batch must not leave a partial import set.
-
-Treat every import as two joined contracts:
-
-- **WHEREFROM:** the Discourse base or target, explicit topic or curated order,
-  category when the lane uses one, and required tags or filters;
-- **WHERETO:** the Astro content root, explicit output file, public route, and
-  Astro navigation lane, with the site URL fixed as part of public identity.
-
-Validate the source identity and live tag constraints before writing. Make the
-destination deterministic, reviewable, and contained inside the content root.
-Manifest v1 keeps these as the existing flat fields—such as `topic`,
-`requiredTags`, and `output`—rather than a new nested structure. A nested
-`from`/`to` form is only a possible future evolution.
-
-If the source topic later moves to another Discourse category, Discussion
-Bridge reports:
-
-```text
-source category changed: OLD -> NEW; Astro route/navigation unchanged
-```
-
-An overwrite refreshes `discussionSourceCategoryId`, but it does not silently
-move the Astro file, public route, or Astro navigation lane. WHEREFROM changed;
-WHERETO remains an explicit operator or manifest decision. Review and change
-the destination separately only when that is the intended publishing decision.
-
-> **Never use:** `bumped_at`, last reply, or latest activity for queue order.
-> Community participation must not reorder publishing candidates.
-
-## 7. Choose A Comments Display Mode
-
-| Mode | Use it when | Verify |
-| --- | --- | --- |
-| `simple` | A lightweight Discourse embed is enough. | Embed host is allowed; basic comments load. |
-| `full` | Astro-native display and reply metadata matter. | Replies and likes render; browser refresh works through CORS or a proxy. |
-| `fullInteractive` | Logged-in reply, like, quote, and moderation should remain inside Discourse. | Full-app embed, sign-in, iframe height, and mobile behavior work. |
-
-For Alpha, use `simple` or `full` for plugin-free public production. Core-only
-`fullInteractive` is a compatibility/development preview. Production-quality
-comments-only `fullInteractive` requires DiscussionBridge for Discourse after
-its controlled-creation and embed capabilities pass. The Astro package does not
-install that plugin. For an ordinary consumer forum, a human Discourse
-administrator installs the exact published plugin identity, rebuilds `app` for
-a standard single-container forum or only `web_only` for the official
-two-container layout, and proves that forum healthy with all DiscussionBridge
-settings still off. The final Alpha release gate separately tests both
-topologies on the named acceptance hosts described below. `simple` and `full`
-remain plugin-free.
-
-For `full`, configure a same-origin `refreshEndpoint` when browser CORS does not
-allow direct topic JSON reads. For `fullInteractive`, enable Discourse's full-app
-embed settings and test both signed-in and signed-out users.
-
-`fullInteractive` uses dynamic iframe sizing by default. The iframe begins at
-`embedHeight: "800px"`, then follows Core's content reports between
-`embedMinHeight: "360"` and `embedMaxHeight: "900"`. The adapter does not add a
-CSS viewport ceiling: the Alpha.5 human pass proved that a competing `70vh`
-maximum can clip topic-progress and composer content at the host boundary.
-Operators may tune the three supported values or set `dynamicHeight: false` for
-a fixed-height embed. The deprecated `embedViewportMaxHeight` option accepts
-only `"none"`; any other value fails configuration. Verify topic-progress,
-scroll, short, long, composer-open, desktop, and mobile states.
-
-To close a live signed-in interaction item, create one clearly labeled test
-reply through the browser, then verify its public post URL, content marker, and
-updated topic count. Recheck the Astro page's topic/full-app signature afterward.
-Record the evidence without publishing private account identifiers.
-
-An existing-page interaction result does not prove a fresh-import workflow.
-Before closing an import gate, separately test: no hero/no prune, hero only with
-alt text, prune only, and hero plus prune. For every case, verify generated
-source-mode guards, preserved topic linkage, build/deploy/live rendering,
-comments, and no accidental writeback.
-
-For an existing topic, pass its topic ID through the complete component path.
-The native embed should configure `{ topicId }` when it is present and fall back
-to `{ discourseEmbedUrl: embedUrl }` only when there is no explicit topic ID.
-
-Rendering ownership changes by comments mode. The package's Astro-rendered
-`full` mode now has reviewed first-generation parity: Mermaid replies render
-client-side by default, and tables receive readable styling plus horizontal
-overflow handling. Set `replies.renderMermaid: false` to opt out. Mermaid is
-loaded only when a reply needs it; a load or render failure preserves the source
-code for recovery instead of destroying the reply.
-
-In `fullInteractive`, the cross-origin iframe belongs to Discourse, so Astro-side
-Mermaid transforms and CSS cannot render or restyle content inside it. The
-ordinary topic view may render Mermaid while the full-app comments embed still
-shows raw Mermaid source because the embed application does not load normal
-theme-component JavaScript. Use Discourse embedded CSS, targeted with the bridge
-embed class hook, for immediate table presentation. Mermaid still needs a
-Discourse-side embed extension, plugin, or upstream solution; do not mark it
-fixed.
-
-For each mode, verify the rendered discussion at desktop and narrow/mobile
-widths using the mode table above. For `fullInteractive`, sign in through the
-embedded forum, post a reply, return to the Astro page, and confirm the reply is
-present and ordinary forum behavior is unchanged. Keep sanitized evidence of
-the tested route and viewport; screenshots or video are optional evidence, not
-unfinished manual content.
-
-### Comments-Boundary Credit
-
-DiscussionBridge displays `Connected by DiscussionBridge` after the complete
-discussion surface by default. Only `DiscussionBridge` is linked. The credit
-works across all three comments modes, remains outside the Discourse iframe in
-`fullInteractive`, inherits host-site theme tokens, and includes equivalent
-hover, keyboard-focus, and reduced-motion behavior.
-
-Disable or customize the escaped plain-text credit through `comments.credit`.
-Its link must be an absolute HTTP(S) URL. The setting is independent of
-Discourse's `Powered by Discourse` control and never changes comments behavior.
-
-## 8. Content Lanes And Route Bases
-
-If `src/content/blog/example.md` renders at `/blog/example/`, use:
-
-```sh
---route-base blog
-```
-
-The page URL is part of the Discourse ownership contract. Check it in
-`--details` output before every lane's first live write. Only one Astro page may
-manage a topic in a run; comparison pages should use `discussionSync: false`.
-
-Keep Astro/template content tags separate from Discourse `discussionTags`
-unless an explicit mapping is introduced later.
-
-## 9. Deploy And Verify On Cloudflare Pages
-
-DiscussionBridge does not require Cloudflare Pages, but the Alpha demos use it.
-For a static Astro site:
-
-1. Build from the canonical repository and the intended site/example root.
-2. Use the project's normal install and `npm run build` commands.
-3. Confirm the output directory matches the Astro/Cloudflare project settings.
-4. Set the final public URL in Astro `site` and DiscussionBridge `siteUrl`.
-5. Attach the intended custom domain and wait for HTTPS to become valid.
-6. Add that exact hostname to Discourse's allowed embed hosts.
-7. Verify the homepage, a lane route, its companion topic, and comments.
-8. When Workers are used, verify both the Worker endpoint and canonical domain.
-9. Confirm the deployed page has the expected package/topic signature and that
-   any retired renderer is absent.
-
-If more than one Cloudflare account is available, the approved site deployment
-configuration should pin the intended account so deployment is repeatable. Keep
-private account labels and login addresses out of public manuals and screenshots.
-
-Before making a deployment-only commit, inspect the site worktree. Preserve and
-report unrelated pre-existing edits instead of silently including them.
-
-Also build the exact committed candidate from a clean checkout or detached
-worktree. A local file deletion can make a dirty build look healthy while the
-tracked release still contains the stale page. If the clean build finds one,
-isolate the removal or repair in its own reviewed commit and build again.
-
-If the deployed page looks stale, verify the deployment commit and Discourse
-topic first. Then test with a cache-bypassing request or clear only the relevant
-Cloudflare cache. Do not treat a confirmed sync as failed until cache state is
-ruled out.
-
-DiscussionBridge has now been tested against the production
-Cloudflare-CDN-backed Discourse deployment at `forum.repealobbba.org`.
-Diagnostics/API reads, topic imports, target reconciliation and source-topic
-links, `fullInteractive` comments, signed-in replies, five live source notices,
-and no-writeback behavior all passed in that bounded environment.
-
-This proves compatibility with that production deployment, not every possible
-CDN, WAF, or cache rule. When placing Cloudflare in front of Discourse, preserve
-Discourse API paths and JSON endpoints, embed and full-app routes,
-authentication/cookies, and websocket behavior. If API or embed behavior differs
-from a direct-origin check, investigate cache and WAF handling before treating
-the bridge as broken.
-
-> **Stop if:** the deployment uses a transitional copy instead of canonical
-> source, the custom domain differs from `siteUrl`, HTTPS is invalid, or the
-> Discourse embed host does not exactly match the public hostname.
-
-## 10. Verify And Recover
-
-After a live operation, verify:
-
-- CLI summary reports the expected created, updated, skipped, or unchanged count.
-- the topic title, category, tags, and listing state are correct;
-- the first post contains the intended reader-facing content and source link;
-- frontmatter contains the expected topic link and sync metadata;
-- the Astro page and full-discussion link work;
-- comments work in the chosen mode;
-- no secret appears in source, output, screenshots, or support material.
-
-Never automatically recreate a deleted topic or first post. Confirm whether the
-deletion was intentional, then choose restore, relink, or replacement explicitly.
-See [Troubleshooting](/troubleshooting/) for known failures and recovery
-guidance.
-
-Use this exact recovery sequence:
-
-1. Preserve the current Astro source in Git and record the old topic ID/URL.
-2. Run `check-discourse --page-url` with the diagnostics key and
-   `sync-existing --dry-run --details`.
-3. Restore an accidentally deleted topic/first post with Discourse's own staff
-   controls whenever that identity should remain.
-4. If replacement is intentional, verify ownership/category/permissions, then
-   update topic ID and URL together (and the selected target binding when used).
-   Never choose a replacement because its title merely looks similar.
-5. If creating a new topic is the reviewed decision, remove stale linkage in a
-   committed source change, retain the prior values in Git history, then run
-   `publish-new --dry-run --details` before the live create. Plugin-managed
-   lanes may require administrator disposition of the stale mapping first.
-6. Verify the final Astro route, topic, first post, embed, category, tags, and
-   listing state. For multi-target failures, retry only the failed target.
-
-## 11. Release Readiness And Product Boss Approval
-
-Code completion alone does not make a release ready. For every Alpha, Beta,
-release candidate, patch, and Current release, the release record must show:
-
-1. Code Boss reviewed the exact release candidate and recorded pass or fail.
-2. All blocking code-review edits are complete and re-reviewed when required.
-3. Bridge Boss completed technical verification.
-4. Manual Boss completed documentation quality review.
-5. The Human and Machine Manuals are ready for the exact release.
-6. Product Boss documentation sign-off is recorded.
-7. Product Boss release approval is recorded.
-
-These last two decisions are different:
-
-- **Product Boss documentation sign-off** confirms that the manuals and product
-  docs accurately describe the proposed release.
-- **Product Boss release approval** confirms that the release is coherent across
-  intended scope, operator readiness, known limitations, and its documentation
-  package.
-
-Product Boss release approval does not replace Code Boss review, Bridge Boss
-technical verification, or Manual Boss quality review. A failed, unresolved, or
-edit-pending Code Boss review blocks Product Boss approval.
-
-> **Stop if:** any required review is missing, a blocking edit is unresolved,
-> the manuals describe a different build, or either Product Boss decision has
-> not been recorded for the exact release candidate.
-
-### Alpha/Beta Scope Strategy
-
-The cumulative Alpha feature/function set is locked in the product checklist.
-After the lock, work belongs in Alpha only when it closes an existing promise or
-gate, fixes tested behavior, or is approved explicitly as a scope change.
-Unchecked Alpha gates still need to be finished; the lock does not mark them
-complete.
-
-Alpha should honestly represent the major capabilities in its declared product
-promise and be nearly feature-complete for that promise. Beta should primarily
-refine real-user experience, compatibility, reliability, performance,
-packaging, documentation, installation, recovery, support, and presentation.
-This does not move every future or Layer 3 idea into Alpha.
-
-Tier 1 operation remains API-only, free/self-serve, and independent of a
-Discourse plugin as a compatibility capability. The settled architecture makes
-DiscussionBridge for Discourse the natural forum-governed home for policy and
-orchestration. The current Alpha implementation provides authenticated
-create-or-resolve, a configured non-`system` operating identity, forum-owned
-category/tag authority, durable reservation and source mapping, forced-unlisted
-controlled topic creation, requested-versus-effective policy, and audit. It is
-installed and accepted on stable preproduction
-`dev-forum.discussionbridge.dev` at plugin SHA
-`50c4a92359f672a00b2242e99819a70813ebea19` in the official split `data` +
-`web_only` topology. Installation, migrations, safe-default startup, reviewed
-settings, create-then-resolve, comments-only presentation, ordinary-topic
-isolation, admin operations, disable/re-enable, record-only upgrade, and
-rollback to the qualified SHA passed on 2026-08-22. The endpoint is disabled at
-rest. Local/sandbox results remain dated qualification evidence; they are not
-the current installation state and are not a public release.
-
-The remaining plugin release gate is human Discourse administrator installation
-of the exact publicly published Alpha tag/SHA from the public instructions on
-both named acceptance hosts: the standard single-container `app` proof on
-`sandbox-forum.discussionbridge.dev` and the official split `data` + `web_only`
-proof on `dev-forum.discussionbridge.dev`. Each host/topology must prove its own
-rollback identity, installed SHA, migrations, safe-default startup, ordinary
-forum health, approved enable/configure behavior, and topology-matched
-rollback/removal. `forum.repealobbba.org` is not a substitute or third current
-release-gate install; any later independent real-world proof there requires
-separate OBBBA authorization and recovery acceptance. Another generic
-nonproduction install is not the gate. Post-as-user, PM
-automation, existing-topic migration, and broad unattended forum-to-forum
-administration remain outside this boundary.
-
-The CAN normal-topic baseline may continue to use the Discourse Mermaid theme
-component. The next plugin boundary is the published-candidate human
-installation release gate, plus any
-separately designed Mermaid/table parity still needed inside the full-app
-embed. This does not change Tier 1 installation.
-
-Discourse Mermaid is the official **theme component** documented at
-[Meta topic 218242](https://meta.discourse.org/t/discourse-mermaid/218242) and
-[discourse/discourse-mermaid-theme-component](https://github.com/discourse/discourse-mermaid-theme-component).
-It is not a plugin. Keep it distinct from a fork/extension of that theme
-component, the separate optional `DiscussionBridge for Discourse` plugin, and
-an upstream Discourse change.
-
-The plugin is a separate product/repository under Boss routing. Its v0.1 Alpha
-goal is installable and removable on supported stock/current Discourse with
-documented rollback, no ordinary-topic regression, controlled topic creation,
-and a later live comments-only full-app proof. Full broad forum-to-forum
-administration, arbitrary post-as-user, and PM automation remain out.
-
-Alpha scope is cumulative. Plugin and multi-target work add to every previously
-accepted Alpha gate; they do not rewrite or shorten the promise. Use the existing
-dashboard and build/launch checklists as the complete source of truth, and remove
-an item only when Phil explicitly directs that change.
-
-All three Alpha software tracks remain free/open source unless explicitly
-changed later: the Astro package, the DiscussionBridge for Discourse plugin, and
-public docs/community support. Paid offerings are implementation help,
-handholding, managed hosting/operations, customization, support, and
-consulting. Third-party hosting and infrastructure remain operator-paid.
-
-### DiscussionBridge.dev Dogfood Proof
-
-Alpha must demonstrate the product loop in both directions without creating a
-two-writer loop:
-
-1. Publish an Astro-managed `discussionbridge.dev` blog post to a public
-   companion discussion on `forum.discussionbridge.dev`.
-2. Republish a reviewed community wiki/how-to from
-   `forum.discussionbridge.dev` as a durable guide on
-   `discussionbridge.dev`.
-
-For the wiki lane, use `discourse-managed` plus `discussionSync: false`, show
-source provenance near the article start, preserve the source topic as the
-primary discussion, and define the output route and Astro navigation lane
-explicitly. Refresh deterministically from the wiki topic. Editors change the
-wiki in Discourse; the site republishes the reviewed source. Do not imply that
-replies from separate topics are merged.
-
-> **You should see:** a public guide with a clear source link, an explicit
-> primary discussion, and predictable navigation placement.
-
-> **Stop if:** the site is able to write back to the wiki source, the source
-> topic changes unexpectedly, the destination route drifts, or comments
-> presentation silently selects or merges discussions.
-
-The public outcome is: “The site starts conversations. The community develops
-durable knowledge. The site publishes what the community learns.”
-
-Implementation and Code Boss review are complete at `1731547` with 72/72 tests.
-Apex adoption commit `d68ffc4` also received Code Boss PASS, passed a clean
-detached install/build that generated five actual public apex routes, and was
-deployed on 2026-07-23. This is distinct from the readable product-docs build,
-which synchronized 20 documentation sources and generated 21 HTML pages in this
-documentation pass.
-
-<figure>
-<pre role="img" aria-label="Two separate DiscussionBridge connections. An Astro-managed blog publishes to forum topic 37. Forum wiki topic 36 publishes to an Astro guide. Their reply streams remain separate.">
-Astro-managed blog ──publishes──▶ Forum topic 37
-
-Forum wiki topic 36 ──publishes──▶ Discourse-managed Astro guide
-
-             Reply streams remain separate
-</pre>
-<figcaption>DiscussionBridge.dev two-direction dogfood topology.</figcaption>
-</figure>
-
-Visuals derived from this diagram must use alt text that names both directions
-and says the reply streams remain separate. Do not include admin screens,
-credentials, tokens, account identifiers, or protected storage in screenshots
-or video.
-
-Live verification shows:
-
-- `/blog/every-connection-has-a-job/` returns 200 and binds its independent
-  public companion discussion to topic `37`;
-- `/guides/how-to-choose-a-discussion-bridge-source-mode/` returns 200, shows
-  source disclosure, and renders source wiki topic `36` as the primary
-  fullInteractive discussion;
-- a deliberate guide `sync-existing --dry-run` skips with the
-  `discourse-managed` no-writeback reason;
-- the raw Pages hostname redirects to the canonical apex.
-
-This closes the bounded two-direction dogfood gate. It does not claim merged
-reply streams or general forum-to-forum orchestration. The clean install still
-reported one high-severity npm audit finding, and the Mermaid chunk remains
-larger than 500 kB; neither was hidden or changed with an automatic audit fix.
-See the
-[sanitized verification record](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/docs/evidence/DISCUSSIONBRIDGE_DEV_TWO_WAY_DOGFOOD_2026-07-23.md)
-for the live markers and claim boundary.
-
-The topic-36 editor-ownership acceptance test remains open. A human operator
-must change the wiki first-post owner from `discourseadmin` to the selected
-DiscussionBridge Forum editor, edit the wiki while signed in as that editor,
-re-import/refresh the `discourse-managed` guide with overwrite, then verify
-content and source ownership, build/deploy/live markers, and no Astro
-writeback. Actor configuration alone does not complete this test.
-
-Imported pages may now show `Source author: Display Name (@username)` when
-Discourse exposes safe author data. The username links only to the same forum's
-safe `/u/username` profile, preserving a Discourse subfolder base when present:
-`https://example.com/forum/t/...` becomes
-`https://example.com/forum/u/editorbridgeforum`. Unsafe usernames are omitted
-rather than linked.
-An explicit overwrite refresh updates `discussionSourceAuthorUsername` and
-`discussionSourceAuthorName` while preserving source mode,
-`discussionSync: false`, and topic ID.
-
-### Alpha Topology Proof
-
-The Alpha multi-target model is implemented and reviewed. The first two edges
-of the bounded live topology proof are complete; the wider matrix still tracks:
-
-- the same selected `onebigbeautifulbill.us` page → `forum.repealobbba.org`;
-- that same selected page → `forum.citizenactivist.network`;
-- bounded demo/credit pages → `forum.discussionbridge.dev`;
-- multiple Astro/public sites → `forum.repealobbba.org`.
-
-The first two prove one Astro page can explicitly connect to several forums; the
-last proves many sites can converge on one forum. Citizen Activist
-Network's forum identity is “A community of activists.” Its Cloudflare/account
-ownership placement remains an Ops decision.
-
-Live adoption commit `36df91c98a35251edd6ddd657cca42ddf0acdafa` proves the
-same 10101 page can retain Repeal OBBBA topic 434 as protected source and primary
-`fullInteractive` discussion while linking an independent Citizen Activist
-topic 9 under accessible **Additional discussions** navigation. Diagnostics,
-target-specific dry-run, publication, unchanged retry, clean build, deployment,
-live checks, and no-source-writeback verification passed.
-
-Use the narrowest correct content root. For this lane it is
-`src/content/docs/title i` with route base `title-i` and active target
-`citizen-activist`. An earlier broad dry-run exposed a wrong root/index and a
-malformed `title-i/title i` route before any write. Treat previewed route drift
-as a stop condition, correct the lane, and rerun dry-run.
-
-Keep credentials in protected storage. Do not copy storage paths, account
-values, or secrets into public docs. Existing record-format cleanup belongs in
-the protected vault. The exact clean install reported 10 dependency audit
-findings (1 low, 1 moderate, 8 high); route them for dependency review and do not
-apply an automatic `npm audit fix`.
-
-Post-proof interaction remained correctly separated: Citizen Activist topic 9
-accepted a live reply as post 2, while the Astro page continued embedding
-protected/primary Repeal OBBBA topic 434. Readers could reach the independent
-Citizen Activist conversation through the accessible **Additional discussions**
-link. This is interaction/presentation evidence for the closed bounded gate,
-not a broader topology claim.
-
-The page must distinguish its protected source target from its ordered
-publication/discussion targets. Review each target's forum, topic binding, sync
-and error state, and display policy independently. Keep the imported/managed
-source protected from writeback while allowing explicitly approved publication
-to another forum.
-
-In frontmatter, list the page's targets in order with `discussionTargets`, then
-name only writable destinations in `discussionPublishTargets`. Identify the
-protected imported/managed source with `discussionSourceTarget`. The bridge keeps
-each forum's result independently in `discussionTargetBindings`.
-
-If more than one discussion is linked, choose `discussionPrimaryTarget`. You
-should see that discussion rendered in the selected comments mode and the other
-targets as accessible named links. Optional `targetLabels` can make those link
-names friendlier. Stop if a multi-linked page has no explicit primary; the build
-error is protecting the operator from a silent choice.
-
-Run the CLI once per explicit `--target`. If one target fails after another
-succeeds, keep the successful binding and retry only the failed target. The
-stored failure is target-specific and sanitized. Do not manually discard a
-successful binding or create a replacement topic merely because another target
-failed.
-
-Choose the primary rendered discussion and state whether additional targets are
-linked or rendered; never let the bridge silently select one. If one target
-fails, keep successful bindings, report the failure, and retry only that target
-idempotently without duplicate topics. Diagnostics, previews, CLI output, and
-live checks must identify the target. General administration remains later.
-
-**Every connection has a job.** A reader should understand whether
-an additional discussion is for the public community, a chapter or region,
-internal review, subject-matter feedback, advocacy coordination, or syndication.
-Use that purpose in its visible label and call to action. Never imply that
-independent replies have been merged.
-
-Lead with the outcome: “Publish from the site. Learn in the community. Turn what
-the community knows into durable pages.” Content can begin on either side;
-discussion stays where the people are, and durable knowledge can be published
-where readers can find it. A destination-only label is not enough.
-
-Possible reader-facing patterns are **Discuss with the Citizen Activist
-Community**, **Review with the policy team**, **Discuss with your state
-chapter**, and **View the source wiki**, each followed by a short audience and
-context explanation.
-
-CAN can support Astro-to-Discourse and Discourse-to-Astro flows, but only with
-separate page/topic pairs and explicit source ownership. Stop if the same item
-would be writable in both directions; choose one writer and protect the other
-side. Relay, promotion, and summary automation are later features.
-
-Another future pattern is **Local ownership. National reach.** A chapter can
-turn local experience into network knowledge without giving up its community,
-context, or voice. The national community can discover and discuss chapter work
-while every topic remains connected to where it began. Local and national reply
-streams stay separate: one serves local coordination/context, the other national
-learning/amplification.
-
-The likely reverse path distributes national campaign guidance into selected
-chapter forums for local discussion. Before enabling either direction, require
-mapped categories, chapter/region metadata, public/private eligibility,
-moderator approval policy, source attribution/return links, explicit one-way
-updates, and clear moderation owners. General forum-to-forum orchestration is
-future design, not current capability.
-
-## 12. Show Where Discourse-Sourced Content Came From
-
-Pages imported from or managed in Discourse should disclose their source near
-the start of the article. This notice is separate from comments and from any
-DiscussionBridge credit at the comments boundary.
-
-Wire `DiscussionSource` into the canonical page boundary:
-
-```astro
----
-import DiscussionSource from "astro-discussion-bridge/DiscussionSource.astro";
----
-
-<DiscussionSource frontmatter={Astro.props.frontmatter} />
-```
-
-The plain Astro BlogPost layout and Starlight `MarkdownContent` override are the
-canonical placements. You should see a quiet aside labeled **Content source**
-with a bold **Source:** prefix:
-
-- `discourse-imported`: “This page originated in Discourse and was imported
-  here for publication.”
-- `discourse-managed`: “This page is managed in Discourse and published here
-  for easier reading.”
-- `astro-managed` or unknown mode: no notice.
-
-`sourceLabel` defaults to `Discourse`. Use `sourceLabel`, `message`, and
-`linkLabel` to adapt public wording without hiding provenance. Other component
-inputs are `class`, `mode`, `sourceUrl`, `targetBindings`, and `frontmatter`.
-
-The source link follows this order: explicit `sourceUrl`,
-`discussionImportedFrom`, the protected `discussionSourceTarget` binding (with
-legacy `discussionTarget` fallback), then legacy `discourseTopicUrl`. Only
-absolute `http` or `https` URLs become links. If every candidate is unsafe or
-malformed, the disclosure remains visible without a link.
-
-> **Stop if:** a multi-target page attributes its origin to an additional
-> publication target. Provenance must always follow the protected source target.
-
-Package behavior is implemented and reviewed at `a9d2097` with Code Boss PASS
-and 68/68 tests. OBBBA adopted reviewed artifact
-`astro-discussion-bridge-0.1.0-alpha-a9d2097-f3fbb73e.tgz` at commit `aa7846d`.
-Its clean production build and deployment passed. All five canonical Title I
-routes now show exactly one **Content source** aside and one source link, with
-the imported wording, `Repeal OBBBA Forum` label, and correct protected
-`forum.repealobbba.org` topic. The existing discussion boundary remains present.
-This closes OBBBA source-disclosure adoption only; it does not close the separate
-Citizen Activist topology gate.
-
-## 13. Alpha Support And Release Channel
-
-The public Alpha channel is one GitHub prerelease with an attached package
-tarball built from the exact accepted Astro-package commit. npm registry
-publication is a later, separately authorized gate; Alpha instructions must not
-use an npm dist-tag, `latest`, or an unversioned registry install.
-
-The release record must name the exact tag, source commit, asset filename,
-tarball byte size, SHA-256, npm integrity, and package inventory. Consumers
-download the asset, verify its SHA-256, install that exact local file, and bind
-the resulting lockfile to the accepted npm integrity:
-
-```powershell
-$asset = 'astro-discussion-bridge-<exact-version>.tgz'
-gh release download '<exact-tag>' --repo DiscussionBridge/astro-discussion-bridge --pattern $asset
-if ((Get-FileHash $asset -Algorithm SHA256).Hash -ne '<expected-sha256>') { throw 'Release asset hash mismatch' }
-npm install --save-exact "./$asset"
-$lock = Get-Content package-lock.json -Raw | ConvertFrom-Json -AsHashtable
-$installed = $lock.packages['node_modules/astro-discussion-bridge']
-if ($installed.resolved -notmatch [regex]::Escape($asset)) { throw 'Lockfile does not resolve the verified asset' }
-if ($installed.integrity -ne '<expected-npm-integrity>') { throw 'Installed package integrity mismatch' }
-```
-
-Never replace or delete a published Alpha asset in place. A correction receives
-a new prerelease tag and asset. A repository checkout or moving branch is not a
-release identity.
-
-Plugin-backed `fullInteractive` has an additional release gate. After the exact
-plugin candidate is published through its GitHub prerelease/install channel,
-human forum administration—not the implementation agent—must install that exact
-tag/SHA using only the public instructions on both named acceptance hosts: the
-single-container `app` sandbox at `sandbox-forum.discussionbridge.dev` and the
-split `data` + `web_only` stable-preproduction forum at
-`dev-forum.discussionbridge.dev`. Each host/topology acceptance record must
-prove rollback identity, installed SHA, migrations, safe-default startup,
-ordinary forum health, the documented enable/configure flow, and understandable
-disable/rollback/removal. `forum.repealobbba.org` remains outside these two
-current proofs and requires a later, separately authorized independent
-real-world gate. Release acceptance cannot close without both human PASS
-records. A failure creates a new corrected prerelease; it never rewrites the
-tested release identity.
-
-Published plugin `v0.1.0-alpha.5` is immutable **REJECTED — DO NOT INSTALL**
-evidence. Its real Astro-hosted gate found that qualified Core shows a profile
-summary but no embedded **Log Out** control; the automated test had synthesized
-that unreachable trigger. The adapter's competing `70vh` ceiling separately
-clipped topic-progress/composer content. A corrected gate must prove the lower
-frame and credit boundary, visible **Post reply**/**Save edit**, Reply, Like,
-Quote, edit, signed-out initial state, sign-in, and new-user sign-up. Session
-loss is induced separately through Core-owned logout/session behavior, followed
-by reloading the known mapped Astro page; **Open discussion** is an external
-handoff, not an embedded logout control.
-
-Before upgrade, record the installed asset filename/integrity and lockfile,
-start from a clean consumer worktree, download and verify the new asset hash,
-install that same local file with `--save-exact`, verify the resulting lockfile
-resolution and integrity, then run package tests, the consumer build,
-`check-discourse`, dry-run sync, and one bounded deployed smoke. Stop on a hash
-or integrity mismatch, unexpected package inventory, dependency drift, build
-failure, Discourse diagnostic failure, or discussion regression.
-
-Rollback selects the last accepted prerelease, downloads and verifies its
-recorded asset hash, installs that exact verified local file with
-`--save-exact`, verifies the restored lockfile integrity, and repeats the
-build, diagnostic, deployment, and public discussion checks. Restore the prior
-lockfile when it is part of the accepted record. Mark a bad prerelease as
-superseded with a warning; do not replace, delete, or silently rewrite its
-asset. Never run an automatic `npm audit fix` during release or recovery.
-
-### Attribution And Licensing Gate
-
-Run the full package suite against the exact built release candidate. Its
-passing result includes the automated full attribution gate, covering
-root/package MIT parity and holder, package metadata, production dependency
-licenses against the explicit allowlist or reviewed override evidence,
-required npm package contents, README/non-affiliation and rendered links,
-tracked-media provenance, and protected-path scanning. Record the exact suite
-total in the candidate-specific evidence.
-
-The readable docs build runs a narrower gate. You should see:
-
-```text
-Attribution and licensing gate: PASS (docs scope)
-npm package contents: SKIPPED (requires built release candidate)
-```
-
-The synchronized-source and generated-HTML totals mean synchronization,
-rendering, and this bounded docs-scope check passed. Record the exact totals in
-the candidate-specific evidence. This result does not verify the release
-tarball and does not replace the full package gate.
-
-> **Stop if:** either gate fails, the results are conflated, generated
-> attribution output was not regenerated on a fresh checkout, or a
-> protected/private path appears.
-
-Automation cannot decide whether attribution is adequate or whether copied,
-adapted, branded, or sourced material is appropriate. Before release, Manual
-Boss must record `Attribution and Licensing: PASS / FAIL / N/A`, list the paths
-reviewed, and create a sanitized review record tied to the exact release
-commit.
-
-For candidate `b09dbce` atop `7127eb1` and `462b3ae`, Manual Boss recorded
-`Attribution and Licensing: PASS` with no remaining findings or blockers. Read
-the [sanitized exact-candidate review record](https://github.com/DiscussionBridge/astro-discussion-bridge/blob/main/docs/evidence/ATTRIBUTION_LICENSING_REVIEW_B09DBCE_2026-07-23.md).
-This PASS applies only to that exact candidate; it does not pre-approve later
-release changes.
-
-The intended support split is:
-
-- GitHub Issues for confirmed bugs, reproducible failures, docs gaps, and
-  feature work;
-- the [DiscussionBridge Alpha Support category](https://forum.discussionbridge.dev/c/alpha-support/7) for setup questions, field reports, screenshots, and community help;
-- `alphasupport@discussionbridge.dev` as planned email intake, not active until
-  its Discourse route is separately verified;
-- paid help for private implementation and migration work.
-
-The live support category and email route remain release prerequisites until
-verified. Never include keys or credentials in a support report. Follow
-[Support And Feedback](/support-and-feedback/) for the sanitized diagnostic
-fields to include.
-
-## Navigation Strategy For Deep Structured Content
-
-DiscussionBridge should make a complete body of structured content reachable
-without expanding the entire hierarchy on every page. For the proposed OBBBA
-redesign, Bill Structure contains separate content lenses: **OBBBA Text**
-first, **Impact** second, and **Law as Amended** later when suitable.
-
-Choose navigation authority per lane before joining discussion metadata. For
-official-source lanes, the authoritative external source defines scope,
-hierarchy, order, labels, and local routes. Local hierarchy/group nodes may
-exist without a Discourse topic. Never create a synthetic topic merely to make
-navigation valid. When a node claims a forum connection, it must provide the
-complete reviewed topic ID and source URL together; partial bindings fail
-closed.
-
-For forum-authored lanes, categories, tag groups, index topics, and content
-topic tags may still define the lens and hierarchy. Do not assume tag-group
-member order is authored order, publish workflow tags automatically, or apply
-forum-derived structure to an official-source lane.
-
-The recommended reader experience is complete structure with progressive
-presentation: show lenses and Titles globally, then expand the current lens,
-Title, and active Subtitle/Chapter/Subchapter/Part branch. Keep other branches
-collapsed but user-expandable. Use index pages for the complete outline, and
-provide breadcrumbs, authored previous/next, and search.
-
-> **You should see:** the active branch immediately, the full structure through
-> index/browse pages, and predictable routes such as
-> `/obbba-text/title-i/...` for official Text and `/title-i/...-impact/` for
-> preserved Impact pages.
-
-> **Stop if:** hundreds of inactive Title VII links appear on every page or in
-> unnecessary DOM content; the mobile drawer loses the active branch; keyboard
-> or screen-reader navigation fails; workflow tags leak into public
-> navigation; or tag-group response order overrides authored index order.
-
-The current OBBBA Text promotion candidate derives 310 enacted section pages
-and their hierarchy from GovInfo Public Law 119-21. It joins 307 complete
-optional forum bindings only after that official inventory exists. Sections
-1, 20009, and 71119 are valid local official pages without forum topics;
-Section 70310 is absent. The frozen candidate contains 331 unique sitemap
-routes, and every official navigation destination is a sitemap member. Impact
-remains a separate preserved lens with 15 local routes.
-
-> **Still open:** exact deployment authorization and live acceptance for the
-> reviewed Text candidate. Law as Amended remains a separate clean-room lane.
-
-### Law As Amended Authority Boundary
-
-The inherited Law as Amended implementation was abandoned on 2026-07-27.
-Treat it only as inert lessons-learned provenance. Do not repair it, copy its
-schemas or fixtures, or use its parsers, caches, cardinalities, generated
-evidence, or derivative models as the new starting point.
-
-The replacement begins empty. Authoritative external official sources establish
-scope and legal state first. Only after that review may Discourse add:
-
-- an optional section topic title, preserved verbatim;
-- optional tags, category, and authored-index organization;
-- legislative-drafting context; and
-- an optional discussion topic binding.
-
-Forum bodies, OBBBA Text, local derivatives, diagnostics, legacy caches, and
-the historical 309-item forum inventory cannot define legal content, official
-scope, or official cardinality.
-
-The historical count of 309 describes forum identities and discussion bindings
-only. Section 20009 is enacted and mandatory. Phil/Boss has settled that
-Section 70310 does not exist; do not reopen a targeted search. Section 71119
-requires official-source-first binding. If a neutral exhaustive official-source
-inventory produces contradictory controlling evidence, stop as
-`BLOCKED - DOCTRINE/EVIDENCE CONFLICT`.
-
-The clean-room sequence is:
-
-1. discover and preserve authoritative official-source identity and evidence;
-2. parse neutrally and establish reviewed official scope and legal state;
-3. generate accessible Astro presentation from reviewed evidence;
-4. join optional verbatim forum context and discussion only afterward; and
-5. obtain the separately required Product, Code, Manual, and Boss approvals.
-
-> **Stop if:** any legacy asset is treated as presumptively reusable, forum
-> context determines official scope, an official locator is missing or
-> ambiguous, or settled doctrine conflicts with controlling evidence.
-
-This clean room is OBBBA-specific site/adapter evidence. It does not authorize
-publication, Gate 2, reusable Astro-package behavior, or portable Core adoption.
-
-## Official Text, Community Source, And Related Pages
-
-For community-maintained legal or public-record content, show two separate
-source relationships:
-
-- **Content source:** the protected Discourse source topic. A topic may be a
-  wiki, but wiki status is optional metadata rather than the ownership or
-  no-writeback basis.
-- **Official text:** the identified law/document and section, with its official
-  citation or page range.
-
-Do not present the community wiki as the official record, and do not hide the
-community source behind the official citation. For OBBBA, use Congress.gov
-Public Law 119-21: its text page for overview, USLM XML for structured
-matching, official TXT for page-marker/fallback evidence, and PDF for visual
-verification. Use Statutes at Large pages, not PDF viewer page numbers.
-
-Before publishing a comparison:
-
-1. identify the document and structural section;
-2. require one unambiguous official match;
-3. compare without writing to either source;
-4. classify the result as exact, presentation-only, substantive-difference, or
-   unresolved;
-5. route substantive or unresolved results for review.
-
-Presentation-only comparison may ignore Markdown links, wrapping/whitespace,
-typographic punctuation, page furniture, and official side notes. It must not
-normalize away changed words or numbering. The comparator preserves case:
-capitalization-only differences are substantive and require the normal
-review/explicit-override path because legal capitalization may identify defined
-terms or identifiers.
-
-> **Bounded evidence:** OBBBA topic 34/post 40, Section 10101, matched USLM
-> `/us/pl/119/21/tI/stA/s10101`. Both normalized forms had 608 tokens and 3,148
-> characters with zero substantive differences. Cite Public Law 119-21,
-> Section 10101, 139 Stat. 80–81. This proves only that comparison.
-
-Related pages are separate from provenance. Use a stable key such as
-`sectionId` to connect OBBBA Text, Law as Amended, Impact, and Stories.
-Generate reciprocal links during manifest generation and Astro build instead
-of maintaining them in article bodies. A Story may reference multiple section
-IDs, and a section may have multiple Stories.
-
-> **You should see:** linked Content source and Official text disclosures,
-> followed separately by actions such as “Read the enacted text,” “Explore the
-> impact,” and “View 3 community stories.”
-
-> **Stop if:** matching is missing, duplicated, or ambiguous; comparison would
-> rewrite community text; a PDF file-page number is used as the legal citation;
-> provenance is mixed with Related links; or adding a Story requires manually
-> editing every linked page.
-
-Commit `e775af3` implements strict `us-public-law` enrichment, source-tag
-provenance, fail-closed manifest-v2 preflight, accessible reciprocal relations,
-and a many-to-many Stories graph: a section can list many Stories, and a Story
-can reference many sections. No-overwrite imports skip before
-raw-post or official-source reads. A substantive result requires an explicit
-per-entry override.
-
-> **You should see in the reviewed demo:** accessible source/official
-> provenance, reciprocal cross-lens links, and static navigation with no
-> build-time network requirement.
-
-OBBBA topic 34 now renders the Content source, linked source author, official
-Public Law 119-21/Title I/Section 10101 citation, Impact relation, and topic 34
-discussion. Impact 10101 links back to the official-text route and retains topic
-434. No Discourse writes occurred.
-
-> **Still open:** deployment and live acceptance of the exact reviewed
-> official-source OBBBA Text candidate, Law as Amended as a separate clean
-> official-source lane, broader scale/a11y proof, and dependency review.
-
-If public tag-group discovery returns 429, the corrected client reads groups
-sequentially and retries only 429 up to three times. It honors bounded
-`Retry-After` seconds/date or fallback delay and cancels rejected response
-bodies promptly. A 403 is not retryable; correct permissions instead.
-
-The current reviewed OBBBA navigation artifact is
-`astro-discussion-bridge-0.1.0-alpha-official-nav-19f3066a.tgz` (SHA256
-`19f3066a1affc8d835d321aa1fb91af663800d5baa57d7a9e9a811d9b43655a9`).
-Its 310-section official-source candidate is not yet authorized for deployment.
-
-## Verified Documentation Dates
-
-Readable docs display **Last updated** and
-**Applies to: DiscussionBridge Alpha** directly under the page title. The
-footer repeats only Last updated and provides an edit link to the exact
-canonical Markdown source on GitHub.
-
-Last updated records a verified change to that canonical source. It is not the
-date of the latest docs build or deployment.
-
-After editing any canonical file under `docs/`:
-
-```powershell
-cd sites/docs
-npm run refresh-metadata
-npm run build
-```
-
-The refresh updates `docs/DOCS_PAGE_METADATA.json`: unchanged pages keep their
-dates, changed pages receive the refresh date, new pages are initialized, and
-removed pages leave the ledger. The build checks exact source coverage and
-byte-level hashes before syncing content.
-
-> **You should see:** metadata tests 2/2, a successful readable build, the
-> correct title row on desktop/mobile, and an edit link resolving to the page's
-> canonical source.
-
-> **Stop if:** metadata is missing or stale, a source hash differs, membership
-> is not exact, a date is inferred from Git/build/deploy time, or the edit link
-> points to generated content instead of the canonical source.
-
-Metadata verification does not replace Manual Boss semantic and presentation
-review.
-
-## Related Guides
-
-- [Machine Manual](/machine-manual/)
-- [Alpha Setup](/alpha-setup/)
-- [Key Management](/key-management/)
-- [Content Lanes](/content-lanes/)
-- [Comments Display](/comments-display/)
-- [Troubleshooting](/troubleshooting/)
-- [Build/Launch Checklists](/build-launch-checklists/)
+| Forum | Exact HTTPS origin and environment role |
+| Publishing installation | Exact HTTPS origin, platform, and environment |
+| Direction | To Discourse, From Discourse, or both |
+| Source eligibility | Categories, tags, content types, collections, or explicit opt-in |
+| Destination mapping | Real platform-native section, collection, taxonomy, or post type |
+| Visible author policy | Fixed destination author or mapped source author |
+| Presentation | Simple, Full, or Interactive |
+| Native publication | Presentation-only or explicitly authorized materialization |
+| Operator ownership | Forum administrator, platform operator, and recovery owner |
+
+One Content Connection represents one publishing installation. Do not reuse a
+connection secret across sites, environments, or platform modes.
+
+Use `interactive` in new configuration. The historical `fullInteractive` value
+is accepted only as a compatibility input where the exact adapter release says
+so; it normalizes to `interactive` and is not a separate mode.
+
+## 2. Establish Recovery First
+
+Do not treat a successful build, container rebuild, or HTTP 200 as rollback
+evidence. Before installation or upgrade, preserve:
+
+- the exact component tag, commit, artifact, hash, and dependency binding;
+- receiver container configuration plus database/uploads recovery appropriate
+  to the Discourse topology;
+- platform application content, database, configuration, integration records,
+  adapter state, and service/timer units as applicable;
+- the last known-good static artifact and deployment identity for Astro, Hugo,
+  and Statamic SSG;
+- protected credential locations and ownership/modes, but never secret values
+  in the runbook; and
+- a tested restore sequence with an identified recovery owner.
+
+For a static adapter, native source state and deployed public state are separate
+recovery boundaries. Preserve both.
+
+## 3. Install Exact Components
+
+Resolve the intended release through
+[Versions And Live Status](/versions-and-live-status/) and the component's
+own release record. Stop if the tag, commit, artifact, hash, package metadata,
+or supported runtime disagrees.
+
+Install DiscussionBridge for Discourse into the correct Discourse application
+container. A standard single-container installation normally rebuilds `app`; a
+split installation rebuilds only the web/application container identified by
+its own runbook. Never copy a container command across topologies.
+
+Install the selected platform adapter from its exact immutable release. Record
+the installed path, package-manager binding, runtime identity, and service or
+build entry point. A moving branch is not a deployment identity.
+
+After installation, verify ordinary forum and platform behavior while new
+DiscussionBridge capabilities remain disabled.
+
+## 4. Configure Forum Policy
+
+In Discourse administration, configure the receiver's endpoint and product
+settings, default visible author, category/tag policy, optional author mapping,
+and presentation requirements. The service identity that executes an
+authorized operation is distinct from the public content author.
+
+Create one Content Connection for the exact publishing installation. Set its:
+
+- adapter identity and allowed HTTPS origin;
+- permitted direction and lane;
+- source eligibility and destination mappings;
+- author and visibility policy; and
+- enabled state.
+
+The connection secret is shown once. Transfer it directly to the adapter's
+protected server-side store. Never put it in browser JavaScript, platform
+content, a public environment file, a URL, Git, logs, screenshots, or support
+material. Follow [Key Management](/key-management/).
+
+For Full or Interactive discussion, add the exact public publishing origin to
+Discourse's Embeddable Hosts. A verified Content Connection does not create an
+embed-host rule. Keep broad any-origin embedding disabled unless the forum
+operator has deliberately accepted that policy.
+
+## 5. Prepare The Destination
+
+Create the destination's real native structure before a forum-scale
+publication: sections, collections, categories, tags, post types, indexes, and
+navigation. Verify empty routes honestly. Do not invent placeholder
+publications or counts.
+
+Every published detail page needs a durable route back to its section or full
+publication index. Long pages should also provide useful local navigation and
+an end-of-content route onward. Record analytics and crawler policy separately;
+neither setting implies the other.
+
+## 6. Prove One Canary
+
+Use newly created or deliberately selected test content so old state cannot
+hide an identity collision.
+
+For To Discourse:
+
+1. Opt in one native platform item through the supported control.
+2. Run the documented adapter delivery path.
+3. Verify one Bridge Record and one forum topic.
+4. Verify title, content, attribution, author, category, tags, visibility, and
+   canonical source URL.
+5. Retry the same stable identity and prove no duplicate record or topic is
+   created.
+
+For From Discourse:
+
+1. Make one topic eligible through connection policy or an explicit topic
+   decision.
+2. Preview its exact destination mapping.
+3. Run the adapter's bounded materialization path.
+4. Verify the platform-native item, Bridge Record, source attribution, and
+   discussion identity.
+5. Update the source once and verify the same destination identity changes.
+6. Remove eligibility once and verify the documented held, draft, unpublished,
+   or removed public state without destroying durable identity.
+
+Do not proceed to a backfill until the exact canary passes create, unchanged
+retry, update, withdrawal, and recovery checks appropriate to the adapter.
+
+## 7. Run The Initial Backfill
+
+Preview the eligible population and all destination mappings. Record the stable
+high-water or equivalent bounded starting point. Then run the platform's
+documented initial synchronization.
+
+The receiver owns the publication queue. A claim is not success:
+
+- **Queued** is eligible work waiting for a lease.
+- **Claimed**, **Synchronizing**, or **Delivering** is active leased work.
+- **Current** means the exact source, mapping, and publication revisions were
+  acknowledged.
+- **Retrying** means bounded automatic recovery remains.
+- **Held** or **Unpublished** is a successful policy outcome that preserves
+  identity.
+- **Needs attention** or **Failed** requires diagnosis before operator action.
+
+Dynamic adapters acknowledge after the native write succeeds. Static adapters
+must build, deploy, and verify the exact public revision before acknowledging.
+Use the receiver Publishing view and the platform's native state together.
+
+## 8. Operate Steady State
+
+After backfill, adapters consume only changed or withdrawn queue items. Record
+the installed worker/service/timer, cadence, batch limit, lease duration, state
+location, expected empty-cycle output, and alert owner in the site runbook.
+
+Do not press Retry while work is queued, claimed, synchronizing, or delivering.
+Retry only a diagnosed recoverable attention item. Never blindly retry identity
+drift, ownership conflict, destination collision, known over-limit content, or
+an unresolved static transaction.
+
+The current receiver accepts source publication bodies up to 256 KiB. Larger
+content becomes bounded operator attention; it must not be truncated into a
+false-success Bridge Record.
+
+## 9. Recover Static Transactions
+
+For Astro, Hugo, or Statamic SSG, preserve state and deployment evidence before
+recovery. Slow public propagation may require finalizing the existing deployed
+candidate, not claiming another batch.
+
+For Statamic SSG, an in-flight `prepared` or `finalizing` journal can be normal.
+If it persists beyond the expected window, determine whether the candidate was
+publicly deployed. Use the documented finalize path only for a publicly verified
+candidate. Preserve evidence and use the documented abort path only when the
+candidate was not deployed and prior native state must be restored. Never
+delete or hand-edit the journal.
+
+## 10. Verify Presentation And Public Policy
+
+Test every claimed presentation on desktop and mobile. Verify source content,
+headings, tables, code, links, images, Mermaid, actual math fixtures,
+attribution, discussion route, signed-in and signed-out behavior, keyboard
+focus, contrast, and fallback behavior.
+
+Use restrained platform-native branding. Public demos may be indexable;
+sandboxes and preproduction normally require an explicit noindex policy.
+Analytics, when enabled, must not send credentials, forum usernames, email
+addresses, source-author identity, or internal Bridge identifiers.
+
+## 11. Disable, Re-enable, Upgrade, And Remove
+
+Test lifecycle operations against controlled data:
+
+- disable a connection and verify requests fail closed;
+- re-enable it and verify the same durable identities resume;
+- stop the worker or build hook and verify work remains honestly queued;
+- upgrade from one exact immutable component to another;
+- restore the prior component and state using the recorded rollback; and
+- remove presentation wiring without deleting native content or Bridge records.
+
+Disablement is not deletion. Data retention, native-item removal, connection
+removal, and credential revocation are separate operator decisions.
+
+## 12. Operator Service Boundary
+
+Enabling the local DiscussionBridge Operator service capability does not send a
+request. **Request Operator service** is a separate explicit action. A paid or
+delegated entitlement cannot remotely enable the capability.
+
+A bound Operator identity may receive only the enumerated publication health,
+status, policy, retry/sync, resolution, and approved URL-migration permissions
+granted by its current entitlement. It receives no connection, credential,
+global-setting, user, or forum-administration authority. Forum administrators
+retain control, and ordinary publishing does not depend on paid service state.
+
+## 13. Acceptance Record
+
+Record the exact component identities, runtime and deployment identities,
+connection ID, directions, source policy, mappings, native object types,
+worker/timer, batch and lease limits, protected state references, backup and
+rollback result, canary identities, queue census, presentation results,
+analytics/crawler policy, known exclusions, and recovery owner.
+
+For help, use [Support And Feedback](/support-and-feedback/). Never include a
+connection secret or other credential in a support request.

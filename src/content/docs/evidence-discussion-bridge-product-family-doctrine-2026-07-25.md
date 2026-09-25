@@ -1,15 +1,29 @@
 ---
-title: "DiscussionBridge Product Family Doctrine"
-lastUpdated: 2026-07-27
-appliesTo: "DiscussionBridge Alpha"
+title: "Historical Source Evidence: Product Family Doctrine"
+lastUpdated: 2026-09-25
+status: "Historical record — not current operating guidance"
+audience: "Maintainers and product-history readers"
+appliesTo: "Dated DiscussionBridge Alpha development record"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/evidence/DISCUSSION_BRIDGE_PRODUCT_FAMILY_DOCTRINE_2026-07-25.md"
 ---
 
-Date recorded: 2026-07-25  
-Source: Phil through Bridge Boss  
-Status: Settled product and commercial doctrine
+- **Recorded:** July 25, 2026
+- **Source provenance:** Phil through the task then named Bridge Boss
+- **Status:** historical source evidence for product-family direction
 
-The following source statements are preserved intact:
+This page preserves statements that informed the DiscussionBridge product-family
+model. It does not establish that a proposed service, SaaS offering, adapter, or
+support level is currently available. It is not pricing, licensing, release, or
+support authority. Historical task names identify provenance only; they are not
+current owners or routing destinations.
+
+Use [Product Concepts And Terminology](../PRODUCT_NOTES.md) for current naming,
+[Draft Roadmap](../DRAFT_ROADMAP.md) for planned work,
+[Support And Feedback](../SUPPORT_AND_FEEDBACK.md) for available support paths,
+and [Attribution, Ownership, And Licensing](../ATTRIBUTION_OWNERSHIP_LICENSE.md)
+for the current public license summary.
+
+## Preserved Source Statements
 
 > Our model has been the Bridge is free for all, we support where we can,
 > implementation and extensive hand holding is something we charge for. I have
@@ -20,7 +34,7 @@ The following source statements are preserved intact:
 >
 > Do the multi CMS plugin version as stand alone SaaS
 
-Phil then settled the standalone product name:
+Phil then settled the proposed standalone product name:
 
 > yes Discussion Bridge SaaS
 
@@ -28,28 +42,15 @@ Phil settled the umbrella rule:
 
 > Everything stays under the Discussion Bridge tent
 
-## Canonical Interpretation
+## Recorded Interpretation
 
-DiscussionBridge is one product ecosystem:
+At the time, these statements established an intended principle: capable free
+software should not be artificially limited merely to force adoption of a paid
+offering. Managed orchestration, implementation, migration, customization,
+training, operations, and extensive support could be distinct paid value.
 
-- **DiscussionBridge for Discourse** — free, fully featured Discourse plugin
-  and local operational center.
-- **DiscussionBridge for Astro** — free, fully featured Astro adapter.
-- **DiscussionBridge for Statamic** and future publishing-system adapters —
-  members of the same product family, with their release terms decided
-  explicitly rather than assumed.
-- **DiscussionBridge SaaS** — paid, managed, standalone orchestration for
-  multiple CMSs, sites, adapters, and Discourse communities.
-- **DiscussionBridge Services** — paid implementation, migration,
-  customization, training, operations, and extensive support.
-- **DiscussionBridge Community** — public documentation and community
-  support, with the DiscussionBridge team helping as capacity permits.
+That principle did not itself launch those offerings or settle later component
+licenses. Current availability and terms require a current public record.
 
-The free products must be genuinely capable. DiscussionBridge SaaS sells
-managed multi-system orchestration, scale, convenience, governance, and
-operational relief—not freedom from artificial limitations.
-
-All offerings remain under the DiscussionBridge name and share the portable
-DiscussionBridge Core, contracts, policies, terminology, identity model, and
-trust boundaries. Deployment host and service level may differ; the product
-does not fragment.
+The quotations retain their historical `Discussion Bridge` wording. Current
+product styling is `DiscussionBridge`.

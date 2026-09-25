@@ -1,249 +1,192 @@
 # DiscussionBridge Site Runbook: {Site Name}
 
-> **Astro-era template.** Use only after reconciling it with the current
-> [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md) and selected entry in
-> [Platform Profiles](./PLATFORM_PROFILES.md). Remove fields that do not apply
-> and add the platform's native package, state, service and rollback identities.
+Status: `{draft | review | approved | current}`
 
-Status: `{draft | review | approved | current}`  
-Environment: `{development | staging | production}`  
-Release/version: `{package version or release candidate}`  
-Last verified: `{YYYY-MM-DD}`  
+Environment: `{development | sandbox | preproduction | production}`
+
+Platform: `{Astro | Ghost | Hugo | Statamic Flat | Statamic DB | Statamic SSG | WordPress}`
+
+Release/version: `{exact receiver and adapter identities}`
+
+Last verified: `{YYYY-MM-DD}`
+
 Companion: [Machine Runbook](./SITE_RUNBOOK_MACHINE_TEMPLATE.md)
 
-This is the human/operator runbook for `{Site Name}`. It explains what to do,
-what should happen, when to stop, and how to verify or recover. Replace every
-brace-delimited placeholder before approval. Never place passwords, API keys,
-tokens, private account values, or production secrets in this file.
+This is the human operating and recovery runbook for one publishing
+installation. Replace every brace-delimited placeholder. Never place a password,
+connection secret, API key, provider token, private account value, or database
+credential in this file.
 
 ## 1. Purpose And Ownership
 
-`{Explain in plain language what this site publishes, why it connects to
-Discourse, and what a successful connection gives readers and operators.}`
+`{Explain what this installation publishes, which forum governs it, and what a
+successful connection gives readers and operators.}`
 
 | Responsibility | Owner |
 | --- | --- |
-| Product/manual construction | Product Boss |
-| Product implementation and technical verification | Bridge Boss |
-| Code review | Code Boss |
-| Manual quality review | Manual Boss |
-| Site/domain/hosting operations | `{operator or team}` |
-| Editorial approval | `{editor or team}` |
+| Forum administration | `{person or team}` |
+| Platform operation | `{person or team}` |
+| Editorial policy | `{person or team}` |
+| Deployment | `{person or team}` |
+| Recovery | `{person or team}` |
+| Security/credential response | `{person or team}` |
 
-## 2. Site And Discussion Map
+## 2. Installation Map
 
-| Item | Site value |
+| Item | Exact value |
 | --- | --- |
-| Public Astro site | `{https://site.example.com}` |
-| Discourse forum | `{https://forum.example.com}` |
-| Repository | `{repository name or safe URL}` |
-| Deployment target | `{Cloudflare Pages or other target}` |
-| Default comments mode | `{simple | full | interactive | fullInteractive (deprecated)}` |
-| Active discussion target | `{optional target name or none}` |
+| Forum origin | `{https://forum.example.com}` |
+| Publishing origin | `{https://site.example.com}` |
+| Direction | `{To Discourse | From Discourse | both}` |
+| Receiver release | `{tag, commit, artifact/hash}` |
+| Adapter release | `{tag, commit, artifact/hash}` |
+| Content Connection | `{dbc_… nonsecret ID}` |
+| Secret location | `{protected reference, never value}` |
+| Native object | `{post, page, entry, Markdown/MDX, other}` |
+| Presentation | `{simple | full | interactive}` |
+| Deployment | `{dynamic application or static provider/project}` |
 
-### Content lanes
+Use `interactive` for new configuration. Record a legacy `fullInteractive`
+value only when the installed release still supplies that compatibility input.
 
-| Lane | Source directory | Public route | Source mode | Category | Tags |
-| --- | --- | --- | --- | --- | --- |
-| `{docs}` | `{src/content/docs}` | `{/}` | `{astro-managed}` | `{ID/name}` | `{tags}` |
-| `{blog}` | `{src/content/blog}` | `{/blog/}` | `{astro-managed}` | `{ID/name}` | `{tags}` |
+## 3. Source And Destination Policy
 
-> **Stop if:** a lane is missing its public route, source owner, destination
-> category, or managing-page rule. Do not infer these values.
-
-The table above is the required lane map. Add a diagram only when it materially
-clarifies the relationship, and review its labels against the same settled
-routes and destinations.
-
-## 3. Source-Of-Truth Safety
-
-Use one declared source mode for every lane or page:
-
-- `astro-managed`: Astro owns the content and may update the companion topic.
-- `discourse-managed`: Discourse owns the content; Astro must not write back.
-- `discourse-imported`: Astro contains an imported copy; writeback remains off
-  until a human explicitly promotes it.
-
-Every Discourse-managed or imported page must contain:
-
-```yaml
-discussionSync: false
-```
-
-Current Alpha limitation: `import-existing` does not add that guard
-automatically. Add it immediately after import.
-
-> **Stop if:** a Discourse-owned or imported page lacks the guard, or a proposed
-> promotion has not been explicitly approved and recorded.
-
-## 4. Access And Key Safety
-
-The operator needs:
-
-- access to `{repository/project}`;
-- access to the `{deployment provider}` project;
-- access to Discourse category, tag, API-key, and embedding settings;
-- the publishing key through `{private vault reference}`;
-- the diagnostics key through `{private vault reference}`.
-
-Do not copy key values into this runbook, terminal screenshots, tickets, chat,
-or logs. The publishing key is the routine key. The broader diagnostics key is
-for setup checks and controlled troubleshooting only.
-
-Record the selected Discourse key scopes as sanitized text. A screenshot is
-optional; if retained, review it to ensure no key value or private account
-detail is visible.
-
-## 5. Preflight
-
-1. Open the project at `{absolute or operator-relative project path}`.
-2. Confirm the intended branch and release candidate: `{branch/version}`.
-3. Confirm the public site URL, forum URL, lane, route base, category, and tags.
-4. Confirm every non-Astro-managed page has `discussionSync: false`.
-5. Make the required publishing and diagnostics credentials available through
-   the approved private mechanism.
-6. Run the site-specific diagnostics command from the Machine Runbook.
-
-You should see the expected category, tag state, limits, and no unresolved setup
-issues. Warnings marked `unknown` mean the key could not prove the setting.
-
-> **Stop if:** diagnostics reports a setup issue, the category or tags are
-> wrong, reconciliation points to an unexpected topic, or any credential value
-> appears in output.
-
-## 6. Operating Loop
-
-For every lane, use the same sequence:
-
-1. Diagnose.
-2. Preview with `--dry-run --details`.
-3. Review every computed page URL, target, topic ID, category, tag, and reason.
-4. Run the live command without changing unrelated arguments.
-5. Verify Discourse, Astro source, local build, deployed page, and comments.
-6. Record new confirmed behavior, failure, or recovery knowledge.
-
-### Publish new companion topics
-
-Use for `{astro-managed lane(s)}` when pages do not yet have topic IDs.
-
-Run the `publish-new` preview from the Machine Runbook. You should see only the
-intended pages marked for creation. Run the live command only after review.
-
-### Sync existing companion topics
-
-Use for `{astro-managed lane(s)}` with existing topic IDs. Guarded and unlinked
-pages should be skipped. Use `--force` only for an intentional rewrite.
-
-### Publish and sync a mixed lane
-
-Use only when one reviewed run should create missing topics and update linked
-topics. This has a broader write surface than the two narrower commands.
-
-### Import an existing Discourse topic
-
-Preview the import first. After the live import, immediately add
-`discussionSync: false`, review the imported body and frontmatter, then build.
-Do not use `--overwrite` unless replacement is intentional and recoverable.
-
-## 7. Comments Experience
-
-Selected mode: `{simple | full | interactive | fullInteractive (deprecated)}`
-
-`{Explain why this mode fits the site and what readers should experience.}`
-
-Verify:
-
-- comments appear on the correct page;
-- the full-discussion link reaches the linked topic;
-- signed-out behavior is usable;
-- signed-in behavior works where required;
-- desktop and mobile layout are readable;
-- unavailable/forum-offline behavior leaves the article usable.
-
-Record the tested desktop and narrow/mobile widths, public route, and sanitized
-result. For interactive mode, record the sign-in, reply, return-to-page, and
-reply-visible result. Screenshots or video may supplement that record but are
-optional and must preserve private and credential boundaries.
-
-## 8. Deployment And Domain Verification
-
-1. Confirm deployment builds from `{canonical repository and branch}`.
-2. Confirm project root `{root directory}` and build command `{command}`.
-3. Confirm the deployment represents the intended commit.
-4. Confirm `{custom domain}` resolves with valid HTTPS.
-5. Confirm Astro `site`, DiscussionBridge `siteUrl`, CLI `SITE_URL`, and the
-   public hostname agree.
-6. Confirm Discourse allows the exact public hostname as an embed host.
-7. Verify one page from each lane and its companion topic in both directions.
-
-If the public result looks stale, verify the commit and Discourse topic first,
-then bypass or narrowly clear cache before classifying the operation as failed.
-
-## 9. Verification Record
-
-| Check | Expected | Result/evidence |
-| --- | --- | --- |
-| Diagnostics | No unresolved setup issue | `{result or safe link}` |
-| Dry run | Only intended changes | `{result or safe link}` |
-| Live operation | Expected created/updated/skipped counts | `{result}` |
-| Discourse | Correct topic, first post, category, tags, visibility | `{result}` |
-| Astro source | Correct topic metadata and guards | `{result}` |
-| Build | Successful | `{result}` |
-| Deployment | Correct commit and domain | `{result}` |
-| Comments | Selected mode works on desktop/mobile | `{result}` |
-| Secret review | No credential exposure | `{result}` |
-
-## 10. Known Failures And Recovery
-
-Record only site-specific additions here. Use the general Human and Machine
-Manuals for standard failures.
-
-| Symptom | Safe diagnosis | Recovery | Escalation owner |
+| Source category/tag/opt-in | Destination | Author policy | Materialization |
 | --- | --- | --- | --- |
-| `{symptom}` | `{checks}` | `{explicit recovery}` | `{owner}` |
+| `{exact policy}` | `{exact native destination}` | `{fixed or mapped}` | `{presentation-only or native}` |
 
-Never automatically recreate a deleted topic or first post. Decide whether to
-restore, relink, or replace it after confirming intent and ownership.
+> **Stop if:** source ownership, eligibility, destination identity, public URL,
+> or the one authorized writer is unclear.
 
-## 11. Release Sign-Off
+## 4. Recovery Boundary
 
-Release candidate: `{version/commit}`
+Record:
 
-- [ ] Code Boss review result recorded: `{pass | fail}`.
-- [ ] Blocking code-review edits completed and re-reviewed where required.
-- [ ] Bridge Boss technical verification completed.
-- [ ] Manual Boss quality review completed.
-- [ ] Human and Machine Runbooks match this exact release candidate.
-- [ ] Product Boss documentation sign-off recorded.
-- [ ] Product Boss release approval recorded separately.
+- `{receiver container configuration and database/uploads recovery}`;
+- `{platform application, content, database, config, and integration backup}`;
+- `{adapter state, service, timer, and dependency binding}`;
+- `{last known-good static artifact and deployment identity, if applicable}`;
+- `{checksum ledger and protected backup location}`; and
+- `{tested restore sequence}`.
 
-Do not release while any item is incomplete. Product Boss documentation
-sign-off confirms the docs match the release. Product Boss release approval is
-the separate product-level decision that the release is coherent and ready.
+For static sites, native source state and deployed public state are separate.
 
-## 12. Support And Escalation
+## 5. Worker Or Build Contract
 
-| Need | Route |
+| Property | Exact value |
 | --- | --- |
-| Reproducible product defect | `{GitHub Issues URL}` |
-| Setup question or field report | `{Discourse support URL}` |
-| Private implementation help | `{approved private route}` |
-| Code review | Code Boss |
-| Implementation correction | Bridge Boss |
-| Manual quality | Manual Boss |
-| Product/manual construction or release approval | Product Boss |
+| Runtime type | `{dynamic | static}` |
+| Command | `{from exact installed release}` |
+| Service/timer/job | `{identity}` |
+| Cadence | `{schedule}` |
+| Claim limit | `{integer}` |
+| Lease duration | `{duration}` |
+| State location | `{protected nonsecret path}` |
+| Journal location | `{path or not applicable}` |
+| Concurrency control | `{lock or exclusion mechanism}` |
+| Normal empty cycle | `{expected safe result}` |
 
-Support reports may contain versions, public URLs, sanitized commands/output,
-lane names, category IDs, tags, and key type. They must not contain keys,
-credentials, private account data, or production secrets.
+Do not infer these values from another platform or demo.
+
+## 6. Preflight
+
+1. Confirm the exact receiver and adapter releases and installed paths.
+2. Verify backups, hashes, ownership/modes, and restore authority.
+3. Confirm the Content Connection is disabled while configuration is checked.
+4. Verify allowed origin, direction, source policy, and destination mappings.
+5. Verify the adapter can read its protected secret without printing it.
+6. Verify the native destination structure and empty public routes.
+7. Verify the worker/build is stopped or isolated for the canary.
+8. Confirm no unresolved lease, journal, or prior deployment exists.
+
+> **Stop if:** identity differs, a credential appears in output, a destination
+> collision exists, rollback is unavailable, or static transaction state is
+> unresolved.
+
+## 7. Canary
+
+Use one deliberately selected item. Record its source topic/native ID, Bridge
+resource ID, destination ID, and public URL.
+
+- [ ] Create/materialize once.
+- [ ] Repeat unchanged without a duplicate.
+- [ ] Update the source and verify the same destination identity.
+- [ ] Remove eligibility and verify the documented held/draft/unpublished state.
+- [ ] Recover one controlled interruption.
+- [ ] Verify receiver queue and native state agree.
+- [ ] Verify no credential appears in public or retained output.
+
+Do not start a forum-scale backfill until every applicable check passes.
+
+## 8. Initial Backfill
+
+Preview the complete eligible population and destination mappings. Record the
+stable high-water or equivalent start identity. Start only the bounded
+adapter-specific backfill.
+
+Expected states are Queued, active Claimed/Synchronizing/Delivering, Current,
+bounded Retrying, successful Held/Unpublished, and Needs attention/Failed.
+
+Do not use Retry on active work. Diagnose a terminal item before action. Never
+blindly retry identity drift, ownership conflict, collision, over-limit content,
+or unresolved static deployment state.
+
+## 9. Dynamic Operation
+
+For Ghost, Statamic Flat/DB, and WordPress, verify each cycle claims no more than
+the recorded bound, mutates the same native identity, acknowledges only after
+the native write, and leaves a secret-free summary. WordPress must use a real
+scheduler rather than reader traffic for durable WP-Cron work.
+
+## 10. Static Operation
+
+For Astro, Hugo, and Statamic SSG, verify one cycle claims a bounded set, records
+candidate/prior state, writes native source, builds, deploys, verifies public
+revision markers, and only then acknowledges.
+
+For Statamic SSG, preserve any persistent journal before diagnosis. Finalize
+only a publicly verified candidate. Abort only after proving the candidate was
+not deployed. Never delete or edit the journal manually.
+
+## 11. Presentation And Public Policy
+
+- [ ] Source content and linked attribution are correct.
+- [ ] Detail pages link to their section or publication index.
+- [ ] Desktop/mobile layout, keyboard focus, and contrast pass.
+- [ ] Tables, code, images, Mermaid, and a real math fixture pass if claimed.
+- [ ] Signed-in and signed-out discussion behavior passes if claimed.
+- [ ] Analytics sends no credentials, personal data, or internal IDs.
+- [ ] Crawler policy matches the environment and is independent of analytics.
+
+## 12. Failure And Recovery
+
+| Symptom | Preserved evidence | Diagnosis | Authorized recovery | Owner |
+| --- | --- | --- | --- | --- |
+| `{symptom}` | `{logs/state/journal/deployment}` | `{cause}` | `{exact action}` | `{owner}` |
+
+Never delete durable state, create a replacement identity, or clear an error
+merely to make the dashboard look healthy.
+
+## 13. Disable, Upgrade, Roll Back, And Remove
+
+- [ ] Disable and verify requests fail closed.
+- [ ] Re-enable and verify durable identities resume.
+- [ ] Upgrade one exact immutable component at a time.
+- [ ] Roll back using the recorded component and state.
+- [ ] Stop/remove presentation and workers without deleting content or records.
+- [ ] Revoke credentials only after the intended replacement or removal passes.
+
+## 14. Acceptance Record
+
+Record canary identities, final queue census, attention items, public revision,
+component and deployment identities, presentation results, credential review,
+rollback result, exclusions, and next review date.
 
 ## Template Completion Check
 
-- [ ] No brace-delimited placeholder remains unintentionally.
-- [ ] Every command and exact value agrees with the Machine Runbook.
-- [ ] Every stop condition is site-appropriate.
-- [ ] Any optional screenshot/video evidence is reviewed for accessibility,
-      secret safety, and public/private boundaries; text-only guidance remains
-      complete without it.
-- [ ] Public/private boundaries and secret safety have been reviewed.
-- [ ] The rendered runbook is readable on desktop and mobile.
+- [ ] No placeholder remains unintentionally.
+- [ ] No secret value is present.
+- [ ] Human and Machine Runbooks agree.
+- [ ] Dynamic/static workflow matches the selected adapter.
+- [ ] Claim, lease, state, journal, backup, and recovery fields are complete.
+- [ ] Retry prohibitions and escalation owners are explicit.

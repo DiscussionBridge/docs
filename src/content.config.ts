@@ -8,6 +8,8 @@ export const collections = {
     schema: docsSchema({
       extend: z.object({
         appliesTo: z.string().optional(),
+        status: z.string().optional(),
+        audience: z.string().optional(),
       }),
     }),
   }),

@@ -4,15 +4,27 @@ This page describes what is installed for each current Alpha profile. It is a
 product-boundary guide, not a substitute for the exact package README or a
 site-specific rollback runbook.
 
+For the queue, batch, lease, build/deploy, acknowledgement, and recovery
+behavior behind these profiles, see
+[Adapter Operating Models](./ADAPTER_OPERATING_MODELS.md).
+
+The family rule is **MIT unless a component explicitly states otherwise**.
+The five publishing-platform adapter repositories publish MIT licenses;
+DiscussionBridge for Discourse publishes GPL-2.0-or-later. The Adapter
+Protocol is intended to be MIT, but that claim is not release-complete until
+its public repository contains the reviewed `LICENSE` file. Each repository's
+published `LICENSE` file is authoritative. See
+[Attribution, Ownership, And Licensing](./ATTRIBUTION_OWNERSHIP_LICENSE.md).
+
 ## Astro and Astro + Starlight
 
 **Product:** DiscussionBridge for Astro, one package used by plain Astro and
 Astro + Starlight. [Source and installation](https://github.com/DiscussionBridge/astro-discussion-bridge).
 
-The package supports publishing to The Bridge, retrieving authorized From
+The package supports publishing to DiscussionBridge for Discourse, retrieving authorized From
 Discourse records, and Simple, Full, and Interactive presentation. An
 operator may begin with plugin-free comments and later adopt the same canonical
-topic into The Bridge when Discourse Core independently attests that identity.
+topic into DiscussionBridge for Discourse when Discourse Core independently attests that identity.
 
 Install an exact local package artifact with `--save-exact`, preserve the
 package-lock binding, and keep the connection secret in the build/runtime
@@ -20,10 +32,10 @@ secret store. Astro + Starlight needs an explicit content-component placement;
 plain Astro places the component in its own layout. The package must not be
 hard-coded to one demo forum, origin, topic, author, or receiver credential.
 
-The Astro product is useful without The Bridge for plugin-free Simple and Full
+The Astro product is useful without DiscussionBridge for Discourse for plugin-free Simple and Full
 comments. The same package enables Bridge-backed publishing, retrieval,
 Interactive presentation, durable identity, retry, and reconciliation when
-an operator later adds The Bridge.
+an operator later adds DiscussionBridge for Discourse.
 
 ## Ghost
 
@@ -55,8 +67,9 @@ page. It shows the last durable synchronization result, Ghost-to-Discourse
 mappings, Discourse-to-Ghost publications, attention states and bounded failure
 reasons, and offers an exact-origin **Synchronize publications** action. Its
 credential is distinct from the Ghost Admin key, webhook secret and Bridge
-connection secret. The same page can move with the companion service when a
-remote-hosted Ghost adapter profile is introduced in secondary Alpha.
+connection secret. The operator page is part of the companion service rather
+than Ghost Admin. Any future remote-hosted service remains roadmap work and is
+not a current Alpha installation profile.
 
 Ghost 6.59 permits a custom-integration token to read Code Injection but may
 deny writes. In that case the installer reports `manual_required: true` and
@@ -105,15 +118,25 @@ state in the database without overloading Statamic's own tables.
 **Product:** the same DiscussionBridge for Statamic addon, used in a third
 protected authoring/build profile.
 
-The required order is:
+For an initial or legacy standalone static build, preparation still precedes
+generation. For the current unattended publication queue, the complete order
+is:
 
 ```shell
+php please discussionbridge:refresh-platform-catalog
+php please discussionbridge:ssg-prepare-publication-work --limit=8
 php please discussionbridge:ssg-prepare
 php please ssg:generate
+# deploy the exact generated estate
+php please discussionbridge:ssg-finalize-publication-work
 ```
 
-Do not deploy when preparation fails. The generated public site contains no
-PHP runtime, queue worker, connection secret, or protected adapter endpoint.
+Do not deploy when either preparation step fails, and do not finalize until
+the exact public resource and publication-revision markers are visible. If a
+prepared candidate will not be deployed, preserve evidence and run
+`php please discussionbridge:ssg-abort-publication-work`; never delete or edit
+the protected transaction journal by hand. The generated public site contains
+no PHP runtime, queue worker, connection secret, or protected adapter endpoint.
 Simple includes a generated fallback and can refresh public comments in the
 browser; Full and Interactive retain credential-free Discourse surfaces.
 The protected authoring application and the static deployment are separate
@@ -142,7 +165,7 @@ To Discourse delivery runs through WordPress Cron. **Queued** and
 **Delivering** are active states, not failures; refresh after a short wait and
 use **Retry** only when a delivery reports **Attention** or **Failed**.
 
-## The Bridge — Discourse As Publisher
+## Discourse As Publisher
 
 The same downloadable Bridge plugin performs both receiving and publishing
 jobs. There is no separate Publisher plugin.
@@ -179,7 +202,7 @@ work:
 Drupal/Drupal CMS and Next.js are candidate adapters, not current product
 claims. Cross-forum DiscussionBridge Network concepts, comment migration, and
 identity/login capabilities are separate future products or capability lanes;
-they are not hidden switches in The Bridge.
+they are not hidden switches in DiscussionBridge for Discourse.
 
 When proposing one of these profiles, include the platform and version, site
 topology, authoritative content source, desired To/From direction, presentation

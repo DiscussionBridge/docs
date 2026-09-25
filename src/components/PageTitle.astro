@@ -3,12 +3,14 @@ import DefaultPageTitle from "@astrojs/starlight/components/PageTitle.astro";
 
 const { entry, lang, lastUpdated } = Astro.locals.starlightRoute;
 const appliesTo = entry.data.appliesTo;
+const status = entry.data.status;
+const audience = entry.data.audience;
 ---
 
 <DefaultPageTitle />
 
 {
-  (lastUpdated || appliesTo) && (
+  (lastUpdated || status || audience || appliesTo) && (
     <p class="page-metadata" aria-label="Document metadata">
       {lastUpdated && (
         <span>
@@ -21,7 +23,19 @@ const appliesTo = entry.data.appliesTo;
           </time>
         </span>
       )}
-      {lastUpdated && appliesTo && <span class="separator" aria-hidden="true">·</span>}
+      {lastUpdated && (status || audience || appliesTo) && <span class="separator" aria-hidden="true">·</span>}
+      {status && (
+        <span>
+          <strong>Status:</strong> {status}
+        </span>
+      )}
+      {(lastUpdated || status) && audience && <span class="separator" aria-hidden="true">·</span>}
+      {audience && (
+        <span>
+          <strong>Audience:</strong> {audience}
+        </span>
+      )}
+      {(lastUpdated || status || audience) && appliesTo && <span class="separator" aria-hidden="true">·</span>}
       {appliesTo && (
         <span>
           <strong>Applies to:</strong> {appliesTo}

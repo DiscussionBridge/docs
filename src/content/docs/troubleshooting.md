@@ -1,336 +1,258 @@
 ---
 title: "Troubleshooting Guide"
-lastUpdated: 2026-09-16
+lastUpdated: 2026-09-25
+status: "Current Alpha guidance"
+audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/TROUBLESHOOTING.md"
 ---
 
-> This page contains detailed Astro CLI diagnostics from the earlier product
-> phase. Apply them only to the Astro adapter. For initial cross-platform
-> diagnosis, follow the ordered checks below and the current
-> [Alpha Installation and Operator Guide](/alpha-operator-guide/).
-
-## Current Cross-Platform First Checks
-
-1. Record the exact Bridge, adapter and deployed component versions from
-   [Versions And Live Status](/versions-and-live-status/).
-2. Verify The Bridge, the platform page, and the direct topic independently.
-3. Confirm the exact Content Connection is enabled and permits the direction,
-   origin and lane in use.
-4. Confirm the adapter can read its protected secret file without printing it.
-5. Inspect native adapter state/queue output and The Bridge reconciliation.
-6. Retry the same stable identity; never create a replacement merely because a
-   response or local completion record is missing.
-7. Separate content, presentation, session/CORS, and deployment-cache failures.
-8. Preserve logs and rollback evidence before changing configuration.
-
-Report the platform, mode, direction, sanitized error, page URL, direct topic
-URL, versions and timestamps. Never include credentials.
-
-Start with the CLI or build output. It is the source of truth for publish and sync runs. Discourse notifications are useful, but they can fail when credentials, network access, or forum permissions are broken.
+This guide covers the current DiscussionBridge 0.2 receiver and platform
+adapters. Use the exact installed component's README and site runbook for
+commands. Do not use legacy Astro API-only commands from the 0.1 line.
 
 ## First Checks
 
-Run from the Astro project root.
+1. Record the exact DiscussionBridge for Discourse, adapter, runtime, and
+   deployment identities.
+2. Verify the forum, platform application, native item, public page, and direct
+   topic independently.
+3. Confirm the exact Content Connection is enabled and permits the origin,
+   direction, lane, source policy, and destination mapping.
+4. Confirm the adapter can read its protected secret without printing it.
+5. Compare the receiver Publishing row with the adapter's native state or
+   journal.
+6. Preserve logs, state, journals, leases, and deployment identity before
+   changing configuration.
+7. Separate transport, authentication, policy, native write, build, deployment,
+   public verification, presentation, analytics, and cache failures.
 
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url https://forum.example.com \
-  --category-id 5 \
-  --tags discussionbridge,docs
-```
+Report only sanitized versions, timestamps, public URLs, source/resource IDs,
+queue state, and bounded errors. Never include a credential.
 
-Then run the intended publish or sync command with `--dry-run --details`.
+## Read The Queue Correctly
 
-```sh
-npx astro-discussion-bridge publish-and-sync src/content/docs \
-  --dry-run \
-  --details
-```
+| State | Meaning | Operator action |
+| --- | --- | --- |
+| Queued | Eligible work awaits a lease | Wait for the documented worker; check scheduling if it does not advance |
+| Claimed, Synchronizing, or Delivering | A bounded lease is active | Do not press Retry |
+| Current | Exact source, mapping, and publication revisions were acknowledged | Verify presentation only if needed |
+| Retrying | Automatic attempts remain | Observe the bounded retry policy |
+| Held or Unpublished | Current eligibility was applied while identity was retained | Confirm policy; do not recreate |
+| Needs attention or Failed | Automatic recovery is exhausted or unsafe | Diagnose and preserve evidence before action |
+
+The Publishing view and Bridge Records answer different questions. A failure
+before a Bridge Record exists can appear only in Publishing. A healthy record
+does not erase failed publication work.
+
+## Work Remains Queued
 
 Check:
 
-- docs directory
-- route base
-- computed page URL
-- topic ID
-- category ID
-- tags
-- active target
-- dry-run status
-- skip or failure reason
+- the worker/service/timer is enabled and ran at the expected cadence;
+- the platform catalog and destination mapping are current;
+- another worker does not hold a live lease;
+- the receiver is not rate-limiting a competing backfill;
+- WordPress uses a real scheduler for WP-Cron; and
+- a static adapter does not have an unresolved transaction.
 
-## Missing API Credentials
+During a backfill, a large queued count can be normal. Judge progress by
+bounded successful cycles, not by expecting the queue to empty immediately.
 
-Symptom:
+## A Claimed Item Appears Stuck
 
-```text
-Missing required configuration: DISCOURSE_API_KEY or --api-key, plus DISCOURSE_POST_AS or --post-as (legacy API-username controls remain fallback-compatible)
-```
+Record the lease owner and expiry. If the owning process stopped, allow the
+documented lease recovery path to make the same identity eligible again. Do not
+delete queue state or create a replacement publication.
 
-Fix:
+For a static adapter, also inspect its candidate deployment and journal. Slow
+provider propagation may mean finalization should retry against the existing
+candidate and lease.
 
-- set preferred `DISCOURSE_POST_AS` or `--post-as`
-- use `DISCOURSE_API_USERNAME` / `--api-username` only as a compatibility fallback
-- set `DISCOURSE_API_KEY`
-- run from the same shell session where the variables are set
-- use hosting-provider encrypted environment variables for deployed builds
+## Retry Is Unsafe Or Ineffective
 
-PowerShell:
+Manual Retry is appropriate only after the error is known to be transient or
+the underlying cause has been corrected. Do not blindly retry:
 
-```powershell
-$env:DISCOURSE_POST_AS="discussbridge-bot"
-$env:DISCOURSE_API_KEY="paste-publishing-key-here"
-```
+- destination identity drift or ownership conflict;
+- a native slug/path collision;
+- content above the supported 256 KiB source-publication boundary;
+- authentication failure before credential state is verified;
+- a withdrawal whose public item is already absent but retained identity
+  disagrees;
+- a static deployment whose public state is unknown; or
+- a persistent Statamic SSG transaction.
 
-## Title Is Too Short
+Retry must preserve the same topic, Bridge resource, destination, and
+publication identity.
 
-Symptom:
+## Authentication Failed
 
-```text
-Title is too short
-```
+Confirm the connection ID belongs to this installation and the adapter reads
+the intended protected secret store. Check ownership and read permissions
+without printing the value. Confirm the receiver endpoint and connection are
+enabled and that system clocks are reasonable where signed payloads require
+them.
 
-Fix:
+Do not paste a replacement into a command line or log. Follow
+[Key Management](/key-management/). If the exact release does not explicitly
+support overlapping secrets, treat rotation as bounded maintenance rather than
+claiming zero downtime.
 
-- give the Astro page a clearer `title`
-- use an explicit reader-facing title; configurable title templates are Beta
-  scope, not an Alpha recovery mechanism
-- pass a site-appropriate `--title-min-length`
-- use `--dry-run --details` before publishing
+## Origin, Direction, Or Lane Was Rejected
 
-## Title Already Exists
+Compare the actual HTTPS origin, request direction, and lane to the selected
+Content Connection. Correct policy only after confirming the request belongs to
+that installation. Do not broaden origin or lane policy to make an unexplained
+request pass.
 
-Symptom:
+## Platform Catalog Or Mapping Is Stale
 
-```text
-Title has already been used
-```
+The receiver rejects claims made under a stale platform catalog or mapping.
+Refresh the installed adapter's catalog through its documented operation,
+review the resulting native destinations, update mappings deliberately, and
+then retry the same work identity. Do not bypass catalog identity checks.
 
-Fix:
+## Source Content Is Too Large
 
-- check whether the topic already exists
-- confirm the page does not already have `discourseTopicId`
-- confirm the page URL and route base are correct
-- use `check-discourse --page-url` to test whether the existing topic can be resolved
-- link the page to the existing topic when ownership is clear
+Current publication source bodies are bounded at 256 KiB. Larger content must
+be shown as operator attention rather than truncated into a false-success
+record.
 
-## Embed URL Already Taken
+Confirm the source size and whether the content can be responsibly reduced or
+split under editorial control. Do not raise bounds ad hoc, omit content
+silently, or acknowledge a partial native item.
 
-Symptom:
+## Native Destination Collision
 
-```text
-Embed url has already been taken
-```
+Stop if another object owns the intended path, slug, marker, or native ID.
+Determine whether it is the same durable DiscussionBridge publication, a
+legitimate platform-owned object, or an unrelated collision. Use the exact
+migration/adoption workflow only when ownership is proven. Never overwrite or
+delete an unrelated native item to clear the error.
 
-Cause:
+## Source Became Ineligible
 
-Discourse may already have a topic for the Astro page URL, often created by native embedding before the CLI published it.
+Expected withdrawal behavior preserves identity:
 
-Fix:
+- Ghost and WordPress normally move the managed item to draft;
+- dynamic Statamic applies the mapped unpublished state;
+- Hugo acknowledges only after the former public URL is verified absent; and
+- static profiles deploy and verify the withdrawal before acknowledgement.
 
-```sh
-npx astro-discussion-bridge check-discourse \
-  --discourse-url https://forum.example.com \
-  --category-id 5 \
-  --page-url https://docs.example.com/example-page/
-```
+Do not manually delete local state or recreate the item on later eligibility.
 
-If the bridge can reconcile the existing topic, rerun publish/sync with a key that can read the required lookup endpoints. If the key cannot read `/embed/info` or exact URL search, use a broader diagnostics key or manually link the page with `discourseTopicId` after confirming ownership.
+## Astro
 
-## Body Too Long
+Use `discussionbridge-astro publication-status` with the configured protected
+state file to inspect the durable ledger. Re-run the same recorded operation
+after a recoverable build or network failure. Do not delete the state file,
+invent a new external identity, or move a managed URL without the approved URL
+migration and permanent redirect.
 
-Symptom:
+An Astro build is not publication proof. Verify the exact deployed resource and
+revision markers before acknowledging static work.
 
-Discourse rejects the post body, or local preflight reports the body exceeds `maxPostLength`.
+## Ghost
 
-Fix:
+Use the protected Ghost operator page for mappings, totals, attention state,
+and bounded failures. The documented full synchronization action is distinct
+from receiver Retry.
 
-- use `discussionSummary` for long or rich pages
-- increase `--max-post-length` only when the Discourse site allows it
-- keep large tables, long generated content, and highly designed Astro content on the Astro page
-- include a source link back to Astro
+Do not remove internal identity tags, apply the outbound opt-in tag to an
+imported item, or blindly repeat revocation identity drift. If a withdrawn URL
+already returns 404, preserve that evidence and diagnose the retained identity
+before another attempt.
 
-## Tag Problems
+## Hugo
 
-Symptoms:
+Preparation writes native Markdown under a static deployment lease. Local file
+existence or a successful build is not acknowledgement evidence. Verify the
+exact public resource and revision markers. For withdrawal, verify the former
+public URL returns 404.
 
-- too many tags
-- tag too long
-- tag does not exist
-- API user cannot tag topics
-- API user cannot create tags
+If propagation is slow, retry finalization against the existing deployed
+candidate. Do not claim another batch or discard the state file.
 
-Fix:
+## Statamic Flat And DB
 
-- verify Discourse tag settings
-- verify `max_tags_per_topic`
-- verify `max_tag_length`
-- create tags in advance
-- give the bot user permission to tag topics
-- use `check-discourse --tags tag1,tag2`
+Use the addon status and Control Panel utility to compare native entry state
+with receiver work. The steady-state worker must not overlap another run. Use
+the documented one-item retry only after diagnosing a To Discourse failure.
 
-## Wrong Category
+Do not bypass a destination collision, replace stable identity, or use the
+dynamic worker for an SSG installation.
 
-Fix:
+## Statamic SSG
 
-- confirm the category ID in Discourse
-- run `check-discourse --category-id ID`
-- verify lane config and CLI flags
-- verify page frontmatter overrides
-- rerun sync with `--dry-run --details`
+A `prepared` or `finalizing` journal during an active build/deploy cycle is
+normal. A journal that persists beyond the expected window requires diagnosis.
 
-## Duplicate Managed Topic Or Page URL
+1. Preserve the journal, service log, unit/timer identity, native state, and
+   candidate deployment identity.
+2. Determine whether the exact candidate was publicly deployed.
+3. If public markers are correct, use the documented
+   `discussionbridge:ssg-finalize-publication-work` path.
+4. If it was not deployed and must be rolled back, use the documented
+   `discussionbridge:ssg-abort-publication-work` path after evidence capture.
 
-Symptom:
+Never delete or hand-edit the journal, acknowledge unverified output, or claim
+another batch over it.
 
-```text
-Multiple managed pages in this run use the same Discourse topic ID
-```
+## WordPress
 
-or:
+**Queued** and **Delivering** are active states. Do not press **Retry** while
+either is present. Retry only a diagnosed **Attention** or **Failed** item.
 
-```text
-Multiple managed pages in this run use the same page URL
-```
+Confirm a real scheduler invokes WP-Cron at the recorded cadence. A source or
+mapping revision must update the same post; a transport interruption must reuse
+the pending draft.
 
-Cause:
+## Discussion Does Not Load
 
-More than one Astro source page in the same publish/sync run claims ownership of the same Discourse companion topic or source page URL.
+For all modes, verify the direct topic and host page independently.
 
-Fix:
+- **Simple:** confirm the exact topic mapping and public-reply access.
+- **Full:** confirm the canonical page URL and exact Embeddable Host rule.
+- **Interactive:** confirm receiver readiness, full-app embedding, sign-in
+  flow, CSP/frame policy, cookies, and the exact topic mapping.
 
-- choose one Astro page as the managed source
-- make comparison/demo pages display-only
-- add `discussionSync: false` to pages that should render the topic without updating the first post
-- remove duplicate `discourseTopicId` frontmatter from pages that should not render or update the topic
-- split lanes so only the intended source page is included in a management run
-- give each managed page its own Discourse topic when each page needs independent sync
+Do not change a forum-wide SameSite policy from this generic guide. First
+confirm the topology, browser symptom, supported Discourse procedure, security
+impact, prior value, recovery path, and operator approval in the site runbook.
+After any authorized change, verify top-level login, a CSRF-protected write,
+iframe authentication, and an embedded reply. Otherwise retain the direct
+**Open discussion** fallback.
 
-This check runs before Discourse writes, including during `--dry-run`.
+## Public Page Is Stale
 
-## Comments Do Not Refresh
+Compare source revision, native state, build identity, deployment identity, and
+public revision marker before clearing cache. A cache-bypassing request can
+separate deployment from CDN behavior. Clear only the affected cache after the
+underlying publication is proven correct.
 
-For `full` mode:
+## Rich Content Is Broken
 
-- confirm the page has `discourseTopicId`
-- confirm Discourse topic JSON is readable
-- configure `replies.refreshEndpoint` when browser CORS blocks direct reads
-- confirm the same-origin proxy route is deployed
-- refresh the Astro page after a new Discourse reply
+An HTTP 200 is not presentation success. Inspect the DOM and verify headings,
+tables, links, attribution, Mermaid, and an actual math fixture. Literal escaped
+HTML indicates a rendering boundary failure, not a transport success.
 
-For `simple` mode:
+Do not patch generated output. Correct the platform template/materializer and
+republish the same durable identities.
 
-- confirm the Discourse embedding host is allowed
-- remember that Discourse controls the rendered output
-- visible like counts may not appear
+## Analytics Or Crawler Policy Is Wrong
 
-For `interactive` mode (the deprecated `fullInteractive` input is normalized to
-this mode during the compatibility window):
+Treat analytics and indexing separately. Verify each governed hostname sends
+exactly the intended page view without credentials, personal data, source
+authors, forum usernames, or internal IDs. Confirm sandbox noindex policy with
+an actual header or page directive; a root robots disallow is not an indexing
+control.
 
-- confirm `Embed full app` is enabled
-- confirm `Embed full app signin flow` is configured appropriately
-- classify the relationship correctly: subdomains of one registrable domain are
-  cross-origin but same-site; unrelated registrable domains are cross-site
-- for a genuinely cross-site embed, confirm the hidden Discourse setting
-  `SiteSetting.same_site_cookies` is exactly `"None"`
-- test logged-in and logged-out behavior
-- test on a page where comments start below the first viewport
+## Receiver Or Platform Is Offline
 
-If top-level sign-in succeeds but the embed remains at **Waiting for sign-in**,
-do not repeat the login loop. That symptom is consistent with a cross-site
-iframe that cannot receive the forum session cookie. The hidden setting may not
-appear in Admin search. On a self-hosted two-container installation, enter the
-production Rails console through the actual web container (`web_only` in the
-proven OBBBA installation), record the prior value, and make the controlled
-change there. `./launcher enter app` is the standalone-container command and is
-wrong for that layout. After the change, clear/reissue forum cookies and verify
-top-level login, an ordinary CSRF-protected write, iframe authentication, and an
-embedded reply.
+Workers should fail closed and preserve retryable state. Static adapters must
+not acknowledge from local output. Reader-facing pages should retain usable
+content and a known direct discussion link where possible.
 
-## Discourse Refused to Connect
-
-Fix:
-
-- inspect the connection's **Embed host ready** or **Embeddable Host missing**
-  label in The Bridge; a verified Content Connection does not add an
-  Embeddable Host automatically
-- add the exact public HTTPS publishing origin to Discourse's **Embeddable
-  Hosts** and check any path restriction against the actual page URL
-- confirm the page's hostname matches that rule, whether the platform is
-  Astro, Ghost, Hugo, Statamic, or WordPress
-- confirm `Embed full app` settings if using `interactive`
-- confirm HTTPS and certificate status
-- check browser console for frame or CSP errors
-
-## Discourse Offline
-
-Publish/sync commands should fail clearly. Do not treat a successful Astro build as proof that Discourse publishing succeeded.
-
-For pages:
-
-- `simple` and `interactive` should leave the Astro page shell intact
-- `full` should show a temporary unavailable state when it cannot fetch replies
-- the full discussion link should remain available when the topic URL is known
-
-## Deleted Topic
-
-If a linked Discourse topic is deleted, do not automatically recreate it. The bridge cannot safely know whether deletion was intentional.
-
-Fix:
-
-- confirm whether the topic was deleted intentionally
-- decide whether to restore, relink, or create a replacement
-- use an explicit repair workflow when available
-- avoid guessing when ownership cannot be proven
-
-## Deleted First Post
-
-If the first post is missing, sync should fail clearly. The first post is the managed companion content.
-
-Fix:
-
-- confirm the topic state in Discourse
-- restore the first post if appropriate
-- decide whether relinking or re-importing is safer
-- avoid silently creating replacement content in an active discussion
-
-## Active Target Mismatch
-
-Symptom:
-
-A page is skipped because it has `discussionTarget` but the command used a different target or no target.
-
-Fix:
-
-```sh
-npx astro-discussion-bridge sync-existing src/content/docs --target community
-```
-
-Use target labels to avoid syncing one page to the wrong Discourse instance or community lane.
-
-## Stale Cloudflare or CDN Cache
-
-If Discourse or Astro appears stale after a confirmed sync or deploy:
-
-- trust the CLI/build output first
-- verify the Discourse edit history or topic JSON
-- verify the deployed Astro commit
-- test with a cache-bypassing request
-- clear the relevant Cloudflare cache when necessary
-
-Do not classify the sync as failed until cache has been ruled out.
-
-## Failure Notifications
-
-Use `--notify-on-failure` to send a best-effort Discourse private message to configured recipients.
-
-```sh
-npx astro-discussion-bridge publish-and-sync src/content/docs \
-  --notify-on-failure \
-  --notify-recipients FORUM_USERNAME
-```
-
-Replace `FORUM_USERNAME` with the exact username of the Discourse account that
-should receive the private message. Notifications use Discourse PM behavior.
-They are helpful, but the CLI/build log remains authoritative.
+After recovery, resume the same stable identities and reconcile queue/native
+state before declaring the incident closed.
