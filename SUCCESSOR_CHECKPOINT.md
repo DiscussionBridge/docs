@@ -318,3 +318,13 @@ Final local verification passed:
 Nothing was committed, pushed, or deployed. No product source, running OBBBA
 backfill, credentials, provider settings, or live environment was changed by
 this documentation repair.
+
+### Publication follow-up
+
+Phil authorized the reviewed documentation source push. Commit `f1e5c9b`
+(`docs-full-review`) was pushed from `main` to `origin/main` on 2026-09-24.
+That commit contains the complete 68-file documentation candidate described
+above. No manual Cloudflare deployment was performed, and the OBBBA backfill,
+product repositories, credentials, and provider configuration remained
+untouched. The Adapter Protocol public-license dependency remains a separate
+coherent Alpha.21 publication gate.
