@@ -328,3 +328,21 @@ above. No manual Cloudflare deployment was performed, and the OBBBA backfill,
 product repositories, credentials, and provider configuration remained
 untouched. The Adapter Protocol public-license dependency remains a separate
 coherent Alpha.21 publication gate.
+
+### Production deployment follow-up
+
+Phil clarified that the reviewed documentation was to be pushed **and
+deployed**. The exact pushed `main` candidate (`18fbd64`, containing
+`f1e5c9b`) was rebuilt successfully and deployed through the repository's
+authoritative Wrangler workflow on 2026-09-24. Cloudflare accepted 122 static
+assets, uploaded 66 new or modified assets, retained 23 existing assets, and
+activated Worker version `ab33f810-302d-4579-a950-bf6f5df04a49` for the
+`docs.discussionbridge.dev` custom domain.
+
+Cache-bypassed public checks returned HTTP 200 for the overview and licensing
+page. They confirmed the new Discourse-centered overview and Choose Your Path
+material, removal of the stale “The Bridge” flagship wording, WebSynergetics
+ownership language, the MIT-default family rule, the
+DiscussionBridge-for-Discourse GPL-2.0-or-later exception, and the explicit
+Adapter Protocol publication caveat. No OBBBA backfill, product code,
+connection scope, DNS, or provider configuration was changed.
