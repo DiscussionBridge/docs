@@ -476,3 +476,22 @@ no bindings.
 `git diff --check` reports no content error (only the repository's expected
 Windows line-ending notices). The correction remains local, uncommitted,
 unpushed, and undeployed on `codex/docs-direction-migration-guides`.
+
+## 2026-09-26 — Broader docs candidate published
+
+Phil authorized the broader documentation deployment. The exact candidate was
+committed as `20dddf91dbbabee3a843b390378c28c06e3b1405` on
+`codex/docs-direction-migration-guides` and pushed to the matching origin
+branch. Before publication, `npm run build` passed both metadata tests, the
+36-page canonical-content synchronization, attribution and protected-path
+checks, 37 generated routes, Pagefind, and sitemap generation. Wrangler 4.123.0
+then passed its dry run over 141 assets with no bindings.
+
+After renewing Wrangler's expired local OAuth session through Cloudflare's
+normal browser authorization flow, `npm run deploy` uploaded 64 new or changed
+assets to the existing `docs-discussionbridge-dev` Worker and custom domain.
+The deployed Cloudflare Worker version is
+`dcba29dc-3aa2-498d-8859-d75a1762718d`. The live homepage, Change Platforms
+guide, Astro guide, and Statamic guide each returned HTTP 200. The deployed
+Statamic guide visibly contains the corrected plugin requirement, Flat/DB and
+SSG operating boundaries, and the large-import proof limitation.
