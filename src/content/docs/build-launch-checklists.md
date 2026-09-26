@@ -107,10 +107,13 @@ defined in [Adapter Operating Models](/adapter-operating-models/).
 - [ ] Verify disabled and wrong-origin requests fail closed.
 - [ ] Record the nonsecret connection ID and recovery owner.
 
-## 8. Destination Readiness Gate
+## 8. Native Destination Readiness Gate
+
+Applies when DiscussionBridge will create or update platform-native content.
+Record `not applicable` for comments-only presentation.
 
 - [ ] Create real platform-native sections, collections, taxonomies, post types,
-      indexes, and routes before backfill.
+      indexes, and routes before an applicable initial population.
 - [ ] Verify empty routes without inventing publications or counts.
 - [ ] Confirm every detail page has a durable route to its section or complete
       publication index.
@@ -128,7 +131,8 @@ defined in [Adapter Operating Models](/adapter-operating-models/).
 - [ ] Verify receiver queue, Bridge Record, native state, and public page agree.
 - [ ] Verify rollback can restore the pre-canary boundary.
 
-Do not start a forum-scale backfill until the canary passes.
+Do not start an applicable initial population until the canary passes. If none
+applies, use the canary to admit steady-state operation.
 
 ## 10. Dynamic Adapter Gate
 
@@ -167,11 +171,15 @@ For Statamic SSG:
 - [ ] Abort only an undeployed candidate after preserving evidence.
 - [ ] Never hand-edit/delete the journal or run the Flat/DB worker on SSG.
 
-## 12. Backfill And Steady-State Gate
+## 12. Initial-Population And Steady-State Gate
 
-- [ ] Preview the complete eligible population and destination mappings.
+- [ ] Record whether initial population is applicable and why; `not applicable`
+      is valid for comments-only presentation and new-item delivery.
+- [ ] Record whether the exact adapter and direction are qualified at the
+      intended scale. Do not infer bulk To Discourse proof from one canary.
+- [ ] If applicable, preview the complete eligible population and destination mappings.
 - [ ] Record the stable high-water or equivalent starting identity.
-- [ ] Verify changes during backfill are caught without duplication.
+- [ ] If applicable, verify changes during initial population are caught without duplication.
 - [ ] Monitor queued, active, current, retrying, held/unpublished, and attention
       counts.
 - [ ] Confirm bounded cycles respect receiver rate limits and static cadence.

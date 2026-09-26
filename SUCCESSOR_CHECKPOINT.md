@@ -346,3 +346,133 @@ ownership language, the MIT-default family rule, the
 DiscussionBridge-for-Discourse GPL-2.0-or-later exception, and the explicit
 Adapter Protocol publication caveat. No OBBBA backfill, product code,
 connection scope, DNS, or provider configuration was changed.
+
+## 2026-09-24 — Direction-aware setup and migration docs candidate
+
+Phil identified that the public Human Manual incorrectly presented initial
+backfill as a universal installation step. The local candidate on branch
+`codex/docs-direction-migration-guides` replaces that model with an explicit
+initial-population applicability decision: plugin-free presentation and
+new-item To Discourse delivery do not require it; an existing forum corpus may
+use an optional From Discourse initial population; and a historical
+platform-to-Discourse corpus requires an adapter- and scale-qualified import
+path that the current Alpha has not yet proven generically.
+
+The candidate adds current install-and-operate guides for Astro, Ghost, Hugo,
+Statamic, and WordPress plus **Change Platforms, Keep The Discussion**. The
+Astro guide begins with a conspicuous matrix showing that Simple and Full need
+neither DiscussionBridge for Discourse nor a Content Connection. The migration
+guide distinguishes To Discourse connection migration from From Discourse
+publication cutover, records what receiver tests and OBBBA do and do not prove,
+and specifies the live one-item cutover and large platform-import qualification
+still owed. Operator manuals, machine records, runbook templates, launch gates,
+profiles, operating models, demos, presentation guidance, architecture, and
+Known Issues now use the same boundary.
+
+The new pages are canonical sources, synchronized generated pages, and a
+visible **Platform Guides** Starlight navigation group. Adapter commands were
+checked against each component repository. Final local verification passed:
+
+- `npm run refresh-metadata` synchronized 36 canonical pages;
+- `npm run build` rendered 37 routes and passed metadata, attribution,
+  protected-path, Pagefind, and sitemap gates;
+- `node --test` passed all 8 tests;
+- `npm run deploy:dry-run` read 122 assets successfully; and
+- `git diff --check` passed with only expected Windows line-ending notices.
+
+This candidate is intentionally uncommitted, unpushed, and undeployed while the
+live OBBBA backfill remains in progress. It changes no product source, live
+forum, queue, credentials, DNS, provider settings, or running demo.
+
+Phil subsequently clarified the migration model: migration is the publishing
+platform replacement, not merely one receiver operation. The guide now covers
+Discourse → WordPress becoming Discourse → Astro, WordPress → Discourse
+becoming Statamic → Discourse, and a coordinated WordPress ↔ Discourse to
+Statamic ↔ Discourse replacement. Each Bridge Record remains directional; the
+bidirectional migration moves both directional record sets under one cutover,
+acceptance record, retirement decision, and rollback boundary. Demo and Known
+Issues language now requires that combined proof. The refreshed 36-page source,
+37-route build, all 8 tests, and attribution/protected-path gates pass. The
+candidate remains local and undeployed.
+
+## 2026-09-24 — Migration and Discourse Network claims corrected
+
+The working docs candidate now distinguishes three separate evidence tracks:
+
+1. seven adapter-specific 1,000-page native-platform-to-Discourse scale tests;
+2. a complete publishing-platform replacement workflow, which remains an
+   unbuilt product boundary despite existing record-level prepared connection
+   migration primitives; and
+3. a planned DiscussionBridge Network for multiple Discourse sites, which is
+   neither implemented nor Alpha-qualified.
+
+Change Platforms, Keep The Discussion now opens with an explicit Alpha warning
+that the full bulk migration/cutover/redirect/retirement/rollback workflow is
+not a supported tool. It also separates the future Discourse Network from CMS
+migration. Draft Roadmap and Demo Guide now require one hub plus at least two
+independent spokes to prove one-to-many fanout and separately authorized
+spoke-to-hub publication, with explicit directional records and loop
+prevention. They do not imply synchronized replies, flags, whispers,
+moderation, users, private content, or trust state.
+
+The detailed non-public qualification plan is
+`C:\CodeProjects\Products\DiscussionBridge\planning\DISCOURSE_NETWORK_SCALE_QUALIFICATION.md`.
+It uses 1,000 hub-owned topics fanned out to two spokes plus independent
+1,000-topic cohorts from each spoke back to the hub: 3,000 source topics and
+4,000 directional destination presentations after canaries.
+
+After the controlled metadata refresh, the complete docs build passes both
+metadata tests, content synchronization, attribution/protected-path checks,
+37 generated pages, Pagefind, sitemap, Wrangler dry run over 141 assets with no
+bindings, and `git diff --check`. These changes remain local on branch
+`codex/docs-direction-migration-guides`; they are not committed, pushed, or
+deployed by this clarification.
+
+### Existing-live-forum Network categories
+
+Phil selected existing live forums for the later DiscussionBridge Network
+qualification: `forum.discussionbridge.dev` as hub, with
+`forum.citizenactivist.network` and `forum.repealobbba.org` as spokes. The
+qualification plan now requires one dedicated, clearly labeled Network
+category on each forum. Connections and credentials are category-only;
+unrelated community content remains out of scope, and category configuration
+must contain synthetic scale content away from normal community discovery,
+notifications, and activity surfaces while retaining acceptance visibility.
+
+The public migration guide, Demo Guide, and Draft Roadmap now use the same
+existing-forum/category model. The controlled metadata refresh and full docs
+verification pass: two metadata tests, content synchronization,
+attribution/protected-path gate, 37-page build, Pagefind, sitemap, Wrangler dry
+run over 141 assets with no bindings, and `git diff --check`. No live forum,
+category, connection, credential, or deployment was changed.
+
+## 2026-09-26 — Plugin requirement and service-identity correction
+
+Phil clarified the supported product boundary: Astro Simple and Full are the
+only current platform integrations that work without DiscussionBridge for
+Discourse. The undeployed docs candidate had correctly described the Astro
+exception but had incorrectly generalized plugin-free Simple/Full behavior to
+Ghost, Hugo, Statamic, and WordPress.
+
+The canonical operator guide, four affected platform guides, Platform Profiles,
+Presentation Modes, Core Adapter Architecture, and Machine Manual now state
+one consistent rule. Ghost, Hugo, Statamic, and WordPress require the unified
+receiver plugin and an enabled Content Connection for every supported
+DiscussionBridge presentation or publishing path. Reader-facing output may be
+credential-free without making the installation plugin-free. Presentation by
+itself still does not make an initial population necessary.
+
+The operator guide also distinguishes the current architecture from the legacy
+bot model. The receiver uses the constrained `discussionbridge` service account
+because Discourse writes require an authenticated user identity; that operating
+identity is separate from visible topic authorship. New connections must not be
+built around the historical `discussbridge-bot` user.
+
+`npm run refresh-metadata` synchronized all 36 canonical pages, and `npm run
+build` passed both metadata tests, content synchronization, the attribution and
+protected-path boundary, 37 generated routes, Pagefind, and sitemap generation.
+The complete Node suite passed 8/8, and Wrangler's dry run read 141 assets with
+no bindings.
+`git diff --check` reports no content error (only the repository's expected
+Windows line-ending notices). The correction remains local, uncommitted,
+unpushed, and undeployed on `codex/docs-direction-migration-guides`.

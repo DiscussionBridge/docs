@@ -33,8 +33,8 @@ not current 0.2 configuration.
 
 For **From Discourse** content, the forum's category/tag rules and the
 connection's destination mapping decide which native platform destination is
-eligible. Initial backfill and later queue processing are adapter operations,
-not Astro frontmatter lanes. See
+eligible. Optional From Discourse initial population and later queue processing
+are adapter operations, not Astro frontmatter lanes. See
 [Adapter Operating Models](/adapter-operating-models/).
 
 ## Configure One Astro Lane
@@ -140,7 +140,8 @@ retain the source resource/topic/revision identity, and use Interactive for the
 same topic's replies. They are not converted into writable To Discourse pages
 by changing one boolean.
 
-After the initial backfill, use the protected two-phase queue commands:
+After an optional existing-forum initial population—or immediately after the
+canary when none applies—use the protected two-phase queue commands:
 
 ```shell
 discussionbridge-astro prepare-publication-work \

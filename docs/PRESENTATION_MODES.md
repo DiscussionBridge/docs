@@ -4,10 +4,24 @@ DiscussionBridge separates content direction from comments presentation. A
 page may originate on a platform or in Discourse, while its discussion can be
 shown in any mode supported by that adapter.
 
+> **Astro Simple and Full do not require DiscussionBridge for Discourse or a
+> Content Connection.** Installing the Astro package does not obligate an
+> operator to install the Discourse plugin. Interactive and either governed
+> publishing direction do require the plugin and connection. See the
+> [Astro install and operate guide](./ASTRO_INSTALL_OPERATE.md).
+>
+> Astro is the only current supported platform with that plugin-free
+> integration. Ghost, Hugo, Statamic, and WordPress require the receiver plugin
+> and an enabled Content Connection for every DiscussionBridge presentation or
+> publishing path.
+
 ## Simple
 
 Simple renders comments as native host-platform markup. It is lightweight,
 accessible, and contains no Discourse application shell or receiver secret.
+The current plugin-free implementation is Astro-specific. On another platform,
+reader-facing output may be credential-free while the adapter installation
+remains receiver-backed.
 
 The first bounded batch is shown immediately. **Show more comments** reveals
 additional bounded batches up to the adapter's hard ceiling, then the reader
@@ -32,15 +46,16 @@ not automatically disable the other.
 
 ## Full
 
-Full uses Discourse Core's standard plugin-free comments embed. Discourse owns
-the rendered comments, truncation and **Show more…** behavior. The Core setting
-`embed_truncate` defaults to enabled; operators should document whether they
-retain that default or show all supported embedded comments.
+Full uses Discourse Core's standard comments embed. On Astro this is a
+supported plugin-free integration. Discourse owns the rendered comments,
+truncation and **Show more…** behavior. The Core setting `embed_truncate`
+defaults to enabled; operators should document whether they retain that default
+or show all supported embedded comments.
 
-Full does not require a Bridge Record or receiver credential. It resolves from
-the exact canonical page URL, so allowed embed hosts and canonical identity
-must be correct. It is an important product path for operators who want
-Discourse comments without installing DiscussionBridge for Discourse.
+Astro Full does not require a Bridge Record or receiver credential. It resolves
+from the exact canonical page URL, so allowed embed hosts and canonical
+identity must be correct. Ghost, Hugo, Statamic, and WordPress do not expose
+this as a standalone plugin-free DiscussionBridge integration.
 
 Full should still present the independent DiscussionBridge credit when the
 adapter's credit option is enabled. It may also present the forum's ordinary

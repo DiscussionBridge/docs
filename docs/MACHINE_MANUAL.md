@@ -191,7 +191,7 @@ the candidate was not deployed. Never delete or hand-edit a journal, acknowledge
 local output alone, schedule the Flat/DB worker on SSG, or claim over an
 unresolved transaction.
 
-## 7. Canary And Backfill Record
+## 7. Canary And Initial-Population Record
 
 ```yaml
 canary:
@@ -204,7 +204,11 @@ canary:
   withdrawal: "pass | fail"
   recovery: "pass | fail"
 
-backfill:
+initial_population:
+  applicability: "required | optional | not-applicable"
+  direction: "from-discourse | to-discourse | not-applicable"
+  proof_status: "qualified-for-this-adapter-and-scale | unqualified | not-applicable"
+  decision_reason: "exact reason"
   previewed_population: 0
   high_water_or_start_identity: "exact value"
   started_at: "ISO-8601"
@@ -216,7 +220,11 @@ backfill:
   needs_attention: 0
 ```
 
-Reject a forum-scale backfill until the canary passes and rollback is available.
+If initial population applies, reject it until the canary passes, rollback is
+available, and the exact adapter path is qualified for the intended direction
+and scale. `not-applicable` is a valid result for Astro's plugin-free
+presentation and for new-item steady-state delivery. Do not infer a large To
+Discourse import from a one-item publication canary.
 
 ## 8. Retry And Recovery Rules
 

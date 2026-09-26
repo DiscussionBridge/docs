@@ -137,14 +137,28 @@ For From Discourse:
 6. Remove eligibility once and verify the documented held, draft, unpublished,
    or removed public state without destroying durable identity.
 
-Do not proceed to a backfill until the exact canary passes create, unchanged
-retry, update, withdrawal, and recovery checks appropriate to the adapter.
+Do not proceed to any applicable initial population until the exact canary
+passes create, unchanged retry, update, withdrawal, and recovery checks
+appropriate to the adapter. When no initial population applies, the same
+canary gates steady-state operation.
 
-## 7. Run The Initial Backfill
+## 7. Decide Whether Initial Population Applies
 
-Preview the eligible population and all destination mappings. Record the stable
-high-water or equivalent bounded starting point. Then run the platform's
-documented initial synchronization.
+Initial population is not a universal installation step:
+
+| Intended job | Initial population decision |
+| --- | --- |
+| Add Simple or Full comments to an existing page/topic | Not applicable; there is no receiver publication queue |
+| Send newly published platform items To Discourse | Not required; prove one canary, then process authoritative publish events |
+| Materialize an existing eligible forum corpus From Discourse | Optional; preview the corpus and run the adapter's documented bounded initial synchronization |
+| Import an existing platform corpus To Discourse | Use only an explicit adapter import path that has been qualified for that platform and scale; the current Alpha has not yet proven this generically |
+| Replace one publishing platform while retaining discussion | Follow [Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md); a backfill alone is not a migration |
+
+When an optional From Discourse initial population applies, preview the
+eligible population and every destination mapping. Record the stable high-water
+or equivalent bounded starting point, then run only the platform's documented
+initial synchronization. A one-item To Discourse delivery path is not evidence
+for a large historical platform import.
 
 The receiver owns the publication queue. A claim is not success:
 
@@ -163,8 +177,9 @@ Use the receiver Publishing view and the platform's native state together.
 
 ## 8. Operate Steady State
 
-After backfill, adapters consume only changed or withdrawn queue items. Record
-the installed worker/service/timer, cadence, batch limit, lease duration, state
+After an optional initial population—or immediately after the canary when none
+applies—adapters consume only new, changed, or withdrawn work. Record the
+installed worker/service/timer, cadence, batch limit, lease duration, state
 location, expected empty-cycle output, and alert owner in the site runbook.
 
 Do not press Retry while work is queued, claimed, synchronizing, or delivering.

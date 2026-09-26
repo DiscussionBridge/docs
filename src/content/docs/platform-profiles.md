@@ -1,6 +1,6 @@
 ---
 title: "Platform Profiles"
-lastUpdated: 2026-09-25
+lastUpdated: 2026-09-26
 status: "Current Alpha guidance"
 audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
@@ -14,6 +14,12 @@ site-specific rollback runbook.
 For the queue, batch, lease, build/deploy, acknowledgement, and recovery
 behavior behind these profiles, see
 [Adapter Operating Models](/adapter-operating-models/).
+
+For step-by-step installation and operation, use the dedicated guide for
+[Astro](/astro-install-operate/), [Ghost](/ghost-install-operate/),
+[Hugo](/hugo-install-operate/),
+[Statamic](/statamic-install-operate/), or
+[WordPress](/wordpress-install-operate/).
 
 The family rule is **MIT unless a component explicitly states otherwise**.
 The five publishing-platform adapter repositories publish MIT licenses;
@@ -58,6 +64,10 @@ The theme uses an explicit `[data-discussionbridge-comments-host]` or
 resource placeholder; it must not borrow Ghost Members' `.gh-comments`
 container.
 
+Ghost's DiscussionBridge integration is receiver-backed. It requires
+DiscussionBridge for Discourse and an enabled Content Connection; it does not
+provide Astro's plugin-free Simple or Full path.
+
 When DiscussionBridge owns the article discussion surface, set Ghost Admin
 **Settings → Membership → Who can comment on posts?** to **Nobody**. Ghost's
 native Members comments are a separate identity and reply system; leaving them
@@ -95,11 +105,12 @@ and writes nonsecret data atomically for the final static build. A durable
 state file preserves stable identity, attempt, result, and abandoned-build
 recovery. The secret exists only in the protected build environment.
 
-Simple pages contain a sanitized static fallback and refresh public comments
-in the browser. Full and Interactive use credential-free Discourse
-presentation. Native From Discourse materialization requires explicit authority
-and writes an ordinary Hugo content record without placing a receiver secret
-in source or output.
+Hugo's supported presentation and publication paths are receiver-backed and
+require DiscussionBridge for Discourse plus an enabled Content Connection.
+Reader-facing output may remain credential-free, but that does not make the
+installation plugin-free. Native From Discourse materialization requires
+explicit authority and writes an ordinary Hugo content record without placing
+a receiver secret in source or output.
 
 ## Statamic Flat and Statamic DB
 
@@ -113,6 +124,10 @@ three comments modes, To Discourse, and authorized From Discourse native
 materialization. A root-owned timer should invoke the worker under the owning
 Statamic application user; content saves enqueue locally and do not make an
 unbounded forum request.
+
+All three Statamic profiles require DiscussionBridge for Discourse and an
+enabled Content Connection. They do not provide Astro's plugin-free Simple or
+Full path.
 
 Flat and DB use the same addon bytes but separate origins, connection IDs,
 secrets, application users, databases, content identities, workers, and
@@ -144,8 +159,9 @@ prepared candidate will not be deployed, preserve evidence and run
 `php please discussionbridge:ssg-abort-publication-work`; never delete or edit
 the protected transaction journal by hand. The generated public site contains
 no PHP runtime, queue worker, connection secret, or protected adapter endpoint.
-Simple includes a generated fallback and can refresh public comments in the
-browser; Full and Interactive retain credential-free Discourse surfaces.
+Generated presentation may contain no receiver credential, but every supported
+Statamic SSG integration remains bound to the receiver plugin and its Content
+Connection.
 The protected authoring application and the static deployment are separate
 recovery and evidence boundaries.
 
@@ -159,6 +175,10 @@ status/retry controls, a dynamic From Discourse block and compatibility
 shortcode, native materialization, source-author reporting, and all three
 comments modes. It publishes only explicitly eligible content and must not run
 network delivery from ordinary public page rendering.
+
+Every supported WordPress integration requires DiscussionBridge for Discourse
+and an enabled Content Connection. WordPress does not provide Astro's
+plugin-free Simple or Full path.
 
 Prefer a protected server constant or secret file outside the webroot. Where
 server-file access is unavailable, WordPress administrators may paste the

@@ -27,16 +27,24 @@ control plane:
 6. DiscussionBridge for Discourse marks the work current, retries a bounded
    recoverable failure, or exposes a terminal attention item for an operator.
 
-The initial backfill and steady-state synchronization are deliberately
-different. A backfill discovers and materializes an existing eligible corpus.
-After it completes, adapters consume only changed or withdrawn topics from the
-durable queue; they do not repeatedly crawl the complete forum.
+When an operator deliberately materializes an existing eligible forum corpus,
+the optional initial population and steady-state synchronization are
+deliberately different. Initial population discovers that corpus. After it
+completes, adapters consume only changed or withdrawn topics from the durable
+queue; they do not repeatedly crawl the complete forum. Sites using
+presentation only, or sending only new platform publications To Discourse, do
+not require this forum-corpus step.
 
 For **To Discourse** publication, the source platform owns the publication
 lifecycle. An explicitly opted-in native item sends a bounded content snapshot
 and stable external identity to DiscussionBridge for Discourse. The receiver
 creates or resolves one forum topic and returns the same durable resource/topic
 tuple on exact retries.
+
+That per-publication lifecycle is not a qualified large historical import.
+The current Alpha has not yet proven a generic large platform-to-Discourse
+backfill; each adapter needs a separate bounded corpus qualification before
+making that claim.
 
 ## Why Work Is Bounded
 

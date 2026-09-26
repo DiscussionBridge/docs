@@ -21,8 +21,12 @@ code, not an immutable deployment identity.
 ## Choose Your Path
 
 - **Installing or operating the product family:** start with the
-  [Alpha Installation and Operator Guide](/alpha-operator-guide/), then choose
-  a [Platform Profile](/platform-profiles/).
+  [Alpha Installation and Operator Guide](/alpha-operator-guide/), then use
+  the install-and-operate guide for
+  [Astro](/astro-install-operate/), [Ghost](/ghost-install-operate/),
+  [Hugo](/hugo-install-operate/),
+  [Statamic](/statamic-install-operate/), or
+  [WordPress](/wordpress-install-operate/).
 - **Understanding what an adapter creates and how it recovers:** read
   [Adapter Operating Models](/adapter-operating-models/).
 - **Choosing the reader experience:** compare
@@ -36,6 +40,8 @@ code, not an immutable deployment identity.
 - **Running a repeatable installation:** use the platform-neutral
   [Human Operator Manual](/human-manual/),
   [Machine Operator Manual](/machine-manual/), and runbook templates.
+- **Moving to another publishing platform without losing the discussion:** use
+  [Change Platforms, Keep The Discussion](/change-platforms-keep-discussion/).
 - **Working specifically with Astro or Starlight:** use the Astro deep-reference
   placement, comments, content-lane, and authoring guides. Those pages are not
   the generic setup path for Ghost, Hugo, Statamic, WordPress, or
@@ -83,6 +89,15 @@ standards.
 - [Troubleshooting](/troubleshooting/)
 - [Known Issues](/known-issues/)
 - [Support and Feedback](/support-and-feedback/)
+
+### Platform Guides
+
+- [Install and Operate DiscussionBridge for Astro](/astro-install-operate/)
+- [Install and Operate DiscussionBridge for Ghost](/ghost-install-operate/)
+- [Install and Operate DiscussionBridge for Hugo](/hugo-install-operate/)
+- [Install and Operate DiscussionBridge for Statamic](/statamic-install-operate/)
+- [Install and Operate DiscussionBridge for WordPress](/wordpress-install-operate/)
+- [Change Platforms, Keep The Discussion](/change-platforms-keep-discussion/)
 
 ### Astro Deep Reference
 

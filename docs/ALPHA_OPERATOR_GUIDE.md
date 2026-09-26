@@ -10,6 +10,18 @@ Discourse** is the unified receiver plugin. A platform adapter or addon
 connects one publishing installation to that receiver; it does not become a
 second control plane. **The Bridge** is reserved for the dedicated public demo.
 
+Astro Simple and Full are the sole current plugin-free Discourse integration
+paths in the supported platform family. Ghost, Hugo, Statamic, and WordPress
+installations require DiscussionBridge for Discourse and an enabled Content
+Connection for their DiscussionBridge integration.
+
+The receiver performs authorized Discourse writes through the dedicated
+`discussionbridge` service account because Discourse requires an authenticated
+user identity. That constrained operating identity is not the former
+bot-driven architecture and is deliberately separate from the visible topic
+author. Do not configure new connections around the legacy
+`discussbridge-bot` user.
+
 ## 1. Choose The Systems And Job
 
 Record the exact Discourse forum and publishing installation before installing
@@ -173,10 +185,15 @@ Configure the installed component with:
 - the platform's durable state location;
 - the intended content types, collections, tags, or opt-in fields.
 
-See [Platform Profiles](./PLATFORM_PROFILES.md) for each platform's native
-installation and execution boundary. See
+See the platform-specific install and operate guide for
+[Astro](./ASTRO_INSTALL_OPERATE.md), [Ghost](./GHOST_INSTALL_OPERATE.md),
+[Hugo](./HUGO_INSTALL_OPERATE.md),
+[Statamic](./STATAMIC_INSTALL_OPERATE.md), or
+[WordPress](./WORDPRESS_INSTALL_OPERATE.md). Use
+[Platform Profiles](./PLATFORM_PROFILES.md) for a comparison of native
+boundaries. See
 [Adapter Operating Models](./ADAPTER_OPERATING_MODELS.md) for each adapter's
-native object, initial-backfill and steady-state behavior, claim limit, lease,
+native object, optional initial-population and steady-state behavior, claim limit, lease,
 acknowledgement, and recovery boundary.
 
 For WordPress installations without server-file access, paste the one-time
@@ -191,13 +208,18 @@ override when available.
 > settings page after a short wait. Do not select **Retry** while either status
 > is shown. Retry only after the delivery reports **Attention** or **Failed**.
 
-### Establish destination structure before forum-scale publication
+### Establish destination structure when native publication is enabled
 
-Install the destination's native navigation and content structure before the
-first preview or backfill. Create the intended section routes, collections,
+For From Discourse native materialization, install the destination's native
+navigation and content structure before the first preview or initial
+population. Create the intended section routes, collections,
 categories, tags, or indexes and verify that every public route works while it
 is still empty. This gives operators stable URLs and understandable navigation
 before synchronized content arrives.
+
+This step does not apply merely because an Astro site uses its plugin-free
+Simple or Full comments path, and it does not require an initial population
+when only new platform items will flow To Discourse.
 
 The initial state must be truthful:
 
@@ -205,16 +227,16 @@ The initial state must be truthful:
 - navigation may link to an empty native route, but must not invent entries,
   counts, authors, or synchronization status;
 - do not copy forum posts manually merely to make a destination look populated;
-- do not replace the forum-scale preview and backfill with topic-by-topic
+- do not replace an applicable forum-scale preview and initial population with topic-by-topic
   authorization.
 
 After the structure is verified, configure the connection's category and tag
-selection plus its destination mappings. The preview shows which eligible
-forum topics will populate each native destination. The resumable backfill then
-creates those entries, and later synchronization updates the same durable
-identities without duplicates.
+selection plus its destination mappings. When an existing forum corpus is in
+scope, the preview shows which eligible topics will populate each native
+destination. The optional resumable initial population creates those entries;
+later synchronization updates the same durable identities without duplicates.
 
-Before starting the full backfill, publish one representative topic as a
+Before starting an applicable initial population, publish one representative topic as a
 canary. Verify its native identity, public URL, content, authorship, source
 credit, discussion link, update-in-place behavior, and rollback path. Then use
 the adapter-specific bounded batch and unattended worker described in
@@ -223,7 +245,7 @@ successful one-topic canary into an unbounded loop.
 
 An empty but working native section is readiness evidence, not a failed
 publication. Record its route and rollback boundary before starting the
-backfill. Platform-specific empty states differ: a WordPress category can exist
+initial population. Platform-specific empty states differ: a WordPress category can exist
 without posts, while a Ghost integration may need an explicit route until its
 first tagged publication exists. Use the native mechanism documented in
 [Platform Profiles](./PLATFORM_PROFILES.md); do not fabricate placeholder
@@ -246,6 +268,10 @@ For **To Discourse**:
 7. verify ordinary edits do not claim synchronization the adapter does not
    implement.
 
+This proves the new-publication path for one stable item. It does not prove a
+large historical platform-to-Discourse import. The current Alpha has not yet
+qualified that bulk path across the platform adapters.
+
 For **From Discourse**:
 
 1. make the topic eligible through the connection's category/tag policy or an
@@ -253,10 +279,11 @@ For **From Discourse**:
 2. open the topic wrench menu and choose **DiscussionBridge Status**;
 3. review each connection independently and choose its default, include, or
    exclude state plus the exact mapped destination;
-4. preview the eligible population and destination mappings before starting a
-   forum-scale backfill;
+4. if an existing forum corpus is in scope, preview the eligible population
+   and destination mappings before starting the optional initial population;
 5. choose presentation-only or explicitly authorize native materialization;
-6. run the bounded adapter retrieval/materialization or backfill path;
+6. run the bounded adapter retrieval/materialization path, including initial
+   population only when the decision in step 4 applies;
 7. confirm the Publishing queue moves through Queued/Delivering to Current and
    that no terminal attention condition is hidden by record-health filters;
 8. verify the source first post appears once, source attribution is clear, and
@@ -275,6 +302,13 @@ messages.
 The current native From Discourse source-body boundary is 256 KiB. Content
 above the admitted adapter limit must become a truthful operator-attention item;
 it must not be silently truncated into a misleading publication.
+
+Changing publishing platforms while keeping the same topic, replies, and
+moderation history is a separate migration operation. See
+[Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md)
+for what is implemented, what the OBBBA exercise proves, and the live cutover
+proof still required—including a coordinated bidirectional replacement when a
+connection performs both jobs.
 
 ## 8. Verify Presentation
 

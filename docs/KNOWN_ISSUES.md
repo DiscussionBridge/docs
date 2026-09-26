@@ -11,6 +11,38 @@ cause.
 
 ## Current Product Issues
 
+### Large Platform-To-Discourse Import Is Not Yet Qualified
+
+- **Last verified:** September 24, 2026
+- **Affected state:** an operator wants to import a large existing Astro,
+  Ghost, Hugo, Statamic, or WordPress corpus into Discourse
+- **Operator impact:** one-item To Discourse publication canaries and the OBBBA
+  Discourse-to-platform backfill do not establish bulk-import throughput,
+  recovery, reconciliation, or duplicate safety in the opposite direction
+
+**Workaround:** operate the proven new-publication path only. Treat a historical
+import as unqualified until the exact adapter passes a bounded corpus test with
+preview counts, rate controls, idempotency, interruption/resume, mapping,
+attention handling, reconciliation, and rollback evidence. See
+[Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md).
+
+### Live Cross-Platform Cutover Demonstration Is Still Owed
+
+- **Last verified:** September 24, 2026
+- **Affected state:** an operator wants to replace publishing platform A with
+  platform B while retaining the same Discourse topic and history
+- **Operator impact:** receiver migration request coverage and multi-destination
+  OBBBA publication are implementation evidence, but they do not yet prove the
+  complete To Discourse source transfer, From Discourse destination cutover,
+  bidirectional coordination, redirects, retirement, and rollback story
+
+**Workaround:** do not infer a completed migration from a backfill. Preserve
+every Bridge resource and topic, use prepared connection migration for To
+Discourse records, cut over From Discourse destinations deliberately, and
+independently verify redirects and public behavior in both directions. Follow
+the bounded public proof plan in
+[Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md).
+
 ### Oversized Source Content Requires Operator Attention
 
 - **Last verified:** September 24, 2026

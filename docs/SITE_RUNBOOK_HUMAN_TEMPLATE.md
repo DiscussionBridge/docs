@@ -116,13 +116,22 @@ resource ID, destination ID, and public URL.
 - [ ] Verify receiver queue and native state agree.
 - [ ] Verify no credential appears in public or retained output.
 
-Do not start a forum-scale backfill until every applicable check passes.
+Do not start an applicable initial population until every applicable check
+passes. When initial population is not applicable, the canary gates steady
+state directly.
 
-## 8. Initial Backfill
+## 8. Optional Initial Population
 
-Preview the complete eligible population and destination mappings. Record the
-stable high-water or equivalent start identity. Start only the bounded
-adapter-specific backfill.
+Record the decision first:
+
+- **Applicable direction:** `{From Discourse | qualified To Discourse import | not applicable}`
+- **Reason:** `{existing corpus to materialize | qualified import | new items only | presentation only}`
+- **Scale proof:** `{exact evidence | not yet qualified | not applicable}`
+
+If applicable, preview the complete eligible population and destination
+mappings. Record the stable high-water or equivalent start identity. Start
+only the bounded adapter-specific operation. A one-item To Discourse canary is
+not proof of a large historical import.
 
 Expected states are Queued, active Claimed/Synchronizing/Delivering, Current,
 bounded Retrying, successful Held/Unpublished, and Needs attention/Failed.
@@ -133,14 +142,16 @@ or unresolved static deployment state.
 
 ## 9. Dynamic Operation
 
-For Ghost, Statamic Flat/DB, and WordPress, verify each cycle claims no more than
+When receiver publication work is enabled for Ghost, Statamic Flat/DB, or
+WordPress, verify each cycle claims no more than
 the recorded bound, mutates the same native identity, acknowledges only after
 the native write, and leaves a secret-free summary. WordPress must use a real
 scheduler rather than reader traffic for durable WP-Cron work.
 
 ## 10. Static Operation
 
-For Astro, Hugo, and Statamic SSG, verify one cycle claims a bounded set, records
+When receiver publication work is enabled for Astro, Hugo, or Statamic SSG,
+verify one cycle claims a bounded set, records
 candidate/prior state, writes native source, builds, deploys, verifies public
 revision markers, and only then acknowledges.
 

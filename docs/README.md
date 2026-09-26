@@ -14,8 +14,12 @@ code, not an immutable deployment identity.
 ## Choose Your Path
 
 - **Installing or operating the product family:** start with the
-  [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md), then choose
-  a [Platform Profile](./PLATFORM_PROFILES.md).
+  [Alpha Installation and Operator Guide](./ALPHA_OPERATOR_GUIDE.md), then use
+  the install-and-operate guide for
+  [Astro](./ASTRO_INSTALL_OPERATE.md), [Ghost](./GHOST_INSTALL_OPERATE.md),
+  [Hugo](./HUGO_INSTALL_OPERATE.md),
+  [Statamic](./STATAMIC_INSTALL_OPERATE.md), or
+  [WordPress](./WORDPRESS_INSTALL_OPERATE.md).
 - **Understanding what an adapter creates and how it recovers:** read
   [Adapter Operating Models](./ADAPTER_OPERATING_MODELS.md).
 - **Choosing the reader experience:** compare
@@ -29,6 +33,8 @@ code, not an immutable deployment identity.
 - **Running a repeatable installation:** use the platform-neutral
   [Human Operator Manual](./HUMAN_MANUAL.md),
   [Machine Operator Manual](./MACHINE_MANUAL.md), and runbook templates.
+- **Moving to another publishing platform without losing the discussion:** use
+  [Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md).
 - **Working specifically with Astro or Starlight:** use the Astro deep-reference
   placement, comments, content-lane, and authoring guides. Those pages are not
   the generic setup path for Ghost, Hugo, Statamic, WordPress, or
@@ -76,6 +82,15 @@ standards.
 - [Troubleshooting](./TROUBLESHOOTING.md)
 - [Known Issues](./KNOWN_ISSUES.md)
 - [Support and Feedback](./SUPPORT_AND_FEEDBACK.md)
+
+### Platform Guides
+
+- [Install and Operate DiscussionBridge for Astro](./ASTRO_INSTALL_OPERATE.md)
+- [Install and Operate DiscussionBridge for Ghost](./GHOST_INSTALL_OPERATE.md)
+- [Install and Operate DiscussionBridge for Hugo](./HUGO_INSTALL_OPERATE.md)
+- [Install and Operate DiscussionBridge for Statamic](./STATAMIC_INSTALL_OPERATE.md)
+- [Install and Operate DiscussionBridge for WordPress](./WORDPRESS_INSTALL_OPERATE.md)
+- [Change Platforms, Keep The Discussion](./CHANGE_PLATFORMS_KEEP_DISCUSSION.md)
 
 ### Astro Deep Reference
 

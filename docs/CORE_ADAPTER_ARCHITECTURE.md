@@ -119,9 +119,11 @@ One topic may be published through several independent platform connections.
 Each connection retains its own credentials, binding, platform state, retry
 history, and native destination. Reply streams are not merged.
 
-Initial backfill and steady-state work are separate. A backfill discovers the
-eligible corpus. Later workers claim only changed or withdrawn topics from the
-durable receiver queue. Dynamic adapters acknowledge after a successful native
+For From Discourse native materialization, optional initial population and
+steady-state work are separate. Initial population discovers an existing
+eligible forum corpus. Later workers claim only changed or withdrawn topics
+from the durable receiver queue. Presentation-only use and new-item To
+Discourse delivery do not require that step. Dynamic adapters acknowledge after a successful native
 write. Static adapters acknowledge only after build, deployment, and exact
 public-marker verification. See
 [Adapter Operating Models](./ADAPTER_OPERATING_MODELS.md).
@@ -131,7 +133,8 @@ public-marker verification. See
 Content direction and comments presentation are independent:
 
 - **Simple** is a bounded native-platform rendering of public replies.
-- **Full** is Discourse Core's plugin-free standard comments embed.
+- **Full** uses Discourse Core's standard comments embed; only the current
+  Astro product exposes it as a supported plugin-free integration.
 - **Interactive** is the plugin-attested comments-only full application frame.
 
 Interactive does not move authentication, moderation, composer, reply, edit,

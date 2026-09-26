@@ -163,12 +163,17 @@ canary:
   receiver_native_agreement: "{pass | fail}"
 ```
 
-Reject backfill when any applicable canary result fails.
+Reject an applicable initial population when any canary result fails. When no
+initial population applies, use the canary to gate steady-state operation.
 
-## 9. Backfill And Steady State
+## 9. Initial Population And Steady State
 
 ```yaml
-backfill:
+initial_population:
+  applicability: "{required | optional | not-applicable}"
+  direction: "{from-discourse | to-discourse | not-applicable}"
+  proof_status: "{qualified-for-this-adapter-and-scale | unqualified | not-applicable}"
+  decision_reason: "{exact reason}"
   preview_population: {integer}
   start_identity: "{high-water or equivalent}"
   started_at: "{ISO-8601}"

@@ -64,6 +64,17 @@ export default defineConfig({
           ],
         },
         {
+          label: "Platform Guides",
+          items: [
+            { label: "Astro", slug: "astro-install-operate" },
+            { label: "Ghost", slug: "ghost-install-operate" },
+            { label: "Hugo", slug: "hugo-install-operate" },
+            { label: "Statamic", slug: "statamic-install-operate" },
+            { label: "WordPress", slug: "wordpress-install-operate" },
+            { label: "Change Platforms, Keep Discussion", slug: "change-platforms-keep-discussion" },
+          ],
+        },
+        {
           label: "Operate",
           items: [
             { label: "Human Operator Manual", slug: "human-manual" },

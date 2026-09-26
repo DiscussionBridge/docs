@@ -75,10 +75,21 @@ Discourse-to-Discourse identity.
 ### DiscussionBridge Network
 
 A future Discourse-to-Discourse product could support organizations with many
-brands, chapters, or communities. Read-only presentation or controlled
-promotion should precede writable relay. Writable relay remains later work
-because it must define identity mapping, moderation authority, edits, deletion,
-flags, whispers, private content, rate limits, conflicts, and recovery.
+brands, chapters, or communities. Its minimum proof requires one hub and at
+least two independent Discourse spokes. The planned qualification uses one
+dedicated Network category on each existing live participating forum: 1,000
+hub-owned topics fan out to both spokes, and separate 1,000-topic cohorts from
+each spoke publish back to the hub. Every direction remains an explicit record
+set with category-only scope, independent credentials, acknowledgements, audit,
+and loop prevention.
+
+This network capability is planned, not implemented or Alpha-qualified.
+Publishing governed first-post content in both directions must not be described
+as reply, moderation, user, private-content, or trust-state synchronization.
+Read-only presentation or controlled promotion should precede writable relay.
+Writable relay remains later work because it must define identity mapping,
+moderation authority, edits, deletion, flags, whispers, private content, rate
+limits, conflicts, and recovery.
 
 ## Exploring
 

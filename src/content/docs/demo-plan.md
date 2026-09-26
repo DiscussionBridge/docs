@@ -45,6 +45,23 @@ The OBBBA demonstrations are a real-world Alpha exercise and may be processing
 an active backfill. They demonstrate platform behavior; they are not templates
 for a forum's politics, editorial policy, or visual identity.
 
+They also do not yet demonstrate a complete publishing-platform replacement.
+The planned **Change Platforms, Keep The Discussion** proof will migrate one
+representative record in each direction between two bidirectional platform
+connections. It will preserve both Bridge resources, topics, replies, and
+moderation histories; cut over the From Discourse destination; transfer the To
+Discourse source binding; verify old URL redirects and new canonical routes;
+deny the retired connection; and exercise coordinated rollback. The acceptance
+plan and current evidence boundary are in
+[Change Platforms, Keep The Discussion](/change-platforms-keep-discussion/).
+
+The demos likewise do not yet prove a DiscussionBridge Network. The planned
+qualification uses dedicated categories on three existing live forums—one hub
+and two spokes—to demonstrate one-to-many fanout, explicit spoke-to-hub
+publication, independent directional records, category-only scope, and loop
+prevention. It is a separate planned capability, not an eighth CMS scale-test
+site and not evidence of synchronized replies or moderation across forums.
+
 ## Publication Directions
 
 DiscussionBridge keeps the direction explicit:
@@ -75,6 +92,10 @@ that was verified. It does not by itself prove:
 - every platform version is compatible;
 - upgrade, rollback, or provider recovery is complete; or
 - product-family Alpha acceptance.
+
+A demo estate populated From Discourse is not evidence that a large existing
+platform corpus can be imported To Discourse. That direction still requires an
+adapter-specific scale qualification.
 
 Use the dated status record rather than inferring those claims from appearance
 alone.
