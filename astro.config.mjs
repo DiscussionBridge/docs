@@ -13,6 +13,18 @@ export default defineConfig({
         PageTitle: "./src/components/PageTitle.astro",
         SocialIcons: "./src/components/SocialIcons.astro",
       },
+      head: [
+        { tag: "meta", attrs: { property: "og:image", content: "https://docs.discussionbridge.dev/media/discussionbridge-open-graph.png" } },
+        { tag: "meta", attrs: { property: "og:image:width", content: "1731" } },
+        { tag: "meta", attrs: { property: "og:image:height", content: "909" } },
+        { tag: "meta", attrs: { property: "og:image:type", content: "image/png" } },
+        { tag: "meta", attrs: { property: "og:image:alt", content: "DiscussionBridge — Open discussion infrastructure for the web." } },
+        { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
+        { tag: "meta", attrs: { name: "twitter:image", content: "https://docs.discussionbridge.dev/media/discussionbridge-open-graph.png" } },
+        { tag: "meta", attrs: { name: "twitter:image:alt", content: "DiscussionBridge — Open discussion infrastructure for the web." } },
+        { tag: "script", attrs: { async: true, src: "https://www.googletagmanager.com/gtag/js?id=G-K9SYR7QENF" } },
+        { tag: "script", content: "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-K9SYR7QENF');" },
+      ],
       social: [
         {
           icon: "discourse",
