@@ -1,3 +1,5 @@
+import { starlightAnalytics } from '@codeworkslabs/astro-analytics/starlight';
+import { analyticsOptions } from './analytics.config.mjs';
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
@@ -5,6 +7,7 @@ export default defineConfig({
   site: "https://docs.discussionbridge.dev",
   integrations: [
     starlight({
+      plugins: [starlightAnalytics(analyticsOptions)],
       title: "DiscussionBridge Docs",
       disable404Route: true,
       lastUpdated: true,
@@ -22,8 +25,6 @@ export default defineConfig({
         { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
         { tag: "meta", attrs: { name: "twitter:image", content: "https://docs.discussionbridge.dev/media/discussionbridge-open-graph.png" } },
         { tag: "meta", attrs: { name: "twitter:image:alt", content: "DiscussionBridge — Open discussion infrastructure for the web." } },
-        { tag: "script", attrs: { async: true, src: "https://www.googletagmanager.com/gtag/js?id=G-K9SYR7QENF" } },
-        { tag: "script", content: "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-K9SYR7QENF');" },
       ],
       social: [
         {
