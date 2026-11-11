@@ -1,27 +1,49 @@
 # Versions And Live Status
 
-- **Last reviewed:** September 24, 2026
 - **Release channel:** Alpha
-- **Adapter compatibility line:** `0.2`
+- **Current source line:** V4
+- **Source tags verified:** November 11, 2026
 
-This page separates four facts that are easy to confuse:
+## V4 Alpha source tags
 
-1. a public source branch can move;
-2. a tagged release is immutable;
-3. an installed demo can intentionally run a different exact version; and
-4. a successful installation is not the same as complete product-family
-   acceptance.
+These GitHub tags identify the exact source revisions that passed CI. Each
+component has its own tag. Use its README for package and setup instructions.
+Check GitHub Releases for separately published downloads.
 
-Use the exact tag and artifact recorded for the component you install. Do not
-use an unversioned `main` checkout as a production identity.
+| Component | V4 Alpha source tag | CI |
+| --- | --- | --- |
+| [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge) | [`v0.4.0-alpha.1.receiver.2`](https://github.com/DiscussionBridge/discourse-discussion-bridge/tree/v0.4.0-alpha.1.receiver.2) | [Passed](https://github.com/DiscussionBridge/discourse-discussion-bridge/actions/runs/43107197348) |
+| [Ghost connector](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost) | [`v0.4.0-alpha.1.ghost.3`](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/tree/v0.4.0-alpha.1.ghost.3) | [Passed](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/actions/runs/43107194478) |
+| [Ghost adapter](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.4.0-alpha.1.ghost-adapter.1`](https://github.com/DiscussionBridge/ghost-discussion-bridge/tree/v0.4.0-alpha.1.ghost-adapter.1) | [Passed](https://github.com/DiscussionBridge/ghost-discussion-bridge/actions/runs/43107196322) |
+| [WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.4.0-alpha.1.wp.3`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/tree/v0.4.0-alpha.1.wp.3) | [Passed](https://github.com/DiscussionBridge/wordpress-discussion-bridge/actions/runs/43107195692) |
+| [Astro and Starlight](https://github.com/DiscussionBridge/astro-discussion-bridge) | [`v0.4.0-alpha.1.astro.3`](https://github.com/DiscussionBridge/astro-discussion-bridge/tree/v0.4.0-alpha.1.astro.3) | [Passed](https://github.com/DiscussionBridge/astro-discussion-bridge/actions/runs/43107201438) |
+| [Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.4.0-alpha.1.hugo.4`](https://github.com/DiscussionBridge/hugo-discussion-bridge/tree/v0.4.0-alpha.1.hugo.4) | [Passed](https://github.com/DiscussionBridge/hugo-discussion-bridge/actions/runs/43107195213) |
+| [Statamic Flat, DB, and SSG](https://github.com/DiscussionBridge/statamic-discussion-bridge) | [`v0.4.0-alpha.1.statamic.4`](https://github.com/DiscussionBridge/statamic-discussion-bridge/tree/v0.4.0-alpha.1.statamic.4) | [Passed](https://github.com/DiscussionBridge/statamic-discussion-bridge/actions/runs/43107195149) |
 
-## Current Validated Component Line
+The [V4 R7 Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/tree/09d77c0209835c2d996aad294d161f167c7bd838)
+defines the shared wire contract and its 36 Content Connection routes.
 
-The table records the latest exact component candidates validated for the
-current OBBBA rollout. It is not a promise that every older sandbox or classic
-demo has already been upgraded to the same tag.
+## Sandbox and public demos
 
-| Component | Validated tag | Availability | Current role |
+The [sandbox chooser](https://sandbox.discussionbridge.dev/) leads to
+installation and configuration test environments. V4 R7 sandbox checks
+covered publication and edits in both directions on Astro, Astro with
+Starlight, Ghost via the Ghost connector, Hugo, WordPress, and Statamic Flat,
+DB, and SSG. The source table includes later commits that passed CI. Confirm
+the exact installed package or source commit when recording a sandbox result.
+
+The [public demo chooser](https://demo.discussionbridge.dev/) links the hosted
+examples. [The Bridge](https://bridge.demo.discussionbridge.dev/) is the
+Discourse demonstration. Each site has its own deployment and installed
+version. The September 2026 record below gives the versions observed at that
+time.
+
+## September 2026 Alpha releases and OBBBA rollout
+
+The following release list and OBBBA installation snapshot describe the 0.2
+Alpha line as recorded on September 24, 2026.
+
+| Component | Release at the time | Availability at the time | Role |
 | --- | --- | --- | --- |
 | [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge) | [`v0.2.0-alpha.50`](https://github.com/DiscussionBridge/discourse-discussion-bridge/releases/tag/v0.2.0-alpha.50) | Published release | Receiver, Content Connections, Bridge Records, publication policy, operator UI, and cross-platform work queue |
 | [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge) | [`v0.2.0-alpha.34`](https://github.com/DiscussionBridge/astro-discussion-bridge/releases/tag/v0.2.0-alpha.34) | Published release | Astro and Starlight publishing, retrieval, and comments presentation |
@@ -29,21 +51,11 @@ demo has already been upgraded to the same tag.
 | [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.2.0-alpha.32`](https://github.com/DiscussionBridge/hugo-discussion-bridge/releases/tag/v0.2.0-alpha.32) | Published release | Hugo content materialization and two-phase static deployment |
 | [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge) | [`v0.2.0-alpha.46`](https://github.com/DiscussionBridge/statamic-discussion-bridge/releases/tag/v0.2.0-alpha.46) | Published release | One addon used in independently configured Flat, DB, and SSG profiles |
 | [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.2.0-alpha.42`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/releases/tag/v0.2.0-alpha.42) | Published release | Native WordPress publication, retrieval, retry, and comments presentation |
-| [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/releases/tag/v0.2.0-alpha.20) | Published release; Alpha.21 working candidate is not published | Shared contract and conformance fixtures; no runtime installation |
+| [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/releases/tag/v0.2.0-alpha.20) | Published release | Shared contract and conformance fixtures; no runtime installation |
 
-The Adapter Protocol Alpha.21 work is not a public release yet. Its pending
-candidate includes the clarified MIT license and current publication-work
-contract. Documentation must not present it as downloadable until its coherent
-tag and artifact are published.
+### OBBBA deployment snapshot
 
-## OBBBA Demonstration Rollout
-
-The forum-scale OBBBA rollout is a real-world Alpha exercise. Status below was
-verified September 24, 2026. The non-Astro backfill is still processing, so
-publication counts change while the platform pages remain available for
-inspection.
-
-| Visible name | Public site | Installed adapter | Rollout state |
+| Visible name | Public site | Installed adapter at the time | Rollout state at the time |
 | --- | --- | --- | --- |
 | OBBBA Astro Demo with DiscussionBridge for Astro | [Open](https://obbba-astro.demo.discussionbridge.dev/) | `v0.2.0-alpha.34` | Backfill complete; steady-state synchronization |
 | OBBBA Ghost Demo with DiscussionBridge for Ghost | [Open](https://obbba-ghost.demo.discussionbridge.dev/) | `v0.2.0-alpha.36` | Backfill in progress |
@@ -58,31 +70,12 @@ The OBBBA source forum is the
 evidence of platform behavior, not templates for a forum's politics, content
 policy, or visual identity.
 
-## Other Public Demonstrations
+## How to identify a version
 
-The [demo chooser](https://demo.discussionbridge.dev/) is the stable entry point
-for maintained public examples. The dedicated demo at
-[The Bridge](https://bridge.demo.discussionbridge.dev/) demonstrates
-DiscussionBridge for Discourse. “The Bridge” is the demo name, not the generic
-name of the plugin or receiver.
-
-A `Live` page proves that the stated public surface is reachable. It does not,
-by itself, prove the latest tag, every publishing direction, every presentation
-mode, rollback readiness, or completion of the current OBBBA backfill.
-
-## How To Read Version Numbers
-
-DiscussionBridge exposes three related identities:
-
-1. **Release channel:** Alpha, Beta, or stable product-family maturity.
-2. **Adapter compatibility line:** the receiver/protocol boundary an adapter
-   implements, currently `0.2`.
-3. **Component release:** the exact plugin, adapter, addon, or protocol tag and
-   artifact installed in one environment.
-
-Components can advance independently while remaining on the same compatibility
-line. A newer component number does not imply a new family-wide release, and
-matching component numbers do not prove matching source bytes.
+Record the component tag for the source, the filename and checksum for a
+package, and the exact version or commit observed in the environment. The
+contract revision identifies the receiver and adapter compatibility boundary.
+Component tags can advance independently on that contract revision.
 
 ## Installation And Support Evidence
 
@@ -100,7 +93,7 @@ Record all of the following for an installation or support report:
 Historical releases, checksums, and source commits remain available in each
 repository's GitHub Releases and in the public
 [versions discussion](https://bridge.demo.discussionbridge.dev/t/discussionbridge-versions-and-live-status/62).
-They are release evidence, not current installation instructions.
+Use the exact component and environment record when choosing installation instructions.
 
 ## Licensing
 

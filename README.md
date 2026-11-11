@@ -5,6 +5,13 @@ publication at `docs.discussionbridge.dev`. Editable source lives in `docs/`;
 generated Starlight content lives in `src/content/docs/` and is verified before
 builds.
 
+- [Published documentation](https://docs.discussionbridge.dev/)
+- [V4 Alpha component tags](https://github.com/DiscussionBridge)
+- [Public demos](https://demo.discussionbridge.dev/) and [sandbox](https://sandbox.discussionbridge.dev/)
+
+The GitHub organization lists the V4 source tags. Operator guides and live
+status pages describe the environments and versions named on those pages.
+
 ## Local Commands
 
 ```powershell
