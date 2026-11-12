@@ -1,14 +1,23 @@
 # Versions And Live Status
 
-- **Release channel:** Alpha
-- **Current source line:** V4
-- **Source tags verified:** November 11, 2026
+## Sandbox and public demos
 
-## V4 Alpha source tags
+The [sandbox chooser](https://sandbox.discussionbridge.dev/) leads to
+installation and configuration test environments. V4 R7 sandbox checks
+covered publication and edits in both directions on Astro, Astro with
+Starlight, Ghost via DiscussionBridge Ghost Connector, Hugo, WordPress,
+and Statamic Flat, DB, and SSG. Record the exact installed package or source
+commit for each sandbox result.
 
-These GitHub tags identify the exact source revisions that passed CI. Each
-component has its own tag. Use its README for package and setup instructions.
-Check GitHub Releases for separately published downloads.
+The [public demo chooser](https://demo.discussionbridge.dev/) links the hosted
+examples. [The Bridge](https://bridge.demo.discussionbridge.dev/) is the
+Discourse demonstration. Each site has its own deployment and installed
+version.
+
+## V4 releases and OBBBA rollout
+
+The V4 Alpha source tags below passed CI on November 11, 2026. Use the
+component README for setup and check GitHub Releases for packaged downloads.
 
 | Component | V4 Alpha source tag | CI |
 | --- | --- | --- |
@@ -23,52 +32,8 @@ Check GitHub Releases for separately published downloads.
 The [V4 R7 Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/tree/09d77c0209835c2d996aad294d161f167c7bd838)
 defines the shared wire contract and its 36 Content Connection routes.
 
-## Sandbox and public demos
-
-The [sandbox chooser](https://sandbox.discussionbridge.dev/) leads to
-installation and configuration test environments. V4 R7 sandbox checks
-covered publication and edits in both directions on Astro, Astro with
-Starlight, Ghost via DiscussionBridge Ghost Connector, Hugo, WordPress, and Statamic
-Flat, DB, and SSG. The source table includes later commits that passed CI. Confirm
-the exact installed package or source commit when recording a sandbox result.
-
-The [public demo chooser](https://demo.discussionbridge.dev/) links the hosted
-examples. [The Bridge](https://bridge.demo.discussionbridge.dev/) is the
-Discourse demonstration. Each site has its own deployment and installed
-version. The September 2026 record below gives the versions observed at that
-time.
-
-## September 2026 Alpha releases and OBBBA rollout
-
-The following release list and OBBBA installation snapshot describe the 0.2
-Alpha line as recorded on September 24, 2026.
-
-| Component | Release at the time | Availability at the time | Role |
-| --- | --- | --- | --- |
-| [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge) | [`v0.2.0-alpha.50`](https://github.com/DiscussionBridge/discourse-discussion-bridge/releases/tag/v0.2.0-alpha.50) | Published release | Receiver, Content Connections, Bridge Records, publication policy, operator UI, and cross-platform work queue |
-| [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge) | [`v0.2.0-alpha.34`](https://github.com/DiscussionBridge/astro-discussion-bridge/releases/tag/v0.2.0-alpha.34) | Published release | Astro and Starlight publishing, retrieval, and comments presentation |
-| [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.2.0-alpha.36`](https://github.com/DiscussionBridge/ghost-discussion-bridge/releases/tag/v0.2.0-alpha.36) | Published release | Ghost integration plus bounded hosting-layer publication worker |
-| [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.2.0-alpha.32`](https://github.com/DiscussionBridge/hugo-discussion-bridge/releases/tag/v0.2.0-alpha.32) | Published release | Hugo content materialization and two-phase static deployment |
-| [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge) | [`v0.2.0-alpha.46`](https://github.com/DiscussionBridge/statamic-discussion-bridge/releases/tag/v0.2.0-alpha.46) | Published release | One addon used in independently configured Flat, DB, and SSG profiles |
-| [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.2.0-alpha.42`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/releases/tag/v0.2.0-alpha.42) | Published release | Native WordPress publication, retrieval, retry, and comments presentation |
-| [DiscussionBridge Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract) | [`v0.2.0-alpha.20`](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/releases/tag/v0.2.0-alpha.20) | Published release | Shared contract and conformance fixtures; no runtime installation |
-
-### OBBBA deployment snapshot
-
-| Visible name | Public site | Installed adapter at the time | Rollout state at the time |
-| --- | --- | --- | --- |
-| OBBBA Astro Demo with DiscussionBridge for Astro | [Open](https://obbba-astro.demo.discussionbridge.dev/) | `v0.2.0-alpha.34` | Backfill complete; steady-state synchronization |
-| OBBBA Ghost Demo with DiscussionBridge for Ghost | [Open](https://obbba-ghost.demo.discussionbridge.dev/) | `v0.2.0-alpha.36` | Backfill in progress |
-| OBBBA Hugo Demo with DiscussionBridge for Hugo | [Open](https://obbba-hugo.demo.discussionbridge.dev/) | `v0.2.0-alpha.32` | Backfill in progress |
-| OBBBA Statamic Flat Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-flat.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress |
-| OBBBA Statamic DB Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-db.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress |
-| OBBBA Statamic SSG Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-ssg.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress; protected static transaction model |
-| OBBBA WordPress Demo with DiscussionBridge for WordPress | [Open](https://obbba-wordpress.demo.discussionbridge.dev/) | `v0.2.0-alpha.42` | Backfill in progress |
-
-The OBBBA source forum is the
-[Repeal OBBBA Forum](https://forum.repealobbba.org/). These demonstrations are
-evidence of platform behavior, not templates for a forum's politics, content
-policy, or visual identity.
+The [OBBBA demo hub](https://obbba.demo.discussionbridge.dev/) lists the
+public OBBBA sites. Their V4 deployment status is unverified.
 
 ## How to identify a version
 
