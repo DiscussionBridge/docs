@@ -39,8 +39,23 @@ component README for setup and check GitHub Releases for packaged downloads.
 The [V4 R7 Adapter Protocol](https://github.com/DiscussionBridge/discussionbridge-adapter-contract/tree/09d77c0209835c2d996aad294d161f167c7bd838)
 defines the shared wire contract and its 36 Content Connection routes.
 
-The [OBBBA demo hub](https://obbba.demo.discussionbridge.dev/) lists the
-public OBBBA sites. Their V4 deployment status is unverified.
+### OBBBA Demonstration Rollout
+
+The [OBBBA demo hub](https://obbba.demo.discussionbridge.dev/) links to the
+public OBBBA sites. The table records the installed adapters and rollout
+states verified on September 24, 2026.
+
+| Visible name | Public site | Installed adapter | Rollout state |
+| --- | --- | --- | --- |
+| OBBBA Astro Demo with DiscussionBridge for Astro | [Open](https://obbba-astro.demo.discussionbridge.dev/) | `v0.2.0-alpha.34` | Backfill complete; steady-state synchronization |
+| OBBBA Ghost Demo with DiscussionBridge for Ghost | [Open](https://obbba-ghost.demo.discussionbridge.dev/) | `v0.2.0-alpha.36` | Backfill in progress |
+| OBBBA Hugo Demo with DiscussionBridge for Hugo | [Open](https://obbba-hugo.demo.discussionbridge.dev/) | `v0.2.0-alpha.32` | Backfill in progress |
+| OBBBA Statamic Flat Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-flat.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress |
+| OBBBA Statamic DB Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-db.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress |
+| OBBBA Statamic SSG Demo with DiscussionBridge for Statamic | [Open](https://obbba-statamic-ssg.demo.discussionbridge.dev/) | `v0.2.0-alpha.46` | Backfill in progress; protected static transaction model |
+| OBBBA WordPress Demo with DiscussionBridge for WordPress | [Open](https://obbba-wordpress.demo.discussionbridge.dev/) | `v0.2.0-alpha.42` | Backfill in progress |
+
+The OBBBA source forum is the [Repeal OBBBA Forum](https://forum.repealobbba.org/).
 
 ## How to identify a version
 
