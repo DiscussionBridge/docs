@@ -1,6 +1,6 @@
 ---
 title: "Platform Profiles"
-lastUpdated: 2026-09-25
+lastUpdated: 2026-11-12
 status: "Current Alpha guidance"
 audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
@@ -46,43 +46,20 @@ an operator later adds DiscussionBridge for Discourse.
 
 ## Ghost
 
-**Product:** DiscussionBridge for Ghost, consisting of a native Ghost custom
-integration plus a small hosting-layer adapter service.
-[Source and installation](https://github.com/DiscussionBridge/ghost-discussion-bridge).
+DiscussionBridge for Ghost brings Discourse discussions to Ghost posts and
+pages and lets you publish between Ghost and Discourse. Use the
+[Ghost setup guide](https://github.com/DiscussionBridge/ghost-discussion-bridge/blob/main/docs/INSTALLATION.md)
+to configure this integration and place discussions in your theme.
 
-Ghost Admin creates the integration and signed `post.published` webhook. The
-adapter service verifies Ghost's HMAC, runs under a dedicated OS identity,
-binds only to loopback, stores credentials and durable state outside Ghost's
-version-owned tree, and is exposed only through narrow reverse-proxy routes.
-The theme uses an explicit `[data-discussionbridge-comments-host]` or
-resource placeholder; it must not borrow Ghost Members' `.gh-comments`
-container.
+To manage Ghost publishing in Discourse, install
+[DiscussionBridge Ghost Connector](https://github.com/DiscussionBridge/discourse-discussion-bridge)
+alongside DiscussionBridge for Discourse. Open the **Ghost** tab in the
+DiscussionBridge admin area to configure publishing in either direction.
+The connector's README explains how to show linked discussions in Ghost.
 
-When DiscussionBridge owns the article discussion surface, set Ghost Admin
-**Settings → Membership → Who can comment on posts?** to **Nobody**. Ghost's
-native Members comments are a separate identity and reply system; leaving them
-enabled produces a second comment section beneath the DiscussionBridge frame
-and can falsely imply that Ghost membership is synchronized with Discourse.
-
-Ghost Admin alone cannot install the execution component. Self-hosted
-operators need server access. A managed Ghost provider must agree to install
-and operate the service, protected credentials, state, systemd unit, proxy
-routes, and theme integration.
-
-The hosting-layer service also provides a separately authenticated operator
-page. It shows the last durable synchronization result, Ghost-to-Discourse
-mappings, Discourse-to-Ghost publications, attention states and bounded failure
-reasons, and offers an exact-origin **Synchronize publications** action. Its
-credential is distinct from the Ghost Admin key, webhook secret and Bridge
-connection secret. The operator page is part of the companion service rather
-than Ghost Admin. Any future remote-hosted service remains roadmap work and is
-not a current Alpha installation profile.
-
-Ghost 6.59 permits a custom-integration token to read Code Injection but may
-deny writes. In that case the installer reports `manual_required: true` and
-supplies the exact versioned bootstrap for **Ghost Admin → Settings → Advanced
-→ Code injection → Site Footer**. Operators should not broaden the Admin key or
-modify an upgrade-owned stock theme to bypass that Ghost boundary.
+Ghost Members comments and Discourse replies each have their own sign-in.
+If you want one discussion area on an article, choose which comment system
+to display in your Ghost settings and theme.
 
 ## Hugo
 

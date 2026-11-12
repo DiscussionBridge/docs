@@ -13,8 +13,8 @@ Check GitHub Releases for separately published downloads.
 | Component | V4 Alpha source tag | CI |
 | --- | --- | --- |
 | [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge) | [`v0.4.0-alpha.1.receiver.2`](https://github.com/DiscussionBridge/discourse-discussion-bridge/tree/v0.4.0-alpha.1.receiver.2) | [Passed](https://github.com/DiscussionBridge/discourse-discussion-bridge/actions/runs/43107197348) |
-| [Ghost connector](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost) | [`v0.4.0-alpha.1.ghost.3`](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/tree/v0.4.0-alpha.1.ghost.3) | [Passed](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/actions/runs/43107194478) |
-| [Ghost adapter](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.4.0-alpha.1.ghost-adapter.1`](https://github.com/DiscussionBridge/ghost-discussion-bridge/tree/v0.4.0-alpha.1.ghost-adapter.1) | [Passed](https://github.com/DiscussionBridge/ghost-discussion-bridge/actions/runs/43107196322) |
+| [DiscussionBridge Ghost Connector](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost) | [`v0.4.0-alpha.1.ghost.3`](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/tree/v0.4.0-alpha.1.ghost.3) | [Passed](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost/actions/runs/43107194478) |
+| [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge) | [`v0.4.0-alpha.1.ghost-adapter.1`](https://github.com/DiscussionBridge/ghost-discussion-bridge/tree/v0.4.0-alpha.1.ghost-adapter.1) | [Passed](https://github.com/DiscussionBridge/ghost-discussion-bridge/actions/runs/43107196322) |
 | [WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge) | [`v0.4.0-alpha.1.wp.3`](https://github.com/DiscussionBridge/wordpress-discussion-bridge/tree/v0.4.0-alpha.1.wp.3) | [Passed](https://github.com/DiscussionBridge/wordpress-discussion-bridge/actions/runs/43107195692) |
 | [Astro and Starlight](https://github.com/DiscussionBridge/astro-discussion-bridge) | [`v0.4.0-alpha.1.astro.3`](https://github.com/DiscussionBridge/astro-discussion-bridge/tree/v0.4.0-alpha.1.astro.3) | [Passed](https://github.com/DiscussionBridge/astro-discussion-bridge/actions/runs/43107201438) |
 | [Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge) | [`v0.4.0-alpha.1.hugo.4`](https://github.com/DiscussionBridge/hugo-discussion-bridge/tree/v0.4.0-alpha.1.hugo.4) | [Passed](https://github.com/DiscussionBridge/hugo-discussion-bridge/actions/runs/43107195213) |
@@ -28,8 +28,8 @@ defines the shared wire contract and its 36 Content Connection routes.
 The [sandbox chooser](https://sandbox.discussionbridge.dev/) leads to
 installation and configuration test environments. V4 R7 sandbox checks
 covered publication and edits in both directions on Astro, Astro with
-Starlight, Ghost via the Ghost connector, Hugo, WordPress, and Statamic Flat,
-DB, and SSG. The source table includes later commits that passed CI. Confirm
+Starlight, Ghost via DiscussionBridge Ghost Connector, Hugo, WordPress, and Statamic
+Flat, DB, and SSG. The source table includes later commits that passed CI. Confirm
 the exact installed package or source commit when recording a sandbox result.
 
 The [public demo chooser](https://demo.discussionbridge.dev/) links the hosted

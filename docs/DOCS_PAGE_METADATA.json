@@ -3,20 +3,20 @@
   "appliesTo": "DiscussionBridge Alpha",
   "pages": {
     "README.md": {
-      "lastUpdated": "2026-09-25",
-      "sourceSha256": "44d940d7de4b122119f3fcc1af72441ee7bcc6d13aed75e67a147e1105876dd9"
+      "lastUpdated": "2026-11-12",
+      "sourceSha256": "f07c7fb471aed2574b1a96d0d111b1b32b40de9ebfe114c8e31450bbefa50540"
     },
     "VERSIONS_AND_LIVE_STATUS.md": {
-      "lastUpdated": "2026-11-11",
-      "sourceSha256": "5b51ae97775f2865a8ab6f9e2b2bc0463134d2e2c269e1f57aec9004b9bc9c92"
+      "lastUpdated": "2026-11-12",
+      "sourceSha256": "4910029b4f0b8a7163e7abd9d74063e8e11f661288965daa8a2998a7295d976f"
     },
     "ALPHA_OPERATOR_GUIDE.md": {
       "lastUpdated": "2026-09-25",
       "sourceSha256": "2bee621e91053e9e591df02fa9789a2ca911d2a61fd19b656900a5c656e4d110"
     },
     "PLATFORM_PROFILES.md": {
-      "lastUpdated": "2026-09-25",
-      "sourceSha256": "d1e625fad55672ecd08e7ca5658a7e2ae42ab977cc22f2d8e5d27921238ca4a2"
+      "lastUpdated": "2026-11-12",
+      "sourceSha256": "8af60951bc180689a506bf109c494490b4065e5ba6091e4f25d8d5d0fac5ab12"
     },
     "ADAPTER_OPERATING_MODELS.md": {
       "lastUpdated": "2026-09-25",

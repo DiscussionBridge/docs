@@ -1,22 +1,19 @@
 ---
 title: "DiscussionBridge Documentation"
-lastUpdated: 2026-09-25
+lastUpdated: 2026-11-12
 status: "Current Alpha guidance"
 audience: "Operators and evaluators"
 appliesTo: "DiscussionBridge Alpha"
 editUrl: "https://github.com/DiscussionBridge/docs/edit/main/docs/README.md"
 ---
 
-DiscussionBridge connects publishing systems with Discourse while preserving
-the publishing platform's native content, URLs, presentation, and operating
-model. DiscussionBridge for Discourse owns Content Connections, Bridge Records,
-publication policy, and the cross-platform work queue. Focused adapters connect
-Astro, Ghost, Hugo, Statamic, and WordPress through the shared Adapter Protocol.
+Bring Discourse discussions to your website, or publish between your site
+and your forum. DiscussionBridge works with Astro, Ghost, Hugo, Statamic,
+and WordPress.
 
-DiscussionBridge is currently **Alpha software**. Use an exact tagged component
-release, preserve a rollback path, and verify both the publishing site and the
-forum after every installation or upgrade. A moving `main` branch is source
-code, not an immutable deployment identity.
+If you're setting up a site, choose your platform below. DiscussionBridge is
+in Alpha. Use the version named in the setup guide and check the result on
+both your site and your forum.
 
 ## Choose Your Path
 
@@ -46,6 +43,7 @@ code, not an immutable deployment identity.
 - [DiscussionBridge for Discourse](https://github.com/DiscussionBridge/discourse-discussion-bridge)
 - [DiscussionBridge for Astro](https://github.com/DiscussionBridge/astro-discussion-bridge)
 - [DiscussionBridge for Ghost](https://github.com/DiscussionBridge/ghost-discussion-bridge)
+- [DiscussionBridge Ghost Connector](https://github.com/DiscussionBridge/discourse-discussion-bridge-ghost)
 - [DiscussionBridge for Hugo](https://github.com/DiscussionBridge/hugo-discussion-bridge)
 - [DiscussionBridge for Statamic](https://github.com/DiscussionBridge/statamic-discussion-bridge)
 - [DiscussionBridge for WordPress](https://github.com/DiscussionBridge/wordpress-discussion-bridge)
